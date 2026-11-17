@@ -1,0 +1,33 @@
+# Segredos — nunca
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credenciais/
+token*.json
+*client_secret*.json
+dados/
+
+# Mídia e saída
+saida/
+obra/
+perfis/
+*.mp4
+*.mov
+*.wav
+*.mp3
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node
+node_modules/
