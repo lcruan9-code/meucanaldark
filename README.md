@@ -18,6 +18,7 @@ Este repositório existe hoje para guardar a decisão: *vale usar o [Projeto Can
 | [05 — Claude Code remoto](docs/05-claude-code-remoto.md) | Operar do celular sem perder as aprovações |
 | [06 — Licença e riscos](docs/06-licenca-e-riscos.md) | O que a PolyForm Shield permite; riscos de monetização |
 | [07 — Plano](docs/07-plano.md) | O que fazer, em ordem, com portões de decisão |
+| [08 — Motor em Remotion](docs/08-motor-remotion.md) | Etapa 1 do motor audiovisual, com métricas reais de render |
 
 ## A recomendação, em três linhas
 
