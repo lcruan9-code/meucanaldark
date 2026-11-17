@@ -1,8 +1,8 @@
-# Motor audiovisual — Etapa 1
+# Motor audiovisual — Etapas 1 e 2
 
 Transforma um roteiro estruturado em documentário 1920×1080 a 30 fps, H.264, renderizado localmente. Remotion + React como motor de composição.
 
-**Estado: Etapa 1 (fundação).** O contrato de dados, o motor de composição, o render com cache e a bancada de medição estão de pé. A biblioteca visual tem cinco componentes de prova — não é a biblioteca final.
+**Estado: Etapa 2 (biblioteca 2D) concluída.** Contrato de dados, motor de composição, render com cache, bancada de medição e **15 componentes** de biblioteca. Falta o 3D de verdade (Etapa 3) e todo o áudio (Etapa 4).
 
 ## Como rodar
 
@@ -35,6 +35,48 @@ A separação exigida pelo projeto, e onde cada parte mora:
 | **E. Validação** | `scripts/bench.mjs`, `out/<id>/status.json` | Métrica e conferência técnica. |
 
 O elo entre A e B é `src/library/registry.ts`: um nome de componente no JSON (`"world-map"`) vira um componente React. **É essa indireção que permite trocar ou melhorar um componente visual sem reescrever roteiro nenhum**, que é o requisito central da arquitetura.
+
+## A biblioteca visual
+
+Todo componente é função pura de `frame`, recebe cor e fonte por prop, e não conhece documentário nenhum. O roteiro refere-se a eles pelo nome registrado em `src/library/registry.ts`.
+
+| Nome | Família | O que faz |
+|---|---|---|
+| `backdrop` | fundo | Gradiente, grade técnica com deriva, vinheta |
+| `circuit` | fundo | Trilhas de placa geradas por semente, com sinais correndo |
+| `title-card` | texto | Abertura: título assentando palavra a palavra |
+| `kinetic-text` | texto | Tipografia cinética com palavra-herói |
+| `lower-third` | texto | Tarja com nome, cargo ou fonte |
+| `callout` | texto | Destaque curto que entra e sai sozinho |
+| `end-card` | texto | Encerramento com as fontes do episódio |
+| `stat-block` | dados | Números grandes contando até o valor |
+| `bar-chart` | dados | Barras escalonadas, com destaque e referência |
+| `line-chart` | dados | Série temporal que se desenha, com marcadores |
+| `tech-panel` | dados | Painel técnico ilustrativo com medidores |
+| `node-graph` | diagrama | Redes, topologias, fluxogramas e cadeias |
+| `diagram` | diagrama | Chamadas com linha-guia anotando o que está na tela |
+| `world-map` | geografia | Mapa Natural Earth com rotas que se iluminam |
+| `cable-3d` | cena 3D | Cabo submarino, câmera viajando |
+
+Três decisões de biblioteca que valem explicar:
+
+**Um componente para redes, topologias e fluxogramas.** São o mesmo grafo com layouts diferentes — `flow`, `radial`, `manual`. Três componentes separados dariam três implementações do mesmo traço e três jeitos de ficarem inconsistentes.
+
+**A palavra-herói sai do roteiro, não de uma prop.** Em `kinetic-text`, asteriscos marcam a palavra que recebe cor e peso: `"cerca de *99 por cento* do tráfego"`. Quem escreve a frase é quem sabe qual palavra carrega o peso.
+
+**O `diagram` tem fundo transparente.** O uso que importa não é desenhar um diagrama isolado — é anotar o que já está na tela, inclusive uma cena 3D. Ele entra na trilha `overlay` e aponta.
+
+### Movimento de câmera e transições moram no motor
+
+`camera` é um campo de **qualquer** camada, não um componente. Um lugar só dá zoom, travelling e reenquadramento à biblioteca inteira, 2D e 3D:
+
+```json
+{ "component": "world-map",
+  "camera": { "fromScale": 1, "toScale": 1.18, "originX": 0.36 },
+  "props": { "routes": [] } }
+```
+
+As transições (`fade`, `dip-to-black`, `whip`, `cross-zoom`) são propriedade da cena que chega, porque a linha do tempo recua o início dela e mantém a anterior montada por baixo.
 
 ## Decisões técnicas
 

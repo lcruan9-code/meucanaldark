@@ -19,6 +19,7 @@ Este repositório existe hoje para guardar a decisão: *vale usar o [Projeto Can
 | [06 — Licença e riscos](docs/06-licenca-e-riscos.md) | O que a PolyForm Shield permite; riscos de monetização |
 | [07 — Plano](docs/07-plano.md) | O que fazer, em ordem, com portões de decisão |
 | [08 — Motor em Remotion](docs/08-motor-remotion.md) | Etapa 1 do motor audiovisual, com métricas reais de render |
+| [09 — Biblioteca 2D](docs/09-biblioteca-2d.md) | Etapa 2: 15 componentes, mapa Natural Earth e o custo dos filtros |
 
 ## A recomendação, em três linhas
 

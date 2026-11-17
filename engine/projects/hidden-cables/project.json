@@ -30,13 +30,14 @@
   },
   "chapters": [
     { "id": "ch1", "title": "The invisible network" },
-    { "id": "ch2", "title": "Under the ocean" }
+    { "id": "ch2", "title": "Under the ocean" },
+    { "id": "ch3", "title": "When it breaks" }
   ],
   "scenes": [
     {
       "id": "scene_001",
       "chapterId": "ch1",
-      "note": "Abertura. Fundo tecnico, titulo assentando palavra a palavra.",
+      "note": "Abertura. Titulo assentando palavra a palavra sobre fundo tecnico.",
       "duration": 9,
       "layers": [
         {
@@ -59,9 +60,27 @@
     {
       "id": "scene_002",
       "chapterId": "ch1",
-      "note": "Mapa: tres rotas se acendem em sequencia, zoom lento no Atlantico.",
+      "note": "A afirmacao central, com a palavra-heroi no numero.",
+      "duration": 7,
+      "transitionIn": { "type": "fade", "duration": 0.7 },
+      "layers": [
+        { "component": "backdrop", "track": "background", "props": { "glow": "" } },
+        {
+          "component": "kinetic-text",
+          "track": "main",
+          "props": {
+            "text": "Almost *99 per cent* of the traffic between continents travels under the sea.",
+            "size": 62
+          }
+        }
+      ]
+    },
+    {
+      "id": "scene_003",
+      "chapterId": "ch1",
+      "note": "Mapa: tres rotas acendem em sequencia, camera aproxima o Atlantico.",
       "duration": 14,
-      "transitionIn": { "type": "fade", "duration": 0.8 },
+      "transitionIn": { "type": "dip-to-black", "duration": 0.8 },
       "layers": [
         {
           "component": "backdrop",
@@ -71,7 +90,14 @@
         {
           "component": "world-map",
           "track": "main",
+          "camera": {
+            "fromScale": 1,
+            "toScale": 1.16,
+            "originX": 0.38,
+            "originY": 0.4
+          },
           "props": {
+            "showBorders": true,
             "routes": [
               {
                 "from": "new-york",
@@ -95,11 +121,7 @@
                 "growth": 0.3,
                 "bend": -0.18
               }
-            ],
-            "zoomFrom": 1,
-            "zoomTo": 1.14,
-            "focusX": 0.38,
-            "focusY": 0.4
+            ]
           }
         },
         {
@@ -116,11 +138,35 @@
       ]
     },
     {
-      "id": "scene_003",
+      "id": "scene_004",
       "chapterId": "ch2",
-      "note": "3D: camera viaja pelo cabo e o corte revela as camadas internas.",
+      "note": "Os numeros da rede, antes de descer ate o cabo.",
+      "duration": 9,
+      "transitionIn": { "type": "cross-zoom", "duration": 0.6 },
+      "layers": [
+        { "component": "backdrop", "track": "background", "props": { "glow": "" } },
+        {
+          "component": "stat-block",
+          "track": "main",
+          "props": {
+            "eyebrow": "In service, 2026",
+            "locale": "en-US",
+            "stats": [
+              { "value": 552, "label": "active cables" },
+              { "value": 1.5, "suffix": "M", "decimals": 1, "label": "kilometres laid" },
+              { "value": 200, "prefix": "~", "label": "faults every year" }
+            ],
+            "source": "TeleGeography Submarine Cable Map"
+          }
+        }
+      ]
+    },
+    {
+      "id": "scene_005",
+      "chapterId": "ch2",
+      "note": "3D: camera viaja pelo cabo, o corte revela as camadas, chamadas anotam.",
       "duration": 16,
-      "transitionIn": { "type": "fade", "duration": 1 },
+      "transitionIn": { "type": "dip-to-black", "duration": 1 },
       "layers": [
         {
           "component": "cable-3d",
@@ -133,15 +179,92 @@
           }
         },
         {
-          "component": "lower-third",
+          "component": "diagram",
           "track": "overlay",
-          "from": 8,
-          "duration": 6,
-          "fadeIn": 0.3,
+          "from": 5,
           "props": {
-            "primary": "Optical core",
-            "secondary": "Eight fibre pairs inside a 17 mm sheath",
-            "side": "left"
+            "parts": [
+              {
+                "x": 0.48,
+                "y": 0.46,
+                "label": "Polyethylene sheath",
+                "sub": "17 mm across",
+                "side": "right",
+                "at": 0.05
+              },
+              {
+                "x": 0.32,
+                "y": 0.55,
+                "label": "Steel strand armour",
+                "sub": "protects against trawlers",
+                "side": "left",
+                "at": 0.45
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "scene_006",
+      "chapterId": "ch3",
+      "note": "A causa das falhas. A barra em destaque e o argumento.",
+      "duration": 11,
+      "transitionIn": { "type": "whip", "duration": 0.45 },
+      "layers": [
+        { "component": "backdrop", "track": "background", "props": { "glow": "" } },
+        {
+          "component": "bar-chart",
+          "track": "main",
+          "props": {
+            "title": "What actually breaks a submarine cable",
+            "unit": "%",
+            "locale": "en-US",
+            "bars": [
+              { "label": "Fishing gear", "value": 41, "highlight": true },
+              { "label": "Unknown", "value": 20 },
+              { "label": "Ship anchors", "value": 16 },
+              { "label": "Natural hazards", "value": 14 },
+              { "label": "Equipment failure", "value": 9 }
+            ]
+          }
+        },
+        {
+          "component": "callout",
+          "track": "overlay",
+          "from": 7,
+          "duration": 3.5,
+          "props": {
+            "kicker": "Not sharks",
+            "text": "Most cuts are accidents on the surface, not attacks from below.",
+            "position": "bottom-right"
+          }
+        }
+      ]
+    },
+    {
+      "id": "scene_007",
+      "chapterId": "ch3",
+      "note": "Encerramento com as fontes do episodio.",
+      "duration": 8,
+      "transitionIn": { "type": "dip-to-black", "duration": 0.9 },
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": { "glow": "", "gridSize": 0 }
+        },
+        {
+          "component": "end-card",
+          "track": "main",
+          "props": {
+            "title": "The Hidden Cables That Keep the Internet Alive",
+            "sources": [
+              "TeleGeography, Submarine Cable Map (2026)",
+              "International Cable Protection Committee, fault statistics",
+              "Natural Earth, 110m physical vectors (public domain)"
+            ],
+            "cta": "Next: what happens in the six days before a repair ship arrives."
           }
         }
       ]

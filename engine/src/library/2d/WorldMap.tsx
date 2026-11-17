@@ -12,7 +12,9 @@
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 
-import { LANDMARKS, WORLD_COARSE, type Ring } from "./data/world-coarse";
+import { LANDMARKS } from "./data/landmarks";
+import { WORLD_BORDERS } from "./data/world-borders-110m";
+import { WORLD_LAND, type Ring } from "./data/world-110m";
 
 const zPoint = z.union([
   z.string(), // chave de LANDMARKS
@@ -37,6 +39,8 @@ export const worldMapSchema = z.object({
   land: z.string().default("#16222f"),
   landStroke: z.string().default("#243545"),
   graticule: z.string().default("#101b26"),
+  /** Fronteiras entre paises. Fora por padrao: num mapa de rotas, poluem. */
+  showBorders: z.boolean().default(false),
   dotColor: z.string().default("#f5a524"),
   labelColor: z.string().default("#cfd8e3"),
   /** Zoom lento sobre o mapa inteiro. 1 = sem zoom. */
@@ -68,15 +72,23 @@ function resolvePoint(
   return found;
 }
 
+function toPath(ring: Ring, w: number, h: number): string {
+  return ring
+    .map(([lon, lat], index) => {
+      const { x, y } = project(lon, lat, w, h);
+      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+}
+
+/** Anel de terra: fecha sozinho, o dado nao repete o primeiro ponto. */
 function ringToPath(ring: Ring, w: number, h: number): string {
-  return (
-    ring
-      .map(([lon, lat], index) => {
-        const { x, y } = project(lon, lat, w, h);
-        return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-      })
-      .join(" ") + " Z"
-  );
+  return `${toPath(ring, w, h)} Z`;
+}
+
+/** Fronteira: linha aberta. Fechar ligaria as duas pontas por um atalho. */
+function lineToPath(line: Ring, w: number, h: number): string {
+  return toPath(line, w, h);
 }
 
 export function WorldMap({
@@ -84,6 +96,7 @@ export function WorldMap({
   land,
   landStroke,
   graticule,
+  showBorders,
   dotColor,
   labelColor,
   zoomFrom,
@@ -142,16 +155,28 @@ export function WorldMap({
           })}
         </g>
 
-        {WORLD_COARSE.map((ring, index) => (
+        {/*
+          Um unico <path> com os 123 aneis em vez de 123 elementos: o Chrome
+          paga a composicao uma vez so, em todo quadro do render.
+        */}
+        <path
+          d={WORLD_LAND.map((ring) => ringToPath(ring, width, height)).join(" ")}
+          fill={land}
+          stroke={landStroke}
+          strokeWidth={1}
+          strokeLinejoin="round"
+        />
+
+        {showBorders && (
           <path
-            key={`land${index}`}
-            d={ringToPath(ring, width, height)}
-            fill={land}
+            d={WORLD_BORDERS.map((line) => lineToPath(line, width, height)).join(" ")}
+            fill="none"
             stroke={landStroke}
-            strokeWidth={1.5}
+            strokeWidth={1}
             strokeLinejoin="round"
+            opacity={0.8}
           />
-        ))}
+        )}
 
         {routes.map((route, index) => {
           const [fromLon, fromLat] = resolvePoint(route.from);

@@ -28,7 +28,7 @@ import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition } from "@remotion/renderer";
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { appendFile, mkdir, readdir, rm, writeFile } from "node:fs/promises";
+import { appendFile, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -62,8 +62,38 @@ function parseArgs(argv) {
   return args;
 }
 
-function hashScene(scene) {
+/**
+ * Impressao digital do codigo que desenha.
+ *
+ * O hash da cena sozinho NAO basta: mudar um componente da biblioteca sem
+ * tocar no roteiro deixaria o JSON identico, e a cena voltaria do cache
+ * desatualizada, em silencio. Isso aconteceu de verdade na conferencia da
+ * Etapa 2 e e o tipo de erro que so aparece no video pronto.
+ *
+ * Lemos o conteudo de `src/` inteiro uma vez por render. Sao dezenas de
+ * arquivos pequenos: custa milissegundos e vale a correcao.
+ */
+async function sourceFingerprint(dir) {
+  const hash = createHash("sha256");
+  const walk = async (current) => {
+    const entries = await readdir(current, { withFileTypes: true });
+    for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name))) {
+      const full = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        await walk(full);
+      } else if (/\.(ts|tsx|json)$/.test(entry.name)) {
+        hash.update(entry.name);
+        hash.update(await readFile(full));
+      }
+    }
+  };
+  await walk(dir);
+  return hash.digest("hex").slice(0, 8);
+}
+
+function hashScene(scene, fingerprint) {
   return createHash("sha256")
+    .update(fingerprint)
     .update(JSON.stringify(scene))
     .digest("hex")
     .slice(0, 12);
@@ -193,9 +223,11 @@ async function main() {
   } else {
     const wanted = args.scenes;
     const parts = [];
+    const fingerprint = await sourceFingerprint(path.join(ROOT, "src"));
+    await journal.event("fingerprint", { fingerprint });
 
     for (const [index, scene] of timeline.scenes.entries()) {
-      const hash = hashScene(scene);
+      const hash = hashScene(scene, fingerprint);
       const file = path.join(sceneDir, `${scene.id}-${hash}.mp4`);
       parts.push(file);
 

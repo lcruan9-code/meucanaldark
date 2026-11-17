@@ -26,6 +26,27 @@ export const zComponentKey = z.string().min(1);
 /** Em que plano a camada entra. Define a ordem de empilhamento. */
 export const zTrack = z.enum(["background", "main", "overlay"]);
 
+/**
+ * Movimento de camera simulado, aplicado a QUALQUER camada.
+ *
+ * Fica aqui, e nao dentro de cada componente, por alavancagem: um unico
+ * lugar da zoom, travelling e reenquadramento a biblioteca inteira, 2D e 3D.
+ * Deslocamento em fracao da tela (0.1 = 10% da largura), escala em fator.
+ */
+export const zCameraMove = z.object({
+  fromScale: z.number().positive().default(1),
+  toScale: z.number().positive().default(1),
+  fromX: z.number().default(0),
+  toX: z.number().default(0),
+  fromY: z.number().default(0),
+  toY: z.number().default(0),
+  /** Ponto fixo do zoom, em fracao da tela. */
+  originX: z.number().min(0).max(1).default(0.5),
+  originY: z.number().min(0).max(1).default(0.5),
+  easing: z.enum(["linear", "out", "inOut"]).default("inOut"),
+});
+export type CameraMove = z.infer<typeof zCameraMove>;
+
 export const zLayer = z.object({
   /** Nome registrado em src/library/registry.ts */
   component: zComponentKey,
@@ -39,6 +60,8 @@ export const zLayer = z.object({
   /** Fade de entrada e saida da propria camada, em segundos. */
   fadeIn: z.number().min(0).default(0),
   fadeOut: z.number().min(0).default(0),
+  /** Movimento de camera sobre esta camada. Ausente = quadro parado. */
+  camera: zCameraMove.optional(),
 });
 export type Layer = z.infer<typeof zLayer>;
 

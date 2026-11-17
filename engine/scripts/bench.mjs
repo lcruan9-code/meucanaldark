@@ -53,8 +53,13 @@ function buildMatrix(args, cores) {
   const want = (id) => !args.only || args.only.includes(id);
 
   for (const concurrency of concurrencies) {
+    // bench-2d e bench-lean sao um par de controle: carga visual parecida,
+    // a primeira com filtros caros de CSS/SVG e a segunda sem nenhum.
     if (want("bench-2d")) {
       cases.push({ id: "bench-2d", gl: "angle", concurrency });
+    }
+    if (want("bench-lean")) {
+      cases.push({ id: "bench-lean", gl: "angle", concurrency });
     }
     if (want("bench-3d")) {
       for (const gl of args.gl ?? ["angle", "swangle"]) {
