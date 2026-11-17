@@ -37,6 +37,15 @@ export const cableScene3DSchema = z.object({
    */
   tubularSegments: z.number().int().min(32).max(512).default(160),
   radialSegments: z.number().int().min(6).max(64).default(20),
+  /**
+   * Enquadramento. O cabo tem raio 1,5: a camera a menos de ~8 unidades
+   * enche o quadro e a imagem vira um gradiente abstrato, nao um cabo.
+   * Estes valores sao o ponto de partida; cada plano afina os seus.
+   */
+  cameraDistance: z.number().positive().default(17),
+  cameraHeight: z.number().default(5.5),
+  cameraSide: z.number().default(3),
+  fov: z.number().min(10).max(120).default(45),
 });
 
 export type CableScene3DProps = z.infer<typeof cableScene3DSchema>;
@@ -113,8 +122,20 @@ function CableBody({ props, progress }: CableBodyProps) {
   const target = curve.getPointAt(ahead);
 
   const cameraPosition = useMemo(
-    () => new THREE.Vector3(anchor.x, anchor.y + 1.6, anchor.z + 6),
-    [anchor.x, anchor.y, anchor.z],
+    () =>
+      new THREE.Vector3(
+        anchor.x - props.cameraSide,
+        anchor.y + props.cameraHeight,
+        anchor.z + props.cameraDistance,
+      ),
+    [
+      anchor.x,
+      anchor.y,
+      anchor.z,
+      props.cameraSide,
+      props.cameraHeight,
+      props.cameraDistance,
+    ],
   );
 
   const radii = Array.from(
@@ -163,7 +184,9 @@ function CableBody({ props, progress }: CableBodyProps) {
         );
       })}
 
-      <fog attach="fog" args={[water, 10, 48]} />
+      {/* Nevoa de agua profunda: barato, e e o que vende a escala. O inicio
+          acompanha a distancia da camera para o cabo nao nascer ja apagado. */}
+      <fog attach="fog" args={[water, props.cameraDistance * 0.7, 110]} />
     </>
   );
 }
@@ -179,7 +202,7 @@ export function CableScene3D(props: CableScene3DProps) {
       height={height}
       style={{ backgroundColor: props.water }}
       gl={{ antialias: true, powerPreference: "high-performance" }}
-      camera={{ fov: 55, near: 0.1, far: 120 }}
+      camera={{ fov: props.fov, near: 0.1, far: 160 }}
     >
       <CableBody props={props} progress={progress} />
     </ThreeCanvas>
