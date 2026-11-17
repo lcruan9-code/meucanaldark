@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "id": "hidden-cables",
+  "title": "The Hidden Cables That Keep the Internet Alive",
+  "language": "en",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "theme": {
+    "palette": {
+      "bg": "#05070d",
+      "ink": "#f2f5f8",
+      "muted": "#8b97a8",
+      "accent": "#39d0d8",
+      "accentWarm": "#f5a524",
+      "grid": "#12202e"
+    },
+    "fonts": {
+      "display": "Inter",
+      "body": "Inter",
+      "mono": "JetBrains Mono"
+    },
+    "grain": 0.04,
+    "vignette": 0.38
+  },
+  "audio": {
+    "musicGainDb": -22,
+    "duckDb": -9,
+    "masterGainDb": 0
+  },
+  "chapters": [
+    { "id": "ch1", "title": "The invisible network" },
+    { "id": "ch2", "title": "Under the ocean" }
+  ],
+  "scenes": [
+    {
+      "id": "scene_001",
+      "chapterId": "ch1",
+      "note": "Abertura. Fundo tecnico, titulo assentando palavra a palavra.",
+      "duration": 9,
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": { "glowX": 0.28, "glowY": 0.34, "glowOpacity": 0.26 }
+        },
+        {
+          "component": "title-card",
+          "track": "main",
+          "props": {
+            "eyebrow": "Infrastructure",
+            "title": "The Hidden Cables That Keep the Internet Alive",
+            "subtitle": "Ninety-nine percent of intercontinental data never touches a satellite.",
+            "titleSize": 84
+          }
+        }
+      ]
+    },
+    {
+      "id": "scene_002",
+      "chapterId": "ch1",
+      "note": "Mapa: tres rotas se acendem em sequencia, zoom lento no Atlantico.",
+      "duration": 14,
+      "transitionIn": { "type": "fade", "duration": 0.8 },
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": { "glow": "", "gridSize": 96, "driftPerSecond": 3 }
+        },
+        {
+          "component": "world-map",
+          "track": "main",
+          "props": {
+            "routes": [
+              {
+                "from": "new-york",
+                "to": "london",
+                "label": "North Atlantic",
+                "startAt": 0.05,
+                "growth": 0.3
+              },
+              {
+                "from": "fortaleza",
+                "to": "lisbon",
+                "label": "EllaLink",
+                "startAt": 0.3,
+                "growth": 0.3
+              },
+              {
+                "from": "singapore",
+                "to": "mumbai",
+                "label": "SEA-ME-WE",
+                "startAt": 0.55,
+                "growth": 0.3,
+                "bend": -0.18
+              }
+            ],
+            "zoomFrom": 1,
+            "zoomTo": 1.14,
+            "focusX": 0.38,
+            "focusY": 0.4
+          }
+        },
+        {
+          "component": "lower-third",
+          "track": "overlay",
+          "from": 9.5,
+          "duration": 4,
+          "fadeIn": 0.2,
+          "props": {
+            "primary": "552 active submarine cables",
+            "secondary": "TeleGeography Submarine Cable Map, 2026"
+          }
+        }
+      ]
+    },
+    {
+      "id": "scene_003",
+      "chapterId": "ch2",
+      "note": "3D: camera viaja pelo cabo e o corte revela as camadas internas.",
+      "duration": 16,
+      "transitionIn": { "type": "fade", "duration": 1 },
+      "layers": [
+        {
+          "component": "cable-3d",
+          "track": "background",
+          "props": {
+            "layers": 4,
+            "travelFrom": 0.02,
+            "travelTo": 0.82,
+            "cutawayAt": 0.4
+          }
+        },
+        {
+          "component": "lower-third",
+          "track": "overlay",
+          "from": 8,
+          "duration": 6,
+          "fadeIn": 0.3,
+          "props": {
+            "primary": "Optical core",
+            "secondary": "Eight fibre pairs inside a 17 mm sheath",
+            "side": "left"
+          }
+        }
+      ]
+    }
+  ]
+}
