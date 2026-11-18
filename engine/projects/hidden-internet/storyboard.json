@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 2,
+  "projectId": "hidden-internet",
+  "channelId": "invisible-systems",
+  "plannedScenes": [
+    {
+      "sceneId": "open",
+      "chapterId": "ch1",
+      "segmentId": "seg_001",
+      "narrationText": "We are taught to imagine the internet as a cloud—an intangible ether floating silently above our heads. But the internet is not in the sky. It is pinned to the seabed, buried beneath city streets, and locked behind heavy steel doors in anonymous concrete bunkers.",
+      "estimatedDurationSeconds": 11,
+      "sequenceType": "establishing-shot",
+      "sequenceParams": {
+        "visual": "world-map",
+        "wideProps": {
+          "routes": [
+            {
+              "from": "new-york",
+              "to": "london",
+              "label": "North Atlantic",
+              "growth": 0.4
+            }
+          ]
+        },
+        "closeProps": {
+          "routes": [
+            {
+              "from": "new-york",
+              "to": "london",
+              "growth": 0.4
+            },
+            {
+              "from": "fortaleza",
+              "to": "lisbon",
+              "startAt": 0.3,
+              "growth": 0.3
+            },
+            {
+              "from": "singapore",
+              "to": "mumbai",
+              "startAt": 0.55,
+              "growth": 0.3,
+              "bend": -0.18
+            }
+          ],
+          "showBorders": true
+        },
+        "title": "The Hidden Internet",
+        "eyebrow": "Infrastructure",
+        "subtitle": "How the world stays connected.",
+        "useBackdrop": true,
+        "wideSeconds": 4,
+        "closeSeconds": 7
+      }
+    },
+    {
+      "sceneId": "cables-stat",
+      "chapterId": "ch1",
+      "segmentId": "seg_002",
+      "narrationText": "Today, more than five hundred and fifty active submarine cables span over 1.5 million kilometers across the globe.",
+      "estimatedDurationSeconds": 13.5,
+      "sequenceType": "data-storytelling",
+      "sequenceParams": {
+        "stat": {
+          "value": 552,
+          "label": "active submarine cables"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Submarine cable network",
+            "bars": [
+              {
+                "label": "Cables",
+                "value": 552,
+                "highlight": true
+              },
+              {
+                "label": "Countries served",
+                "value": 195
+              },
+              {
+                "label": "Faults per year",
+                "value": 200
+              }
+            ]
+          }
+        },
+        "consequence": "*552 cables* carry the weight of the modern world.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sceneId": "cable-open",
+      "chapterId": "ch2",
+      "segmentId": "seg_003",
+      "narrationText": "At the bottom of the Atlantic, miles beneath the surface, a submarine cable rests on abyssal silt under crushing pressure. Despite carrying millions of simultaneous video streams and financial transactions, the cable itself is remarkably slender.",
+      "estimatedDurationSeconds": 9,
+      "sequenceType": "establishing-shot",
+      "sequenceParams": {
+        "visual": "cable-3d",
+        "wideProps": {
+          "travelFrom": 0.02,
+          "travelTo": 0.5
+        },
+        "closeProps": {
+          "travelFrom": 0.4,
+          "travelTo": 0.82,
+          "cutawayAt": 0.6
+        },
+        "title": "Under the Ocean",
+        "eyebrow": "Infrastructure",
+        "wideSeconds": 4,
+        "closeSeconds": 5
+      }
+    },
+    {
+      "sceneId": "cable-reveal",
+      "chapterId": "ch2",
+      "segmentId": "seg_004",
+      "narrationText": "At its core lie hair-thin strands of pure silica glass carrying pulses of laser light, wrapped in steel armour, copper conductors, and a polyethylene sheath. In deep water, the entire cable is barely seventeen millimeters thick.",
+      "estimatedDurationSeconds": 9,
+      "sequenceType": "technical-reveal",
+      "sequenceParams": {
+        "visual": "cable-3d",
+        "visualProps": {
+          "layers": 4,
+          "travelFrom": 0.02,
+          "travelTo": 0.82,
+          "cutawayAt": 0.4
+        },
+        "parts": [
+          {
+            "x": 0.48,
+            "y": 0.46,
+            "label": "Optical fibres",
+            "sub": "light carries the data",
+            "side": "right"
+          },
+          {
+            "x": 0.32,
+            "y": 0.55,
+            "label": "Steel armour",
+            "sub": "against trawlers",
+            "side": "left"
+          },
+          {
+            "x": 0.52,
+            "y": 0.65,
+            "label": "Polyethylene sheath",
+            "sub": "17 mm across",
+            "side": "right"
+          }
+        ],
+        "focusX": 0.45,
+        "focusY": 0.5,
+        "approachSeconds": 3.5,
+        "revealSeconds": 5.5
+      }
+    },
+    {
+      "sceneId": "ixp",
+      "chapterId": "ch3",
+      "segmentId": "seg_005",
+      "narrationText": "Inside carrier-neutral Internet Exchange Points, hundreds of competing networks connect together. Through peering, they exchange data directly without exchanging money, using BGP to discover the shortest physical path.",
+      "estimatedDurationSeconds": 12,
+      "sequenceType": "system-visualization",
+      "sequenceParams": {
+        "title": "How traffic finds its way",
+        "nodes": [
+          {
+            "id": "isp1",
+            "label": "ISP Europe",
+            "rank": 0,
+            "at": 0
+          },
+          {
+            "id": "ix",
+            "label": "Internet Exchange",
+            "sub": "neutral ground",
+            "rank": 1,
+            "highlight": true,
+            "at": 0.1
+          },
+          {
+            "id": "isp2",
+            "label": "ISP Americas",
+            "rank": 0,
+            "y": 0.3,
+            "at": 0
+          },
+          {
+            "id": "isp3",
+            "label": "ISP Asia",
+            "rank": 2,
+            "at": 0.2
+          },
+          {
+            "id": "content",
+            "label": "Content CDN",
+            "rank": 1,
+            "y": 0.7,
+            "at": 0.15
+          }
+        ],
+        "edges": [
+          {
+            "from": "isp1",
+            "to": "ix",
+            "at": 0.15,
+            "pulses": 3
+          },
+          {
+            "from": "isp2",
+            "to": "ix",
+            "at": 0.2,
+            "pulses": 3
+          },
+          {
+            "from": "ix",
+            "to": "isp3",
+            "at": 0.3,
+            "pulses": 2
+          },
+          {
+            "from": "content",
+            "to": "ix",
+            "at": 0.25,
+            "pulses": 2
+          }
+        ],
+        "layout": "flow",
+        "caption": "Peering: no money changes hands.",
+        "captionKicker": "IXP",
+        "buildSeconds": 7,
+        "runSeconds": 5
+      }
+    },
+    {
+      "sceneId": "faults",
+      "chapterId": "ch4",
+      "segmentId": "seg_006",
+      "narrationText": "Roughly two hundred submarine cable faults occur every single year. Over forty percent of all cuts are caused by commercial fishing trawlers dragging heavy nets along the continental shelf.",
+      "estimatedDurationSeconds": 13.5,
+      "sequenceType": "data-storytelling",
+      "sequenceParams": {
+        "stat": {
+          "value": 200,
+          "prefix": "~",
+          "label": "cable faults every year"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "What breaks submarine cables",
+            "bars": [
+              {
+                "label": "Fishing gear",
+                "value": 41,
+                "highlight": true
+              },
+              {
+                "label": "Unknown",
+                "value": 20
+              },
+              {
+                "label": "Ship anchors",
+                "value": 16
+              },
+              {
+                "label": "Natural hazards",
+                "value": 14
+              },
+              {
+                "label": "Equipment failure",
+                "value": 9
+              }
+            ]
+          }
+        },
+        "consequence": "The ocean floor is littered with *accidental* damage.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sceneId": "close",
+      "chapterId": "ch4",
+      "segmentId": "seg_007",
+      "narrationText": "The internet has a physical address. And it can break.",
+      "estimatedDurationSeconds": 10,
+      "sequenceType": "consequence-impact",
+      "sequenceParams": {
+        "text": "The internet has a *physical address*. And it can break.",
+        "kicker": "The Hidden Internet",
+        "coda": "The Invisible Systems",
+        "textSeconds": 6,
+        "codaSeconds": 4,
+        "toBlack": true
+      }
+    }
+  ],
+  "missingCapabilities": [
+    {
+      "neededVisual": "Bathymetric ocean floor terrain map showing submarine canyons and cable laying routes",
+      "substituteUsed": "world-map flat projection with arc paths",
+      "impact": "2D geo flat lines instead of 3D submarine topographic elevation"
+    },
+    {
+      "neededVisual": "Splicing cable ship hydraulic gripper animation",
+      "substituteUsed": "data-storytelling chart on cable breakage causes",
+      "impact": "Statistical breakdown instead of mechanical repair operational visual"
+    }
+  ],
+  "pipeline": {
+    "stage": "plan",
+    "backend": "fixture",
+    "model": "fixture",
+    "cached": true,
+    "generatedAt": "2026-11-18T13:19:39.659Z"
+  }
+}

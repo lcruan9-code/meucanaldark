@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 2,
+  "id": "hidden-internet",
+  "title": "The Hidden Internet: How the World Stays Connected",
+  "language": "en",
+  "channelId": "invisible-systems",
+  "theme": "The undersea fiber optic cables, exchange points, and physical fragility of the global internet.",
+  "estimatedDurationSeconds": 480,
+  "chapters": [
+    {
+      "id": "ch1",
+      "title": "The Invisible Infrastructure",
+      "goal": "Dispel the cloud myth and reveal the global physical scale of submarine cables.",
+      "segments": [
+        {
+          "id": "seg_001",
+          "narrativeIntent": "establish",
+          "narrationText": "We are taught to imagine the internet as a cloud—an intangible ether floating silently above our heads. But the internet is not in the sky. It is pinned to the seabed, buried beneath city streets, and locked behind heavy steel doors in anonymous concrete bunkers.",
+          "keyClaims": [
+            {
+              "claim": "Over 99% of intercontinental internet traffic travels via submarine cables, not satellites.",
+              "category": "technical",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": ["World map rendering transatlantic and global subsea fiber routes"],
+          "estimatedSeconds": 11
+        },
+        {
+          "id": "seg_002",
+          "narrativeIntent": "statistic",
+          "narrationText": "Today, more than five hundred and fifty active submarine cables span over 1.5 million kilometers across the globe.",
+          "keyClaims": [
+            {
+              "claim": "There are over 550 active submarine cables spanning 1.5M km.",
+              "category": "statistic",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": ["Stat counter and bar chart highlighting cable counts"],
+          "estimatedSeconds": 9
+        }
+      ]
+    },
+    {
+      "id": "ch2",
+      "title": "Under the Ocean",
+      "goal": "Examine the physical anatomy and materials of a deep-sea submarine cable.",
+      "segments": [
+        {
+          "id": "seg_003",
+          "narrativeIntent": "establish",
+          "narrationText": "At the bottom of the Atlantic, miles beneath the surface, a submarine cable rests on abyssal silt under crushing pressure. Despite carrying millions of simultaneous video streams and financial transactions, the cable itself is remarkably slender.",
+          "keyClaims": [
+            {
+              "claim": "Deep-sea cables operate under high hydrostatic pressure on the ocean floor.",
+              "category": "technical",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": ["3D camera moving along a deep ocean fiber optic cable"],
+          "estimatedSeconds": 9
+        },
+        {
+          "id": "seg_004",
+          "narrativeIntent": "reveal",
+          "narrationText": "At its core lie hair-thin strands of pure silica glass carrying pulses of laser light, wrapped in steel armour, copper conductors, and a polyethylene sheath. In deep water, the entire cable is barely seventeen millimeters thick.",
+          "keyClaims": [
+            {
+              "claim": "Deep-water cables are approximately 17 mm in diameter.",
+              "category": "technical",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": ["3D cutaway reveal of optical fibers and steel armour layers"],
+          "estimatedSeconds": 10
+        }
+      ]
+    },
+    {
+      "id": "ch3",
+      "title": "Inside the Exchange",
+      "goal": "Explain how peering works at Internet Exchange Points.",
+      "segments": [
+        {
+          "id": "seg_005",
+          "narrativeIntent": "explain",
+          "narrationText": "Inside carrier-neutral Internet Exchange Points, hundreds of competing networks connect together. Through peering, they exchange data directly without exchanging money, using BGP to discover the shortest physical path.",
+          "keyClaims": [
+            {
+              "claim": "Networks peer settlement-free at IXPs using the Border Gateway Protocol.",
+              "category": "technical",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": ["Node network graph showing ISPs connecting at an exchange hub"],
+          "estimatedSeconds": 12
+        }
+      ]
+    },
+    {
+      "id": "ch4",
+      "title": "When It Breaks",
+      "goal": "Document cable vulnerability and end with the core realization.",
+      "segments": [
+        {
+          "id": "seg_006",
+          "narrativeIntent": "statistic",
+          "narrationText": "Roughly two hundred submarine cable faults occur every single year. Over forty percent of all cuts are caused by commercial fishing trawlers dragging heavy nets along the continental shelf.",
+          "keyClaims": [
+            {
+              "claim": "Fishing gear causes approximately 41% of submarine cable faults.",
+              "category": "statistic",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": ["Bar chart breaking down causes of subsea cable breaks"],
+          "estimatedSeconds": 13.5
+        },
+        {
+          "id": "seg_007",
+          "narrativeIntent": "impact",
+          "narrationText": "The internet has a physical address. And it can break.",
+          "keyClaims": [
+            {
+              "claim": "Global telecommunications rely on physical, vulnerable infrastructure.",
+              "category": "comparison",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": ["Bold typography fading to black"],
+          "estimatedSeconds": 10
+        }
+      ]
+    }
+  ],
+  "pipeline": {
+    "stage": "segment",
+    "model": "fixture",
+    "createdAt": "2026-11-18T10:15:00Z"
+  }
+}

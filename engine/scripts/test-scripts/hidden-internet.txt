@@ -1,0 +1,23 @@
+# The Hidden Internet: How the World Stays Connected
+
+## Chapter 1: The Invisible Infrastructure
+We are taught to imagine the internet as a cloud—an intangible, omnipresent ether floating silently above our heads. But the internet is not in the sky. It is pinned to the seabed, buried beneath city streets, and locked behind heavy steel doors in anonymous concrete bunkers.
+
+Over ninety-nine percent of all intercontinental data traffic is carried not by satellites, but by thin glass strands submerged in the deepest trenches of the world's oceans. Today, more than five hundred and fifty active submarine cables span over 1.5 million kilometers across the globe.
+
+## Chapter 2: Under the Ocean
+At the bottom of the Atlantic, miles beneath the surface, a submarine cable rests on abyssal silt under crushing pressure. Despite carrying millions of simultaneous video streams and financial transactions, the cable itself is remarkably slender.
+
+At its core lie hair-thin strands of pure silica glass carrying pulses of laser light. Surrounding the optical fibers are concentric layers of petroleum jelly, copper conductors carrying power to repeaters, high-tensile steel armor wires, and a waterproof polyethylene outer jacket. In deep water, the entire cable is barely seventeen millimeters thick—no wider than a garden hose.
+
+## Chapter 3: Inside the Exchange
+When those glass fibers reach landfall, they do not terminate at individual homes. They route directly into carrier-neutral Internet Exchange Points, or IXPs, located in major metropolitan crossroads like Frankfurt, London, and Northern Virginia.
+
+Inside these exchanges, hundreds of competing internet service providers, content networks, and cloud providers connect their routers together. Through an arrangement called peering, they exchange data directly and without exchanging money, using the Border Gateway Protocol to continuously discover the shortest physical path across the planet.
+
+## Chapter 4: When It Breaks
+This global nervous system is astonishingly fragile. Roughly two hundred submarine cable faults occur every single year.
+
+Contrary to popular belief, shark bites are extremely rare. Over forty percent of all cable cuts are caused by commercial fishing trawlers dragging heavy nets along the continental shelf, followed closely by dragging ship anchors and underwater seismic landslides. Repairing a single cut requires specialized cable ships, robotic submersibles, and weeks of painstaking open-ocean splicing.
+
+The internet has a physical address. And it can break.

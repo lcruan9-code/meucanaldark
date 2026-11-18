@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 2,
+  "projectId": "ai-gold-rush",
+  "channelId": "invisible-systems",
+  "plannedScenes": [
+    {
+      "sceneId": "open",
+      "chapterId": "ch1",
+      "segmentId": "seg_001",
+      "narrationText": "Deep inside an unmarked concrete facility in Northern Virginia, thirty thousand processors hum in unison. They are generating answers, code, synthetic voices, and digital illusions for hundreds of millions of people across the globe.",
+      "estimatedDurationSeconds": 10,
+      "sequenceType": "establishing-shot",
+      "sequenceParams": {
+        "visual": "data-center-3d",
+        "wideProps": {
+          "shot": "wide",
+          "seed": 7,
+          "pulse": true
+        },
+        "closeProps": {
+          "shot": "aisle",
+          "seed": 7,
+          "pulse": true
+        },
+        "title": "The AI Gold Rush",
+        "eyebrow": "Infrastructure",
+        "subtitle": "Who controls the world's computing power?",
+        "wideSeconds": 4,
+        "closeSeconds": 6,
+        "useBackdrop": false
+      }
+    },
+    {
+      "sceneId": "demand",
+      "chapterId": "ch1",
+      "segmentId": "seg_002",
+      "narrationText": "When ChatGPT launched in late 2022, it crossed one hundred million monthly active users in just sixty days. By comparison, it took Instagram two and a half years, and Spotify more than three years to reach that same threshold. The world had never adopted a technology this quickly.",
+      "estimatedDurationSeconds": 13.5,
+      "sequenceType": "data-storytelling",
+      "sequenceParams": {
+        "stat": {
+          "value": 100,
+          "suffix": "M",
+          "label": "users in 60 days"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Days to 100M users",
+            "bars": [
+              {
+                "label": "ChatGPT",
+                "value": 60,
+                "highlight": true
+              },
+              {
+                "label": "Instagram",
+                "value": 1035
+              },
+              {
+                "label": "Spotify",
+                "value": 1278
+              },
+              {
+                "label": "Airbnb",
+                "value": 1825
+              }
+            ]
+          }
+        },
+        "consequence": "A *hundred million* people found the machine before the machine found a home.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sceneId": "hardware",
+      "chapterId": "ch2",
+      "segmentId": "seg_003",
+      "narrationText": "To understand where this power comes from, follow a single prompt. When you ask an artificial intelligence a question, your request travels through high-speed fiber into a specialized cluster of GPUs arranged in monolithic server racks.",
+      "estimatedDurationSeconds": 11,
+      "sequenceType": "system-visualization",
+      "sequenceParams": {
+        "title": "How a prompt moves",
+        "nodes": [
+          {
+            "id": "device",
+            "label": "User Prompt",
+            "rank": 0,
+            "at": 0
+          },
+          {
+            "id": "edge",
+            "label": "Edge Network",
+            "rank": 1,
+            "at": 0.1
+          },
+          {
+            "id": "training",
+            "label": "Training Cluster",
+            "rank": 2,
+            "highlight": true,
+            "at": 0.2
+          },
+          {
+            "id": "inference",
+            "label": "Inference Cluster",
+            "rank": 3,
+            "at": 0.25
+          },
+          {
+            "id": "response",
+            "label": "Model Output",
+            "rank": 4,
+            "at": 0.3
+          }
+        ],
+        "edges": [
+          {
+            "from": "device",
+            "to": "edge",
+            "at": 0.1
+          },
+          {
+            "from": "edge",
+            "to": "training",
+            "at": 0.15
+          },
+          {
+            "from": "training",
+            "to": "inference",
+            "at": 0.2
+          },
+          {
+            "from": "inference",
+            "to": "response",
+            "at": 0.25
+          }
+        ],
+        "layout": "flow",
+        "caption": "One question. Two clusters.",
+        "buildSeconds": 6,
+        "runSeconds": 5
+      }
+    },
+    {
+      "sceneId": "rack-reveal",
+      "chapterId": "ch2",
+      "segmentId": "seg_004",
+      "narrationText": "Each modern AI server rack draws over forty kilowatts of electricity. Eight specialized graphics processors work in parallel, pushing data across copper and optical interconnects. Air cooling is no longer enough; liquid must circulate directly over the silicon die.",
+      "estimatedDurationSeconds": 10,
+      "sequenceType": "technical-reveal",
+      "sequenceParams": {
+        "visual": "data-center-3d",
+        "visualProps": {
+          "shot": "rack",
+          "seed": 11,
+          "pulse": false
+        },
+        "parts": [
+          {
+            "x": 0.44,
+            "y": 0.34,
+            "label": "Eight GPUs",
+            "sub": "one rack",
+            "side": "right"
+          },
+          {
+            "x": 0.38,
+            "y": 0.56,
+            "label": "700 W each",
+            "sub": "at full load",
+            "side": "left"
+          },
+          {
+            "x": 0.52,
+            "y": 0.72,
+            "label": "Liquid cooled",
+            "sub": "air cannot keep up",
+            "side": "right"
+          }
+        ],
+        "approachSeconds": 4,
+        "revealSeconds": 6
+      }
+    },
+    {
+      "sceneId": "cloud",
+      "chapterId": "ch3",
+      "segmentId": "seg_005",
+      "narrationText": "Building and operating this physical footprint requires capital on a scale few entities on Earth can assemble. Today, three corporate giants—Amazon Web Services, Microsoft Azure, and Google Cloud—control roughly sixty-five percent of the entire global cloud infrastructure.",
+      "estimatedDurationSeconds": 13.5,
+      "sequenceType": "data-storytelling",
+      "sequenceParams": {
+        "stat": {
+          "value": 65,
+          "suffix": "%",
+          "label": "controlled by three companies"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Cloud market share",
+            "bars": [
+              {
+                "label": "AWS",
+                "value": 32,
+                "highlight": true
+              },
+              {
+                "label": "Microsoft Azure",
+                "value": 21
+              },
+              {
+                "label": "Google Cloud",
+                "value": 12
+              },
+              {
+                "label": "Others",
+                "value": 35
+              }
+            ]
+          }
+        },
+        "consequence": "Three companies *decide* where the intelligence lives.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sceneId": "energy",
+      "chapterId": "ch4",
+      "segmentId": "seg_006",
+      "narrationText": "Every token generated has an ecological weight. A single complex query to a frontier large language model consumes approximately 3.2 watt-hours of electrical energy—more than ten times the power of a standard search engine query.",
+      "estimatedDurationSeconds": 13.5,
+      "sequenceType": "data-storytelling",
+      "sequenceParams": {
+        "stat": {
+          "value": 3.2,
+          "suffix": " Wh",
+          "decimals": 1,
+          "label": "to answer one question"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Watt-hours comparison",
+            "bars": [
+              {
+                "label": "One AI answer",
+                "value": 3.2,
+                "highlight": true
+              },
+              {
+                "label": "A web search",
+                "value": 0.3
+              },
+              {
+                "label": "LED bulb, 1 min",
+                "value": 0.15
+              }
+            ]
+          }
+        },
+        "consequence": "A single answer costs *ten times* a search.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sceneId": "close",
+      "chapterId": "ch4",
+      "segmentId": "seg_007",
+      "narrationText": "Every answer has a cost. Every model has a home. Neither is neutral.",
+      "estimatedDurationSeconds": 10,
+      "sequenceType": "consequence-impact",
+      "sequenceParams": {
+        "visual": "data-center-3d",
+        "visualProps": {
+          "shot": "wide",
+          "seed": 7,
+          "pulse": true
+        },
+        "text": "Every answer has a cost. Every model has a home. *Neither is neutral*.",
+        "coda": "The Invisible Systems",
+        "textSeconds": 6,
+        "codaSeconds": 4,
+        "toBlack": true
+      }
+    }
+  ],
+  "missingCapabilities": [
+    {
+      "neededVisual": "Liquid cooling loop animation showing water manifolds on GPUs",
+      "substituteUsed": "technical-reveal with data-center-3d rack shot and callout labels",
+      "impact": "Static callout instead of flowing procedural liquid shader"
+    },
+    {
+      "neededVisual": "Sankey diagram showing global energy flow into AI data centers",
+      "substituteUsed": "data-storytelling bar chart comparing watt-hours",
+      "impact": "Discrete comparative bar chart rather than a continuous flow diagram"
+    }
+  ],
+  "pipeline": {
+    "stage": "plan",
+    "backend": "fixture",
+    "model": "fixture",
+    "cached": true,
+    "generatedAt": "2026-11-18T13:19:53.267Z"
+  }
+}

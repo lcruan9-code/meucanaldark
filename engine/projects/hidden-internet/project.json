@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 1,
+  "id": "hidden-internet",
+  "title": "The Hidden Internet: How the World Stays Connected",
+  "language": "en",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "theme": {
+    "palette": {
+      "bg": "#070d16",
+      "ink": "#f2f5f8",
+      "muted": "#8b97a8",
+      "accent": "#39d0d8",
+      "accentWarm": "#f5a524",
+      "grid": "#12202e"
+    },
+    "grain": 0.07,
+    "vignette": 0.45
+  },
+  "audio": {
+    "musicGainDb": -22,
+    "duckDb": -9,
+    "masterGainDb": 0
+  },
+  "chapters": [
+    {
+      "id": "ch1",
+      "title": "The Invisible Infrastructure"
+    },
+    {
+      "id": "ch2",
+      "title": "Under the Ocean"
+    },
+    {
+      "id": "ch3",
+      "title": "Inside the Exchange"
+    },
+    {
+      "id": "ch4",
+      "title": "When It Breaks"
+    }
+  ],
+  "scenes": [
+    {
+      "sequence": "establishing-shot",
+      "id": "open",
+      "params": {
+        "visual": "world-map",
+        "wideProps": {
+          "routes": [
+            {
+              "from": "new-york",
+              "to": "london",
+              "label": "North Atlantic",
+              "growth": 0.4
+            }
+          ]
+        },
+        "closeProps": {
+          "routes": [
+            {
+              "from": "new-york",
+              "to": "london",
+              "growth": 0.4
+            },
+            {
+              "from": "fortaleza",
+              "to": "lisbon",
+              "startAt": 0.3,
+              "growth": 0.3
+            },
+            {
+              "from": "singapore",
+              "to": "mumbai",
+              "startAt": 0.55,
+              "growth": 0.3,
+              "bend": -0.18
+            }
+          ],
+          "showBorders": true
+        },
+        "title": "The Hidden Internet",
+        "eyebrow": "Infrastructure",
+        "subtitle": "How the world stays connected.",
+        "useBackdrop": true,
+        "wideSeconds": 4,
+        "closeSeconds": 7
+      }
+    },
+    {
+      "sequence": "data-storytelling",
+      "id": "cables-stat",
+      "params": {
+        "stat": {
+          "value": 552,
+          "label": "active submarine cables"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Submarine cable network",
+            "bars": [
+              {
+                "label": "Cables",
+                "value": 552,
+                "highlight": true
+              },
+              {
+                "label": "Countries served",
+                "value": 195
+              },
+              {
+                "label": "Faults per year",
+                "value": 200
+              }
+            ]
+          }
+        },
+        "consequence": "*552 cables* carry the weight of the modern world.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sequence": "establishing-shot",
+      "id": "cable-open",
+      "params": {
+        "visual": "cable-3d",
+        "wideProps": {
+          "travelFrom": 0.02,
+          "travelTo": 0.5
+        },
+        "closeProps": {
+          "travelFrom": 0.4,
+          "travelTo": 0.82,
+          "cutawayAt": 0.6
+        },
+        "title": "Under the Ocean",
+        "eyebrow": "Infrastructure",
+        "wideSeconds": 4,
+        "closeSeconds": 5
+      }
+    },
+    {
+      "sequence": "technical-reveal",
+      "id": "cable-reveal",
+      "params": {
+        "visual": "cable-3d",
+        "visualProps": {
+          "layers": 4,
+          "travelFrom": 0.02,
+          "travelTo": 0.82,
+          "cutawayAt": 0.4
+        },
+        "parts": [
+          {
+            "x": 0.48,
+            "y": 0.46,
+            "label": "Optical fibres",
+            "sub": "light carries the data",
+            "side": "right"
+          },
+          {
+            "x": 0.32,
+            "y": 0.55,
+            "label": "Steel armour",
+            "sub": "against trawlers",
+            "side": "left"
+          },
+          {
+            "x": 0.52,
+            "y": 0.65,
+            "label": "Polyethylene sheath",
+            "sub": "17 mm across",
+            "side": "right"
+          }
+        ],
+        "focusX": 0.45,
+        "focusY": 0.5,
+        "approachSeconds": 3.5,
+        "revealSeconds": 5.5
+      }
+    },
+    {
+      "sequence": "system-visualization",
+      "id": "ixp",
+      "params": {
+        "title": "How traffic finds its way",
+        "nodes": [
+          {
+            "id": "isp1",
+            "label": "ISP Europe",
+            "rank": 0,
+            "at": 0
+          },
+          {
+            "id": "ix",
+            "label": "Internet Exchange",
+            "sub": "neutral ground",
+            "rank": 1,
+            "highlight": true,
+            "at": 0.1
+          },
+          {
+            "id": "isp2",
+            "label": "ISP Americas",
+            "rank": 0,
+            "y": 0.3,
+            "at": 0
+          },
+          {
+            "id": "isp3",
+            "label": "ISP Asia",
+            "rank": 2,
+            "at": 0.2
+          },
+          {
+            "id": "content",
+            "label": "Content CDN",
+            "rank": 1,
+            "y": 0.7,
+            "at": 0.15
+          }
+        ],
+        "edges": [
+          {
+            "from": "isp1",
+            "to": "ix",
+            "at": 0.15,
+            "pulses": 3
+          },
+          {
+            "from": "isp2",
+            "to": "ix",
+            "at": 0.2,
+            "pulses": 3
+          },
+          {
+            "from": "ix",
+            "to": "isp3",
+            "at": 0.3,
+            "pulses": 2
+          },
+          {
+            "from": "content",
+            "to": "ix",
+            "at": 0.25,
+            "pulses": 2
+          }
+        ],
+        "layout": "flow",
+        "caption": "Peering: no money changes hands.",
+        "captionKicker": "IXP",
+        "buildSeconds": 7,
+        "runSeconds": 5
+      }
+    },
+    {
+      "sequence": "data-storytelling",
+      "id": "faults",
+      "params": {
+        "stat": {
+          "value": 200,
+          "prefix": "~",
+          "label": "cable faults every year"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "What breaks submarine cables",
+            "bars": [
+              {
+                "label": "Fishing gear",
+                "value": 41,
+                "highlight": true
+              },
+              {
+                "label": "Unknown",
+                "value": 20
+              },
+              {
+                "label": "Ship anchors",
+                "value": 16
+              },
+              {
+                "label": "Natural hazards",
+                "value": 14
+              },
+              {
+                "label": "Equipment failure",
+                "value": 9
+              }
+            ]
+          }
+        },
+        "consequence": "The ocean floor is littered with *accidental* damage.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sequence": "consequence-impact",
+      "id": "close",
+      "params": {
+        "text": "The internet has a *physical address*. And it can break.",
+        "kicker": "The Hidden Internet",
+        "coda": "The Invisible Systems",
+        "textSeconds": 6,
+        "codaSeconds": 4,
+        "toBlack": true
+      }
+    }
+  ]
+}

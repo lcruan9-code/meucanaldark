@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "id": "ai-gold-rush",
+  "title": "The AI Gold Rush: Who Controls the World's Computing Power?",
+  "language": "en",
+  "channelId": "invisible-systems",
+  "theme": "The hidden physical infrastructure, corporate concentration, and massive energy cost of modern artificial intelligence.",
+  "estimatedDurationSeconds": 480,
+  "chapters": [
+    {
+      "id": "ch1",
+      "title": "The Demand Surge",
+      "goal": "Introduce the physical reality of data centers and the unprecedented speed of AI adoption.",
+      "segments": [
+        {
+          "id": "seg_001",
+          "narrativeIntent": "establish",
+          "narrationText": "Deep inside an unmarked concrete facility in Northern Virginia, thirty thousand processors hum in unison. They are generating answers, code, synthetic voices, and digital illusions for hundreds of millions of people across the globe.",
+          "keyClaims": [
+            {
+              "claim": "Frontier AI models are hosted in massive hyperscale data centers with tens of thousands of processors.",
+              "category": "technical",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": [
+            "Wide shot of a data center floor drifting down a server aisle"
+          ],
+          "estimatedSeconds": 10
+        },
+        {
+          "id": "seg_002",
+          "narrativeIntent": "statistic",
+          "narrationText": "When ChatGPT launched in late 2022, it crossed one hundred million monthly active users in just sixty days. By comparison, it took Instagram two and a half years, and Spotify more than three years to reach that same threshold. The world had never adopted a technology this quickly.",
+          "keyClaims": [
+            {
+              "claim": "ChatGPT reached 100 million monthly active users in 60 days.",
+              "category": "statistic",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": [
+            "Comparative bar chart contrasting days to reach 100 million users"
+          ],
+          "estimatedSeconds": 13.5
+        }
+      ]
+    },
+    {
+      "id": "ch2",
+      "title": "The Hardware Race",
+      "goal": "Trace the path of an inference request and reveal the high-density server rack architecture.",
+      "segments": [
+        {
+          "id": "seg_003",
+          "narrativeIntent": "explain",
+          "narrationText": "To understand where this power comes from, follow a single prompt. When you ask an artificial intelligence a question, your request travels through high-speed fiber into a specialized cluster of GPUs arranged in monolithic server racks.",
+          "keyClaims": [
+            {
+              "claim": "AI inference queries route from client devices through fiber to specialized GPU clusters.",
+              "category": "technical",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": [
+            "Flow diagram tracing request from device to network to training and inference clusters"
+          ],
+          "estimatedSeconds": 12
+        },
+        {
+          "id": "seg_004",
+          "narrativeIntent": "reveal",
+          "narrationText": "Each modern AI server rack draws over forty kilowatts of electricity. Eight specialized graphics processors work in parallel, pushing data across copper and optical interconnects. Air cooling is no longer enough; liquid must circulate directly over the silicon die.",
+          "keyClaims": [
+            {
+              "claim": "Modern AI racks consume upwards of 40 kW and require liquid cooling solutions.",
+              "category": "technical",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": [
+            "Technical callout diagram highlighting GPU power draw and cooling"
+          ],
+          "estimatedSeconds": 10
+        }
+      ]
+    },
+    {
+      "id": "ch3",
+      "title": "Who Controls It All",
+      "goal": "Examine the extreme corporate centralization of cloud and compute capacity.",
+      "segments": [
+        {
+          "id": "seg_005",
+          "narrativeIntent": "statistic",
+          "narrationText": "Building and operating this physical footprint requires capital on a scale few entities on Earth can assemble. Today, three corporate giants—Amazon Web Services, Microsoft Azure, and Google Cloud—control roughly sixty-five percent of the entire global cloud infrastructure.",
+          "keyClaims": [
+            {
+              "claim": "AWS, Azure, and Google Cloud control approximately 65% of the worldwide cloud infrastructure market.",
+              "category": "statistic",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": [
+            "Cloud market share breakdown chart showing three dominant players"
+          ],
+          "estimatedSeconds": 13.5
+        }
+      ]
+    },
+    {
+      "id": "ch4",
+      "title": "The Energy Cost",
+      "goal": "Highlight the environmental impact and deliver the final sobering takeaway.",
+      "segments": [
+        {
+          "id": "seg_006",
+          "narrativeIntent": "statistic",
+          "narrationText": "Every token generated has an ecological weight. A single complex query to a frontier large language model consumes approximately 3.2 watt-hours of electrical energy—more than ten times the power of a standard search engine query.",
+          "keyClaims": [
+            {
+              "claim": "A frontier LLM query consumes roughly 3.2 Wh, approximately ten times more than an ordinary web search.",
+              "category": "statistic",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": [
+            "Watt-hours comparison bar chart comparing AI query vs standard search"
+          ],
+          "estimatedSeconds": 13.5
+        },
+        {
+          "id": "seg_007",
+          "narrativeIntent": "impact",
+          "narrationText": "Every answer has a cost. Every model has a home. Neither is neutral.",
+          "keyClaims": [
+            {
+              "claim": "Computing infrastructure has inherent physical and geopolitical consequences.",
+              "category": "comparison",
+              "status": "asserted_in_script"
+            }
+          ],
+          "visualSuggestions": [
+            "Kinetic typographic statement against dark data center visual fading to black"
+          ],
+          "estimatedSeconds": 10
+        }
+      ]
+    }
+  ],
+  "pipeline": {
+    "stage": "segment",
+    "backend": "fixture",
+    "model": "fixture",
+    "cached": true,
+    "generatedAt": "2026-11-18T13:19:53.265Z"
+  }
+}

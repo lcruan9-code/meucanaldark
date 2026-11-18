@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "id": "ai-gold-rush",
+  "title": "The AI Gold Rush: Who Controls the World's Computing Power?",
+  "language": "en",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "theme": {
+    "palette": {
+      "bg": "#070d16",
+      "ink": "#f2f5f8",
+      "muted": "#8b97a8",
+      "accent": "#39d0d8",
+      "accentWarm": "#f5a524",
+      "grid": "#12202e"
+    },
+    "grain": 0.07,
+    "vignette": 0.45
+  },
+  "audio": {
+    "musicGainDb": -22,
+    "duckDb": -9,
+    "masterGainDb": 0
+  },
+  "chapters": [
+    {
+      "id": "ch1",
+      "title": "The Demand Surge"
+    },
+    {
+      "id": "ch2",
+      "title": "The Hardware Race"
+    },
+    {
+      "id": "ch3",
+      "title": "Who Controls It All"
+    },
+    {
+      "id": "ch4",
+      "title": "The Energy Cost"
+    }
+  ],
+  "scenes": [
+    {
+      "sequence": "establishing-shot",
+      "id": "open",
+      "params": {
+        "visual": "data-center-3d",
+        "wideProps": {
+          "shot": "wide",
+          "seed": 7,
+          "pulse": true
+        },
+        "closeProps": {
+          "shot": "aisle",
+          "seed": 7,
+          "pulse": true
+        },
+        "title": "The AI Gold Rush",
+        "eyebrow": "Infrastructure",
+        "subtitle": "Who controls the world's computing power?",
+        "wideSeconds": 4,
+        "closeSeconds": 6,
+        "useBackdrop": false
+      }
+    },
+    {
+      "sequence": "data-storytelling",
+      "id": "demand",
+      "params": {
+        "stat": {
+          "value": 100,
+          "suffix": "M",
+          "label": "users in 60 days"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Days to 100M users",
+            "bars": [
+              {
+                "label": "ChatGPT",
+                "value": 60,
+                "highlight": true
+              },
+              {
+                "label": "Instagram",
+                "value": 1035
+              },
+              {
+                "label": "Spotify",
+                "value": 1278
+              },
+              {
+                "label": "Airbnb",
+                "value": 1825
+              }
+            ]
+          }
+        },
+        "consequence": "A *hundred million* people found the machine before the machine found a home.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sequence": "system-visualization",
+      "id": "hardware",
+      "params": {
+        "title": "How a prompt moves",
+        "nodes": [
+          {
+            "id": "device",
+            "label": "User Prompt",
+            "rank": 0,
+            "at": 0
+          },
+          {
+            "id": "edge",
+            "label": "Edge Network",
+            "rank": 1,
+            "at": 0.1
+          },
+          {
+            "id": "training",
+            "label": "Training Cluster",
+            "rank": 2,
+            "highlight": true,
+            "at": 0.2
+          },
+          {
+            "id": "inference",
+            "label": "Inference Cluster",
+            "rank": 3,
+            "at": 0.25
+          },
+          {
+            "id": "response",
+            "label": "Model Output",
+            "rank": 4,
+            "at": 0.3
+          }
+        ],
+        "edges": [
+          {
+            "from": "device",
+            "to": "edge",
+            "at": 0.1
+          },
+          {
+            "from": "edge",
+            "to": "training",
+            "at": 0.15
+          },
+          {
+            "from": "training",
+            "to": "inference",
+            "at": 0.2
+          },
+          {
+            "from": "inference",
+            "to": "response",
+            "at": 0.25
+          }
+        ],
+        "layout": "flow",
+        "caption": "One question. Two clusters.",
+        "buildSeconds": 6,
+        "runSeconds": 5
+      }
+    },
+    {
+      "sequence": "technical-reveal",
+      "id": "rack-reveal",
+      "params": {
+        "visual": "data-center-3d",
+        "visualProps": {
+          "shot": "rack",
+          "seed": 11,
+          "pulse": false
+        },
+        "parts": [
+          {
+            "x": 0.44,
+            "y": 0.34,
+            "label": "Eight GPUs",
+            "sub": "one rack",
+            "side": "right"
+          },
+          {
+            "x": 0.38,
+            "y": 0.56,
+            "label": "700 W each",
+            "sub": "at full load",
+            "side": "left"
+          },
+          {
+            "x": 0.52,
+            "y": 0.72,
+            "label": "Liquid cooled",
+            "sub": "air cannot keep up",
+            "side": "right"
+          }
+        ],
+        "approachSeconds": 4,
+        "revealSeconds": 6
+      }
+    },
+    {
+      "sequence": "data-storytelling",
+      "id": "cloud",
+      "params": {
+        "stat": {
+          "value": 65,
+          "suffix": "%",
+          "label": "controlled by three companies"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Cloud market share",
+            "bars": [
+              {
+                "label": "AWS",
+                "value": 32,
+                "highlight": true
+              },
+              {
+                "label": "Microsoft Azure",
+                "value": 21
+              },
+              {
+                "label": "Google Cloud",
+                "value": 12
+              },
+              {
+                "label": "Others",
+                "value": 35
+              }
+            ]
+          }
+        },
+        "consequence": "Three companies *decide* where the intelligence lives.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sequence": "data-storytelling",
+      "id": "energy",
+      "params": {
+        "stat": {
+          "value": 3.2,
+          "suffix": " Wh",
+          "decimals": 1,
+          "label": "to answer one question"
+        },
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Watt-hours comparison",
+            "bars": [
+              {
+                "label": "One AI answer",
+                "value": 3.2,
+                "highlight": true
+              },
+              {
+                "label": "A web search",
+                "value": 0.3
+              },
+              {
+                "label": "LED bulb, 1 min",
+                "value": 0.15
+              }
+            ]
+          }
+        },
+        "consequence": "A single answer costs *ten times* a search.",
+        "statSeconds": 3.5,
+        "chartSeconds": 5.5,
+        "consequenceSeconds": 4.5
+      }
+    },
+    {
+      "sequence": "consequence-impact",
+      "id": "close",
+      "params": {
+        "visual": "data-center-3d",
+        "visualProps": {
+          "shot": "wide",
+          "seed": 7,
+          "pulse": true
+        },
+        "text": "Every answer has a cost. Every model has a home. *Neither is neutral*.",
+        "coda": "The Invisible Systems",
+        "textSeconds": 6,
+        "codaSeconds": 4,
+        "toBlack": true
+      }
+    }
+  ]
+}
