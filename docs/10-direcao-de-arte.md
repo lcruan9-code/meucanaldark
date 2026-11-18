@@ -172,6 +172,16 @@ O 3D custa cerca de **40% a mais** por quadro que o 2D equivalente — menos do 
 
 **O critério não é o fps.** Como o briefing pediu, o que decide é a composição, a profundidade, o material, a legibilidade e a ausência de cara de slide. O fps só precisa caber na janela — e cabe com folga.
 
+### Dois achados de desempenho do 3D, que valem para toda a Etapa 3
+
+**1. `useMemo` com dependência no objeto `props` inteiro reconstrói tudo a cada quadro.** O motor refaz o objeto `props` por quadro, então a referência muda sempre e o memo nunca acerta: 1.280 LEDs, mais geometrias e materiais, eram realocados 30 vezes por segundo. Passar a depender de primitivos levou a cena de 6,70 para 7,79 fps. **Regra para a biblioteca 3D: nenhuma dependência de `useMemo` pode ser o objeto de props.**
+
+**2. O custo era transparência, não antialiasing.** A suspeita natural era o MSAA. Medindo, o gargalo eram dezesseis quads aditivos de halo quase horizontais sob a câmera: cobriam muita área de tela sem *early-z*, e levavam ~30% do tempo de quadro. Assados no teto como `emissiveMap` opaco, o custo sumiu — e isso permitiu **manter** o antialiasing, que de outro modo teria de cair, porque sem ele as travessas das bandejas de cabo escadeiam visivelmente.
+
+A lição generaliza: em cena 3D dentro do Remotion, **superfície transparente grande é mais cara que suavização de borda**. Antes de desligar qualidade, medir o que realmente custa.
+
+Resultado final da cena isolada: **10,59 fps** (mediana de três passagens, 150 quadros, concorrência 10, `--gl=angle`, antialiasing ligado).
+
 ---
 
 ## Dois defeitos que a demonstração pegou
