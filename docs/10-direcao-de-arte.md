@@ -183,6 +183,16 @@ Num documentário de dez minutos isso seria meia hora de render para descobrir u
 
 É o custo de ter acrescentado uma camada: código que gera código precisa validar o que gerou.
 
+### O título ficava ilegível, e o gráfico escrevia zero
+Sobre o corredor iluminado, o título da demo não lia e o subtítulo sumia nos racks. A legibilidade pertence ao componente que precisa dela, então `TitleCard` ganhou `scrim` — um escurecimento sob o texto, ligado por padrão.
+
+E o gráfico de barras escrevia **"0 Wh"** para 0,3 e para 0,15: com `decimals: 0`, todo valor abaixo de meio virava zero. O desenho estava certo e o número estava errado, em silêncio. `BarChart` agora calcula uma precisão mínima a partir do menor valor da série.
+
+### O grafo continuava desenhando uma fileira
+Este é o mais instrutivo, porque é um defeito que eu mesmo tinha diagnosticado e corrigido só pela metade. Cartela e números ganharam ancoragem; o `node-graph` não. Com um nó por coluna, o layout `flow` punha os cinco na mesma linha, e o plano virava uma tira fina de caixas com o quadro vazio em cima e embaixo — a aparência de slide, intacta, no meio de uma demonstração sobre eliminá-la.
+
+`flowStagger` desnivela colunas vizinhas. O caminho passa a ler como percurso.
+
 ### A detecção de WebGL mentia
 `render.mjs` escolhia entre render único e render por cena procurando a string `"cable-3d"` dentro do JSON da linha do tempo. Funcionou enquanto existia **uma** cena 3D. Com a chegada da `data-center-3d`, a demo inteira — que é 3D em quatro dos onze planos — foi renderizada em modo único, que é justamente o modo que a documentação do Remotion desaconselha para WebGL longo por causa do vazamento de memória do Chrome.
 

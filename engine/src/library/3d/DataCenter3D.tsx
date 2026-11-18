@@ -136,13 +136,13 @@ type Geometry = {
   racksPerSide: number;
 };
 
-function geometryOf(props: DataCenter3DProps): Geometry {
-  const faceX = props.aisleWidth / 2;
+function geometryOf(aisleWidth: number, racksPerSide: number): Geometry {
+  const faceX = aisleWidth / 2;
   return {
     faceX,
     centerX: faceX + RACK_DEPTH / 2,
-    length: props.racksPerSide * RACK_PITCH,
-    racksPerSide: props.racksPerSide,
+    length: racksPerSide * RACK_PITCH,
+    racksPerSide,
   };
 }
 
@@ -1113,7 +1113,15 @@ function DataCenterScene({
   progress: number;
   frame: number;
 }) {
-  const geo = useMemo(() => geometryOf(props), [props]);
+  // Dependencias primitivas de proposito. O motor remonta o objeto de props
+  // a cada quadro; com `[props]` aqui, `geo` e `plans` mudavam de identidade
+  // 30 vezes por segundo e TODO InstancedMesh era reconstruido e descartado
+  // junto — 1.280 LEDs, geometrias e materiais realocados por quadro. Era a
+  // conta inteira do desempenho, nao o sombreador.
+  const geo = useMemo(
+    () => geometryOf(props.aisleWidth, props.racksPerSide),
+    [props.aisleWidth, props.racksPerSide],
+  );
   const plans = useMemo(() => planRacks(geo, props.seed), [geo, props.seed]);
 
   const faceTextures = useMemo(
@@ -1143,7 +1151,9 @@ function DataCenterScene({
   // Luminarias motivadas: tres pontos ao longo do corredor. Com a IBL
   // resolvendo o ambiente, mais luzes dinamicas so custariam quadro.
   const lamps = useMemo(() => {
-    const count = 3;
+    // Cada luz pontual e avaliada em TODO fragmento iluminado: o numero de
+    // lampadas e o item mais caro do orcamento desta cena, nao a geometria.
+    const count = 2;
     return Array.from({ length: count }, (_, i) => ({
       key: `lamp${i}`,
       z: -((i + 0.6) * (geo.length / count)),
@@ -1168,9 +1178,9 @@ function DataCenterScene({
           color="#dbeaf6"
           // Queda mais suave que o fisico (2): com decay realista o topo do
           // rack estoura e a base some, e a face perde a leitura de servidor.
-          intensity={11}
-          distance={20}
-          decay={1.6}
+          intensity={14}
+          distance={26}
+          decay={1.45}
           castShadow={props.shadows}
           shadow-mapSize-width={props.shadows ? 1024 : 0}
           shadow-mapSize-height={props.shadows ? 1024 : 0}

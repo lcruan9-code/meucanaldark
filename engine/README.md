@@ -121,9 +121,13 @@ A documentação do Remotion registra um vazamento de memória do Chrome quando 
 
 O briefing avisou para não presumir que dividir em cenas economiza memória. Correto: dividir **custa** tempo (cada cena reabre o Chrome) e só economiza memória porque o processo morre entre cenas. Por isso `scripts/render.mjs` implementa **os dois modos** e `npm run bench` mede ambos. O número decide, não a intuição.
 
-### 4. Cache por hash da cena
+### 4. Cache por hash da cena, com um custo conhecido
 
-Cada cena vira `out/<id>/scenes/<sceneId>-<hash>.mp4`, com o hash cobrindo a cena resolvida inteira. Isso entrega de uma vez três itens da seção 8: reaproveitar cena não alterada, re-renderizar só o que mudou, e retomar render interrompido. A junção final é `concat -c copy` — sem reencode, sem perda.
+Cada cena vira `out/<id>/scenes/<sceneId>-<hash>.mp4`, com o hash cobrindo a cena resolvida **mais uma impressão digital de todo o `src/`**. Isso entrega de uma vez três itens da seção 8: reaproveitar cena não alterada, re-renderizar só o que mudou, e retomar render interrompido. A junção final é `concat -c copy` — sem reencode, sem perda.
+
+A impressão digital do `src/` inteiro existe porque o hash só do roteiro deixava cena desatualizada voltar do cache em silêncio quando um componente mudava. **O preço é granularidade:** mexer em um componente invalida *todas* as cenas, mesmo as que não o usam. Numa demo de 11 cenas é aceitável; num documentário de 10 minutos com 60 cenas, trocar uma cor obrigaria a refazer o filme inteiro.
+
+A correção, quando doer, é um hash por cena composto de *núcleo* (contrato, motor, sequências) mais os arquivos dos componentes que aquela cena de fato usa. Fica anotado, não construído: até agora a conservadora é a correta, e otimizar cache antes de ter um documentário real de 60 cenas seria otimizar no escuro.
 
 ### 5. Determinismo é obrigatório, não preferência
 
