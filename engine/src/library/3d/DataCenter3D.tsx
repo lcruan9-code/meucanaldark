@@ -893,7 +893,7 @@ function Room({
       placements.push({ position: [-0.95, CEILING_Y - 0.1, z] });
       placements.push({ position: [0.95, CEILING_Y - 0.1, z] });
     }
-    const geometry = new THREE.PlaneGeometry(1.5, segLength * 1.35);
+    const geometry = new THREE.PlaneGeometry(1.15, segLength * 1.15);
     geometry.rotateX(Math.PI / 2);
     return buildInstances(
       geometry,
@@ -998,11 +998,7 @@ function Room({
           o vazio nos planos altos. */}
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, CEILING_Y, mid]}>
         <planeGeometry args={[80, 80]} />
-        <meshStandardMaterial
-          color={new THREE.Color(room).multiplyScalar(0.6)}
-          metalness={0.05}
-          roughness={1}
-        />
+        <meshLambertMaterial color={new THREE.Color(room).multiplyScalar(0.6)} />
       </mesh>
       {[-1, 1].map((side) => (
         <mesh
@@ -1011,11 +1007,7 @@ function Room({
           position={[side * sideX, CEILING_Y / 2, mid]}
         >
           <planeGeometry args={[80, CEILING_Y]} />
-          <meshStandardMaterial
-            color={new THREE.Color(room)}
-            metalness={0.2}
-            roughness={0.75}
-          />
+          <meshLambertMaterial color={new THREE.Color(room)} />
         </mesh>
       ))}
 
@@ -1023,11 +1015,7 @@ function Room({
           mesmo que a nevoa quase a engula. */}
       <mesh position={[0, CEILING_Y / 2, -geo.length - 3.5]}>
         <planeGeometry args={[14, CEILING_Y]} />
-        <meshStandardMaterial
-          color={new THREE.Color(room)}
-          metalness={0.15}
-          roughness={0.85}
-        />
+        <meshLambertMaterial color={new THREE.Color(room)} />
       </mesh>
       <mesh position={[0, 1.05, -geo.length - 3.45]}>
         <planeGeometry args={[1.0, 2.1]} />
@@ -1170,8 +1158,7 @@ function DataCenterScene({
       <fogExp2 attach="fog" args={[props.haze, props.fogDensity]} />
       <color attach="background" args={[props.haze]} />
 
-      <ambientLight intensity={0.13} color="#9fb6cc" />
-      <hemisphereLight args={["#9cb6cf", "#0a0f16", 0.22]} />
+      <ambientLight intensity={0.2} color="#9fb6cc" />
       {lamps.map((lamp) => (
         <pointLight
           key={lamp.key}

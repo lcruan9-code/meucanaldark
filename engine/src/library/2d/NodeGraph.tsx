@@ -58,8 +58,18 @@ export const nodeGraphSchema = z.object({
   line: z.string().default(COLOR.surfaceLine),
   accent: z.string().default(COLOR.accent),
   fontFamily: z.string().default(FONT.display),
-  nodeWidth: z.number().positive().default(220),
-  nodeHeight: z.number().positive().default(84),
+  nodeWidth: z.number().positive().default(260),
+  nodeHeight: z.number().positive().default(96),
+  /**
+   * Zigue-zague vertical entre colunas do layout `flow`, em fracao da
+   * altura util.
+   *
+   * Sem ele, uma cadeia de um no por coluna desenha todos na mesma linha, e
+   * o quadro vira uma faixa fina de caixas com vazio em cima e embaixo — que
+   * e precisamente a aparencia de slide que a direcao de arte combate. Com
+   * o desnivel, o caminho le como percurso, nao como fileira.
+   */
+  flowStagger: z.number().min(0).max(0.4).default(0.16),
   /** Velocidade dos pulsos, em voltas por segundo. */
   pulseSpeed: z.number().positive().default(0.55),
 });
@@ -80,6 +90,7 @@ export function NodeGraph({
   accent,
   fontFamily,
   nodeWidth,
+  flowStagger,
   nodeHeight,
   pulseSpeed,
 }: NodeGraphProps) {
@@ -132,13 +143,21 @@ export function NodeGraph({
     sorted.forEach((rank, columnIndex) => {
       const column = ranks.get(rank) ?? [];
       const cx = area.x + ((columnIndex + 0.5) / sorted.length) * area.w;
+      // Desnivel alternado entre colunas vizinhas. A amplitude cai quando a
+      // coluna tem varios nos: ai a altura ja esta sendo usada.
+      const amplitude = flowStagger / Math.max(1, column.length);
+      const offset =
+        sorted.length > 1
+          ? (columnIndex % 2 === 0 ? -1 : 1) * amplitude * area.h
+          : 0;
       column.forEach((n, rowIndex) => {
-        const cy = area.y + ((rowIndex + 0.5) / column.length) * area.h;
+        const cy =
+          area.y + ((rowIndex + 0.5) / column.length) * area.h + offset;
         result.push({ id: n.id, cx, cy });
       });
     });
     return result;
-  }, [nodes, layout, area.x, area.y, area.w, area.h]);
+  }, [nodes, layout, area.x, area.y, area.w, area.h, flowStagger]);
 
   const at = (id: string) => placed.find((p) => p.id === id);
 

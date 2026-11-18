@@ -151,6 +151,29 @@ Corredor de data center com iluminação baseada em imagem, névoa, racks instan
 
 ---
 
+## Métricas da demonstração
+
+**The Machine That Answers You** — 58,3 s, 11 cenas, 1.749 quadros, 1080p30. Render por cena (escolhido automaticamente, porque quatro planos usam WebGL):
+
+**3m26s · 8,48 fps · 3,54× tempo real · pico 1314 MB**
+
+Projetando para 10 minutos de documentário com esta mistura de 2D e 3D: **~35 minutos**, dentro da janela de duas horas.
+
+Por cena, as pontas:
+
+| Cena | Quadros | Tempo | O que tem |
+|---|---|---|---|
+| `cost-stat` | 120 | 10,3 s | só 2D |
+| `open-wide` | 120 | 16,6 s | corredor 3D |
+| `rack-reveal` | 270 | 32,5 s | 3D + chamadas anotando |
+| `close-impact` | 180 | 25,9 s | 3D + texto sustentado |
+
+O 3D custa cerca de **40% a mais** por quadro que o 2D equivalente — menos do que se temia, e a conta fecha porque o documentário não é 3D o tempo todo.
+
+**O critério não é o fps.** Como o briefing pediu, o que decide é a composição, a profundidade, o material, a legibilidade e a ausência de cara de slide. O fps só precisa caber na janela — e cabe com folga.
+
+---
+
 ## Dois defeitos que a demonstração pegou
 
 ### A sequência só falhava no meio do render
