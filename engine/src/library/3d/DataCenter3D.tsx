@@ -315,9 +315,12 @@ function makeFloorTextures(seed: number): {
 }
 
 /**
- * Mancha radial suave. Serve de halo das luminarias: sem pos-processamento
- * nao ha bloom, e fonte de luz com borda perfeitamente dura e um dos sinais
- * mais rapidos de render de teste.
+ * Mancha radial suave. Usada na poca de luz do pulso no piso.
+ *
+ * O halo das luminarias NAO usa isto: ver `makeCeilingTexture`. Quadros
+ * aditivos quase horizontais, vistos de baixo, cobrem meia tela cada um e
+ * nao tem early-z; dezesseis deles custavam 30% do quadro. A mesma imagem
+ * sai de graca pintada no proprio teto.
  */
 function makeGlowTexture(): THREE.CanvasTexture {
   const S = 128;
@@ -329,6 +332,52 @@ function makeGlowTexture(): THREE.CanvasTexture {
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, S, S);
   return new THREE.CanvasTexture(ctx.canvas);
+}
+
+/**
+ * Teto com as pocas de luz das luminarias ja pintadas, para usar como
+ * `emissiveMap`. Opaco: entra no early-z e nao custa mistura nenhuma.
+ */
+function makeCeilingTexture(
+  segments: number,
+  segLength: number,
+  width: number,
+  length: number,
+  centerZ: number,
+): THREE.CanvasTexture {
+  const W = 256;
+  const H = 1024;
+  const ctx = canvasOf(W, H);
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, W, H);
+
+  const radiusU = (1.5 / width) * W;
+  const radiusV = ((segLength * 1.5) / length) * H;
+
+  for (let i = 0; i < segments; i += 1) {
+    const z = -0.8 - i * segLength;
+    const v = (z - (centerZ - length / 2)) / length;
+    for (const x of [-0.95, 0.95]) {
+      const u = (x + width / 2) / width;
+      ctx.save();
+      ctx.translate(u * W, v * H);
+      ctx.scale(1, radiusV / radiusU);
+      const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, radiusU);
+      gradient.addColorStop(0, "rgba(176,206,232,0.85)");
+      gradient.addColorStop(0.4, "rgba(132,170,205,0.3)");
+      gradient.addColorStop(1, "rgba(90,130,175,0)");
+      ctx.fillStyle = gradient;
+      ctx.globalCompositeOperation = "lighter";
+      ctx.beginPath();
+      ctx.arc(0, 0, radiusU, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const texture = new THREE.CanvasTexture(ctx.canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
 }
 
 /**
@@ -829,12 +878,14 @@ function Room({
   floorTextures,
   contactTexture,
   glowTexture,
+  ceilingTexture,
 }: {
   props: DataCenter3DProps;
   geo: Geometry;
   floorTextures: { map: THREE.CanvasTexture; roughness: THREE.CanvasTexture };
   contactTexture: THREE.CanvasTexture;
   glowTexture: THREE.CanvasTexture;
+  ceilingTexture: THREE.CanvasTexture;
 }) {
   const { room, floorColor, accent, shadows } = props;
   const mid = -geo.length / 2;
@@ -873,42 +924,15 @@ function Room({
       placements.push({ position: [0.95, CEILING_Y - 0.03, z] });
     }
     return buildInstances(
-      new THREE.BoxGeometry(0.26, 0.07, geo.length / segments - 0.7),
+      new THREE.BoxGeometry(0.19, 0.055, geo.length / segments - 0.72),
       new THREE.MeshStandardMaterial({
-        color: new THREE.Color("#1b222c"),
-        metalness: 0.55,
-        roughness: 0.6,
+        color: new THREE.Color("#36404c"),
+        metalness: 0.45,
+        roughness: 0.55,
       }),
       placements,
     );
   }, [geo.length]);
-
-  // Halo de cada luminaria, virado para baixo. Faz o papel do bloom que a
-  // cena nao tem: borda macia em volta da fonte, e luz derramando na laje.
-  const halos = useInstances(() => {
-    const segments = Math.max(4, Math.round(geo.length / 2.2));
-    const segLength = geo.length / segments;
-    const placements: Placement[] = [];
-    for (let i = 0; i < segments; i += 1) {
-      const z = -0.8 - i * segLength;
-      placements.push({ position: [-0.95, CEILING_Y - 0.1, z] });
-      placements.push({ position: [0.95, CEILING_Y - 0.1, z] });
-    }
-    const geometry = new THREE.PlaneGeometry(1.15, segLength * 1.15);
-    geometry.rotateX(Math.PI / 2);
-    return buildInstances(
-      geometry,
-      new THREE.MeshBasicMaterial({
-        map: glowTexture,
-        transparent: true,
-        opacity: 0.85,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        toneMapped: false,
-      }),
-      placements,
-    );
-  }, [geo.length, glowTexture]);
 
   // Bandeja de cabos sobre cada fileira, com travessas e feixes coloridos.
   const trays = useInstances(() => {
@@ -995,11 +1019,17 @@ function Room({
         </mesh>
       ))}
 
-      {/* Teto e paredes laterais: fecham a sala. Sem elas a camera olha para
-          o vazio nos planos altos. */}
+      {/* Teto: do tamanho da sala, nao 80x80, porque a textura nele e
+          posicionada e nao repetida. O emissiveMap ja traz as pocas de luz
+          das luminarias — e o halo, sem nenhum quadro transparente. */}
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, CEILING_Y, mid]}>
-        <planeGeometry args={[80, 80]} />
-        <meshLambertMaterial color={new THREE.Color(room).multiplyScalar(0.6)} />
+        <planeGeometry args={[sideX * 2, geo.length + 12]} />
+        <meshLambertMaterial
+          color={new THREE.Color(room).multiplyScalar(0.6)}
+          emissive="#ffffff"
+          emissiveMap={ceilingTexture}
+          emissiveIntensity={0.85}
+        />
       </mesh>
       {[-1, 1].map((side) => (
         <mesh
@@ -1024,7 +1054,6 @@ function Room({
       </mesh>
 
       <primitive object={housings} />
-      <primitive object={halos} />
       <primitive object={strips} />
       <primitive object={trays} />
       <primitive object={bundles} />
@@ -1045,11 +1074,13 @@ function DataPulse({
   geo,
   progress,
   glowTexture,
+  ceilingTexture,
 }: {
   props: DataCenter3DProps;
   geo: Geometry;
   progress: number;
   glowTexture: THREE.CanvasTexture;
+  ceilingTexture: THREE.CanvasTexture;
 }) {
   const span = geo.length + 7;
   const cycle = ((progress * props.pulseCount) % 1 + 1) % 1;
@@ -1135,6 +1166,17 @@ function DataCenterScene({
   const floorTextures = useMemo(() => makeFloorTextures(props.seed), [props.seed]);
   const contactTexture = useMemo(() => makeContactTexture(), []);
   const glowTexture = useMemo(() => makeGlowTexture(), []);
+  const ceilingTexture = useMemo(() => {
+    const segments = Math.max(4, Math.round(geo.length / 2.2));
+    const sideX = geo.centerX + RACK_DEPTH / 2 + 1.1;
+    return makeCeilingTexture(
+      segments,
+      geo.length / segments,
+      sideX * 2,
+      geo.length + 12,
+      -geo.length / 2,
+    );
+  }, [geo.length, geo.centerX]);
 
   useEffect(
     () => () => {
@@ -1143,8 +1185,9 @@ function DataCenterScene({
       floorTextures.roughness.dispose();
       contactTexture.dispose();
       glowTexture.dispose();
+      ceilingTexture.dispose();
     },
-    [faceTextures, floorTextures, contactTexture, glowTexture],
+    [faceTextures, floorTextures, contactTexture, glowTexture, ceilingTexture],
   );
 
   const framing = framingOf(props, geo, progress);
@@ -1194,6 +1237,7 @@ function DataCenterScene({
         floorTextures={floorTextures}
         contactTexture={contactTexture}
         glowTexture={glowTexture}
+        ceilingTexture={ceilingTexture}
       />
       <RackRows props={props} geo={geo} plans={plans} faceTextures={faceTextures} />
       <LedField props={props} geo={geo} plans={plans} frame={frame} />
@@ -1202,6 +1246,7 @@ function DataCenterScene({
           geo={geo}
           progress={progress}
           glowTexture={glowTexture}
+        ceilingTexture={ceilingTexture}
         />}
     </>
   );
@@ -1217,7 +1262,7 @@ export function DataCenter3D(props: DataCenter3DProps) {
       width={width}
       height={height}
       style={{ backgroundColor: props.room }}
-      gl={{ antialias: false, powerPreference: "high-performance" }}
+      gl={{ antialias: true, powerPreference: "high-performance" }}
       shadows={props.shadows}
       camera={{ fov: props.fov ?? 45, near: 0.05, far: 140 }}
     >
