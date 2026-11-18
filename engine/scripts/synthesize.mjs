@@ -150,7 +150,8 @@ export async function runSynthesize({
     tts.voice ||
     (engine === "azure" ? "en-US-AndrewMultilingualNeural" : "en-US-GuyNeural");
 
-  // So o motor azure aceita estes; o edge ignora por nao ter SSML.
+  // Cada motor usa o que entende e ignora o resto: o edge nao tem prosodia,
+  // o chatterbox nao tem SSML, o azure nao clona voz.
   const prosody = {
     locale: tts.locale ?? channel.language ?? "en-US",
     rate: tts.rate ?? "-4%",
@@ -158,6 +159,16 @@ export async function runSynthesize({
     style: tts.style ?? "",
     styleDegree: tts.styleDegree ?? 1,
     basePauseMs: tts.basePauseMs ?? 360,
+    // Chatterbox: `audioPrompt` e o clipe de referencia (~5 s) que define a
+    // voz. Sem ele, o modelo usa a voz padrao dele.
+    audioPrompt: tts.audioPrompt ?? "",
+    exaggeration: tts.exaggeration ?? 0.5,
+    cfgWeight: tts.cfgWeight ?? 0.5,
+    // Semente fixa: o modelo e generativo, e sem isto a mesma cena
+    // re-sintetizaria diferente e o cache devolveria audio que ninguem
+    // conferiu.
+    seed: tts.seed ?? 1234,
+    device: tts.device ?? "cuda",
   };
 
   console.log(
@@ -165,7 +176,10 @@ export async function runSynthesize({
       (engine === "azure"
         ? ` | rate ${prosody.rate}, pausa base ${prosody.basePauseMs}ms` +
           (prosody.style ? `, estilo ${prosody.style}` : "")
-        : " | sem controle de prosodia"),
+        : engine === "chatterbox"
+          ? ` | ${prosody.device}, pausa base ${prosody.basePauseMs}ms` +
+            (prosody.audioPrompt ? `, voz de ${prosody.audioPrompt}` : ", voz padrao")
+          : " | sem controle de prosodia"),
   );
 
   const projectDir = path.resolve(ROOT, "projects", projectId);

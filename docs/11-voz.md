@@ -59,11 +59,46 @@ O ganho não é trocar de timbre — é passar a ter **direção de locução**.
 
 **Ressalva verificada:** as vozes **HD (DragonHD)** provavelmente **não** entram na cota gratuita, e não emitem evento de limite de palavra. Por isso o motor fica nas vozes Neural padrão, que são gratuitas e preservam o tempo das legendas.
 
-### Depois: Chatterbox local
+### Também implementado: Chatterbox local
 
-Licença **MIT**, roda offline na RTX 3050 (4–6 GB), clona voz com ~5 s de referência, sem cota e sem custo recorrente. É o "ElevenLabs grátis" que o repositório descartado fingia ser.
+Licença **MIT** (Resemble AI, confirmada nos metadados do pacote), roda offline, sem cota e sem custo recorrente. É o "ElevenLabs grátis" que o repositório descartado fingia ser — mas de verdade.
 
-O custo: não emite limite de palavra, então o tempo das legendas precisaria vir de alinhamento forçado. Fica previsto como terceiro motor no mesmo seletor.
+Ambiente nesta máquina: venv isolado em `engine/.venv-tts/` com **torch 2.14.1+cu126**, CUDA ativa na **RTX 3050 6 GB**. Fica fora do git (`.gitignore`).
+
+```bash
+node scripts/synthesize.mjs <projeto> --engine chatterbox
+```
+
+**O modelo é generativo, então a semente é fixada por frase.** Sem isso, a mesma cena re-sintetizaria diferente a cada rodada e o cache por hash devolveria áudio que ninguém conferiu. A semente deriva do índice da frase: a cena sai idêntica, e frases diferentes não herdam a mesma entonação.
+
+**Uma frase, um processo — não.** Carregar o modelo custa dezenas de segundos. O módulo manda **todas** as frases da cena num único processo Python e recebe um WAV por frase.
+
+#### Medido nesta máquina
+
+Três frases (12,2 s de áudio) em **53 s**, incluindo o carregamento do modelo (~30 s, pago uma vez por cena). O regime depois da carga fica perto de 2× o tempo real: um documentário de 10 minutos levaria cerca de 20 minutos de síntese.
+
+É muito mais lento que o `edge` (4,9 s para o mesmo texto) e que o Azure. Em troca: offline, sem cota, sem custo e sem depender de serviço de terceiro.
+
+As pausas calculadas aparecem no VTT gerado, como esperado:
+
+| Depois de | Pausa |
+|---|---|
+| frase longa (129 caracteres) | 480 ms |
+| "Every measurement matters." (26) | 300 ms |
+
+#### Duas armadilhas pagas na integração
+
+**`torchaudio.save` não serve mais.** A versão 2.14 passou a exigir o TorchCodec — centenas de MB para uma tarefa de dez linhas. O WAV é gravado com o módulo `wave` da biblioteca padrão.
+
+**Caminho relativo quebra o `concat`.** O ffmpeg não encontrava a lista de partes quando a chamada vinha de fora da raiz do motor. Os caminhos são resolvidos para absolutos logo na entrada do módulo.
+
+#### Clonagem de voz: um aviso que não é técnico
+
+O Chatterbox clona uma voz a partir de ~5 s de referência (`tts.audioPrompt` no `channel.json`). Sem referência, usa a voz padrão dele.
+
+**Clonar a voz de uma pessoa real sem consentimento dela não é opção** — nem legal, nem eticamente, nem para um canal que precisa sobreviver a denúncia. Se for usar clonagem, que seja uma voz sua, de alguém que autorizou por escrito, ou de um banco licenciado para isso.
+
+A voz padrão do modelo resolve o caso de uso sem abrir essa porta.
 
 **Licenças importam mais do que parece.** `F5-TTS` é CC-BY-NC (não comercial) e `XTTS-v2` está sob a Coqui Public Model License com a empresa encerrada desde 2024 — ninguém para vender licença comercial. Ambos ficam fora.
 

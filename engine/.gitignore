@@ -3,3 +3,5 @@ out/
 *.log
 .remotion/
 .llm-cache/
+.venv-tts/
+tts-install.log
