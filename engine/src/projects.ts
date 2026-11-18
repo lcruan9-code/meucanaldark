@@ -13,6 +13,8 @@ import hiddenCables from "../projects/hidden-cables/project.json";
 import hiddenCablesDurations from "../projects/hidden-cables/durations.json";
 import hiddenInternet from "../projects/hidden-internet/project.json";
 import hiddenInternetDurations from "../projects/hidden-internet/durations.json";
+import turbofanTest from "../projects/turbofan-test/project.json";
+import turbofanTestDurations from "../projects/turbofan-test/durations.json";
 
 export type ProjectEntry = {
   raw: unknown;
@@ -24,4 +26,5 @@ export const PROJECTS: readonly ProjectEntry[] = [
   { raw: demoDatacenter, durations: demoDatacenterDurations as NarrationDurations },
   { raw: hiddenCables, durations: hiddenCablesDurations as NarrationDurations },
   { raw: hiddenInternet, durations: hiddenInternetDurations as NarrationDurations },
+  { raw: turbofanTest, durations: turbofanTestDurations as NarrationDurations },
 ];

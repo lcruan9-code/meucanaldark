@@ -43,17 +43,39 @@ export type KineticTextProps = z.infer<typeof kineticTextSchema>;
 
 type Token = { text: string; hero: boolean };
 
-/** Quebra o texto preservando as marcas de heroi. */
+/**
+ * Quebra o texto preservando as marcas de heroi.
+ *
+ * A pontuacao colada no fim de um trecho destacado continua colada. Sem
+ * isto, "*no room for failure*." vira duas palavras e a tela mostra
+ * "failure ." — com um espaco antes do ponto, porque cada token e um
+ * elemento proprio com a sua goteira.
+ */
 function tokenize(text: string): Token[] {
   const out: Token[] = [];
+
   for (const chunk of text.split(/(\*[^*]+\*)/g)) {
     if (chunk === "") continue;
+
     const hero = chunk.startsWith("*") && chunk.endsWith("*") && chunk.length > 2;
     const body = hero ? chunk.slice(1, -1) : chunk;
-    for (const word of body.split(/\s+/).filter(Boolean)) {
+    const words = body.split(/\s+/).filter(Boolean);
+    if (words.length === 0) continue;
+
+    // Trecho que NAO comeca por espaco gruda no token anterior: e o caso da
+    // pontuacao logo depois do destaque.
+    const gluesToPrevious = !hero && /^\S/.test(chunk) && out.length > 0;
+
+    words.forEach((word, index) => {
+      const previous = out[out.length - 1];
+      if (index === 0 && gluesToPrevious && previous) {
+        previous.text += word;
+        return;
+      }
       out.push({ text: word, hero });
-    }
+    });
   }
+
   return out;
 }
 

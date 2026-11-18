@@ -71,7 +71,35 @@ export const zNarration = z.object({
   /** Texto falado. Alimenta legenda e conferencia; nao e sintetizado aqui. */
   text: z.string().default(""),
   gainDb: z.number().default(0),
+  /**
+   * Trecho de um arquivo de narracao COMPARTILHADO, em segundos.
+   *
+   * O modelo normal e um audio por cena. Mas um documentario pode chegar com
+   * uma locucao unica para o filme inteiro — foi o caso do turbofan, com um
+   * `voice.mp3` de 37 s para cinco cenas. Apontar as cinco para o mesmo
+   * arquivo sem recorte o tocaria cinco vezes, sobrepostas.
+   *
+   * Com `trimBefore`/`trimAfter`, cada cena toca a sua fatia. Fatias
+   * contiguas (o fim de uma e o inicio da seguinte) reproduzem a locucao
+   * inteira, uma unica vez, sem repeticao e sem silencio no corte.
+   */
+  trimBefore: z.number().min(0).optional(),
+  trimAfter: z.number().min(0).optional(),
 });
+
+/**
+ * Legenda com tempo proprio, em segundos relativos ao inicio da CENA.
+ *
+ * Vem do VTT da locucao e nao deve ser reescrita a mao: `scripts/captions.mjs`
+ * regenera a partir do arquivo original, que continua sendo a fonte da
+ * verdade dos tempos.
+ */
+export const zCue = z.object({
+  from: z.number().min(0),
+  to: z.number().min(0),
+  text: z.string().min(1),
+});
+export type Cue = z.infer<typeof zCue>;
 
 export const zSfx = z.object({
   src: z.string().min(1),
@@ -102,8 +130,16 @@ export const zScene = z.object({
   layers: z.array(zLayer).min(1),
   sfx: z.array(zSfx).default([]),
   transitionIn: zTransition.optional(),
-  /** Legenda queimada. O texto sai de narration.text. */
+  /**
+   * Legenda queimada. Ligada por padrao.
+   *
+   * Com `cues`, usa os tempos do VTT. Sem `cues`, cai para uma legenda unica
+   * com `narration.text` cobrindo a cena — util para rascunho, mas sem
+   * sincronia real.
+   */
   captions: z.boolean().default(true),
+  /** Legendas com tempo, geradas do VTT por `scripts/captions.mjs`. */
+  cues: z.array(zCue).default([]),
 });
 export type Scene = z.infer<typeof zScene>;
 

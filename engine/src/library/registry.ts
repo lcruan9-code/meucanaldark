@@ -29,11 +29,13 @@ import { StatBlock, statBlockSchema } from "./2d/StatBlock";
 import { TechPanel, techPanelSchema } from "./2d/TechPanel";
 import { TitleCard, titleCardSchema } from "./2d/TitleCard";
 import { WorldMap, worldMapSchema } from "./2d/WorldMap";
+import { VideoClip, videoClipSchema } from "./video/VideoClip";
 import { CableScene3D, cableScene3DSchema } from "./3d/CableScene3D";
 import { DataCenter3D, dataCenter3DSchema } from "./3d/DataCenter3D";
 
 /** Familia serve a navegacao e ao Estudio; nao muda comportamento. */
 export type LibraryFamily =
+  | "video"
   | "fundo"
   | "texto"
   | "dados"
@@ -172,6 +174,18 @@ export const LIBRARY: Readonly<Record<string, LibraryEntry>> = {
     webgl: false,
     costlyFilter: true,
     description: "Mapa-mundi Natural Earth com rotas que se iluminam.",
+  },
+
+  "video-clip": {
+    component: VideoClip as ComponentType<never>,
+    schema: videoClipSchema,
+    family: "video",
+    // Nao e WebGL: o MP4 e imagem plana, decodificada por ffmpeg fora do
+    // navegador. Marcar como webgl obrigaria o render a modo cena sem motivo.
+    webgl: false,
+    costlyFilter: false,
+    description:
+      "Clipe de video ja renderizado (Blender, arquivo), com corte e escurecimento.",
   },
 
   "cable-3d": {

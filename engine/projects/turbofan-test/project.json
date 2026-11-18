@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 1,
+  "id": "turbofan-test",
+  "title": "How Engineers Test a Jet Engine",
+  "language": "en",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "theme": {
+    "palette": {
+      "bg": "#070d16",
+      "ink": "#f2f5f8",
+      "muted": "#8b97a8",
+      "accent": "#39d0d8",
+      "accentWarm": "#f5a524",
+      "grid": "#12202e"
+    },
+    "grain": 0.06,
+    "vignette": 0.45
+  },
+  "audio": {
+    "music": "audio/ambient-tech.mp3",
+    "musicGainDb": -22,
+    "duckDb": -9,
+    "masterGainDb": 0
+  },
+  "chapters": [
+    {
+      "id": "ch1",
+      "title": "The test"
+    },
+    {
+      "id": "ch2",
+      "title": "Inside the engine"
+    },
+    {
+      "id": "ch3",
+      "title": "The data"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "sc01-the-test",
+      "chapterId": "ch1",
+      "note": "Abertura sobre o motor. Titulo em cima porque a legenda ocupa o rodape.",
+      "duration": 7.3667,
+      "narration": {
+        "src": "narration/turbofan-test/voice.mp3",
+        "text": "Before a jet engine ever carries passengers, it must prove that it can survive some of the most extreme conditions in engineering.",
+        "trimBefore": 0,
+        "trimAfter": 7.3667
+      },
+      "layers": [
+        {
+          "component": "video-clip",
+          "track": "background",
+          "camera": {
+            "fromScale": 1.04,
+            "toScale": 1.12,
+            "originX": 0.5,
+            "originY": 0.52,
+            "easing": "inOut"
+          },
+          "props": {
+            "src": "video/turbofan-preview.mp4",
+            "trimBefore": 0,
+            "trimAfter": 7.3667,
+            "fit": "cover",
+            "desaturate": 0.22,
+            "scrim": 0.26
+          }
+        },
+        {
+          "component": "title-card",
+          "track": "overlay",
+          "from": 1.3,
+          "fadeIn": 0.45,
+          "props": {
+            "eyebrow": "The Invisible Systems",
+            "title": "How Engineers Test a Jet Engine",
+            "position": "top",
+            "titleSize": 76,
+            "bleedRule": true,
+            "scrim": 0.66
+          }
+        }
+      ],
+      "cues": [
+        {
+          "from": 0.1,
+          "to": 7.367,
+          "text": "Before a jet engine ever carries passengers, it must prove that it can survive some of the most extreme conditions in engineering."
+        }
+      ]
+    },
+    {
+      "id": "sc02-inside",
+      "chapterId": "ch2",
+      "note": "Segue no video de onde a cena 1 parou (7.37s -> 12s) e corta para o diagrama do caminho do ar.",
+      "duration": 11,
+      "narration": {
+        "src": "narration/turbofan-test/voice.mp3",
+        "text": "Inside the engine, thousands of components work together at incredible speeds. Air enters through the massive fan, passes through the compressor, and reaches the combustion chamber.",
+        "trimBefore": 7.3667,
+        "trimAfter": 18.3667
+      },
+      "layers": [
+        {
+          "component": "video-clip",
+          "track": "background",
+          "duration": 4.633,
+          "fadeOut": 0.45,
+          "camera": {
+            "fromScale": 1,
+            "toScale": 1.07,
+            "originX": 0.46,
+            "originY": 0.5,
+            "easing": "inOut"
+          },
+          "props": {
+            "src": "video/turbofan-preview.mp4",
+            "trimBefore": 7.3667,
+            "trimAfter": 12,
+            "fit": "cover",
+            "desaturate": 0.18,
+            "scrim": 0.18
+          }
+        },
+        {
+          "component": "backdrop",
+          "track": "background",
+          "from": 4.15,
+          "fadeIn": 0.5,
+          "props": {
+            "glowX": 0.3,
+            "glowY": 0.34,
+            "glowOpacity": 0.2,
+            "gridSize": 96
+          }
+        },
+        {
+          "component": "node-graph",
+          "track": "main",
+          "from": 4.9,
+          "camera": {
+            "fromScale": 1.03,
+            "toScale": 1,
+            "originX": 0.5,
+            "originY": 0.45,
+            "easing": "inOut"
+          },
+          "props": {
+            "layout": "flow",
+            "title": "The path of the air",
+            "flowStagger": 0.17,
+            "nodes": [
+              {
+                "id": "fan",
+                "label": "Fan",
+                "sub": "air enters",
+                "rank": 0,
+                "at": 0.02
+              },
+              {
+                "id": "comp",
+                "label": "Compressor",
+                "sub": "pressure rises",
+                "rank": 1,
+                "at": 0.16
+              },
+              {
+                "id": "burn",
+                "label": "Combustion chamber",
+                "sub": "fuel ignites",
+                "rank": 2,
+                "at": 0.3,
+                "highlight": true
+              },
+              {
+                "id": "turb",
+                "label": "Turbine",
+                "sub": "drives the shaft",
+                "rank": 3,
+                "at": 0.44
+              }
+            ],
+            "edges": [
+              {
+                "from": "fan",
+                "to": "comp",
+                "at": 0.12,
+                "pulses": 3
+              },
+              {
+                "from": "comp",
+                "to": "burn",
+                "at": 0.26,
+                "pulses": 3
+              },
+              {
+                "from": "burn",
+                "to": "turb",
+                "at": 0.4,
+                "pulses": 3
+              }
+            ]
+          }
+        }
+      ],
+      "cues": [
+        {
+          "from": 0,
+          "to": 5.108,
+          "text": "Inside the engine, thousands of components work together at incredible speeds."
+        },
+        {
+          "from": 5.108,
+          "to": 10.995,
+          "text": "Air enters through the massive fan, passes through the compressor, and reaches the combustion chamber."
+        }
+      ]
+    },
+    {
+      "id": "sc03-combustion",
+      "chapterId": "ch2",
+      "note": "Combustao: a cena vira quente. Chamadas rotulam as partes, sem repetir a frase da locucao.",
+      "duration": 6.0667,
+      "narration": {
+        "src": "narration/turbofan-test/voice.mp3",
+        "text": "Here, fuel ignites, releasing energy that drives the turbine and produces the thrust needed for flight.",
+        "trimBefore": 18.3667,
+        "trimAfter": 24.4333
+      },
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "#f5a524",
+            "glowX": 0.44,
+            "glowY": 0.52,
+            "glowOpacity": 0.3,
+            "gridSize": 0,
+            "haze": 0.7,
+            "horizon": 0.3
+          }
+        },
+        {
+          "component": "circuit",
+          "track": "background",
+          "camera": {
+            "fromScale": 1,
+            "toScale": 1.08,
+            "originX": 0.45,
+            "originY": 0.5,
+            "easing": "inOut"
+          },
+          "props": {
+            "seed": 23,
+            "traces": 18,
+            "direction": "horizontal",
+            "pulses": 2,
+            "pulseSpeed": 0.55,
+            "accent": "#f5a524",
+            "pad": "#39d0d8",
+            "label": "combustion stage"
+          }
+        },
+        {
+          "component": "diagram",
+          "track": "overlay",
+          "from": 0.6,
+          "props": {
+            "revealWindow": 0.12,
+            "parts": [
+              {
+                "x": 0.26,
+                "y": 0.36,
+                "label": "Fuel injectors",
+                "side": "right",
+                "at": 0.04,
+                "color": "#f5a524"
+              },
+              {
+                "x": 0.52,
+                "y": 0.58,
+                "label": "Flame front",
+                "side": "left",
+                "at": 0.3,
+                "color": "#f5a524"
+              },
+              {
+                "x": 0.76,
+                "y": 0.38,
+                "label": "Turbine stage",
+                "side": "left",
+                "at": 0.56,
+                "color": "#39d0d8"
+              }
+            ]
+          }
+        }
+      ],
+      "cues": [
+        {
+          "from": 0,
+          "to": 6.058,
+          "text": "Here, fuel ignites, releasing energy that drives the turbine and produces the thrust needed for flight."
+        }
+      ]
+    },
+    {
+      "id": "sc04-test-data",
+      "chapterId": "ch3",
+      "note": "Painel de ensaio. Os valores sao ilustrativos e o painel diz isso na tela.",
+      "duration": 8.3667,
+      "narration": {
+        "src": "narration/turbofan-test/voice.mp3",
+        "text": "During testing, engineers monitor temperature, pressure, vibration, and rotational speed. Every measurement matters.",
+        "trimBefore": 24.4333,
+        "trimAfter": 32.8
+      },
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "#39d0d8",
+            "glowX": 0.24,
+            "glowY": 0.3,
+            "glowOpacity": 0.18,
+            "gridSize": 96
+          }
+        },
+        {
+          "component": "tech-panel",
+          "track": "main",
+          "camera": {
+            "fromScale": 1,
+            "toScale": 1.035,
+            "originX": 0.5,
+            "originY": 0.5,
+            "easing": "inOut"
+          },
+          "props": {
+            "title": "Test cell telemetry",
+            "columns": 2,
+            "scan": true,
+            "disclaimer": "Illustrative interface — values are not measurements from a real engine test",
+            "readouts": [
+              {
+                "label": "Exhaust gas temperature",
+                "value": "RISING",
+                "gauge": 0.74,
+                "state": "warning"
+              },
+              {
+                "label": "Compressor pressure ratio",
+                "value": "NOMINAL",
+                "gauge": 0.58,
+                "state": "good"
+              },
+              {
+                "label": "Vibration",
+                "value": "WITHIN LIMITS",
+                "gauge": 0.22,
+                "state": "good"
+              },
+              {
+                "label": "Shaft speed",
+                "value": "AT TARGET",
+                "gauge": 0.86,
+                "state": "normal"
+              }
+            ]
+          }
+        }
+      ],
+      "cues": [
+        {
+          "from": 0,
+          "to": 6.042,
+          "text": "During testing, engineers monitor temperature, pressure, vibration, and rotational speed."
+        },
+        {
+          "from": 6.042,
+          "to": 8.354,
+          "text": "Every measurement matters."
+        }
+      ]
+    },
+    {
+      "id": "sc05-no-room",
+      "chapterId": "ch3",
+      "note": "Fecho. Legenda DESLIGADA de proposito: a frase final e o elemento grafico, e repeti-la no rodape seria texto dobrado.",
+      "duration": 4.2,
+      "captions": false,
+      "narration": {
+        "src": "narration/turbofan-test/voice.mp3",
+        "text": "Because at thirty thousand feet, there is no room for failure.",
+        "trimBefore": 32.8,
+        "trimAfter": 37
+      },
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "",
+            "gridSize": 0,
+            "haze": 0.8,
+            "horizon": 0.4,
+            "vignette": 0.6
+          }
+        },
+        {
+          "component": "circuit",
+          "track": "background",
+          "props": {
+            "seed": 5,
+            "traces": 10,
+            "pulses": 1,
+            "pulseSpeed": 0.3,
+            "strokeWidth": 1.5,
+            "pads": false
+          }
+        },
+        {
+          "component": "kinetic-text",
+          "track": "main",
+          "from": 0.25,
+          "camera": {
+            "fromScale": 1,
+            "toScale": 1.04,
+            "originX": 0.36,
+            "originY": 0.5,
+            "easing": "inOut"
+          },
+          "props": {
+            "text": "At thirty thousand feet, there is *no room for failure*.",
+            "size": 68,
+            "align": "left",
+            "position": "middle",
+            "stagger": 2.6,
+            "maxWidth": 1180
+          }
+        },
+        {
+          "component": "backdrop",
+          "track": "overlay",
+          "from": 3.1,
+          "fadeIn": 1.05,
+          "props": {
+            "bg": "#03060b",
+            "glow": "",
+            "gridSize": 0,
+            "haze": 0,
+            "horizon": 0,
+            "vignette": 0
+          }
+        }
+      ],
+      "cues": [
+        {
+          "from": 0,
+          "to": 4.15,
+          "text": "Because at thirty thousand feet, there is no room for failure."
+        }
+      ]
+    }
+  ]
+}

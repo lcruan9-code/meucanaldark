@@ -93,6 +93,24 @@ Três decisões de biblioteca que valem explicar:
 
 **O `diagram` tem fundo transparente.** O uso que importa não é desenhar um diagrama isolado — é anotar o que já está na tela, inclusive uma cena 3D. Ele entra na trilha `overlay` e aponta.
 
+### Vídeo pronto entra como camada
+
+`video-clip` (família `video`) põe material já renderizado — Blender, arquivo, captura — na linha do tempo como qualquer outro componente, com `camera`, `fadeIn`/`fadeOut` e trilha funcionando por cima. Usa `OffthreadVideo`, que extrai o quadro exato por ffmpeg em vez de depender de o elemento `<video>` ter buscado a posição certa.
+
+`trimBefore`/`trimAfter` são em **segundos** e a conversão para quadros acontece dentro do componente. O roteiro pensa em segundos; o Remotion conta em quadros, e passar segundos direto faria `trimAfter: 7.37` virar sete quadros de vídeo.
+
+Não é cena 3D: o MP4 é imagem plana e o componente é marcado `webgl: false`, para não arrastar o render para o modo cena sem motivo.
+
+### Legendas vêm do VTT, e o VTT manda
+
+`scene.captions` (que existia no contrato e não era renderizado) agora liga a legenda queimada. Os tempos vivem em `scene.cues`, gerados de um arquivo `.vtt` por `scripts/captions.mjs` — o VTT continua sendo a fonte da verdade e não é reescrito.
+
+O script resolve três coisas que o arquivo real exigiu: a legenda pertence à cena que contém o seu **meio** (não o seu início, que pode cair milissegundos antes do corte); os extremos são grampeados aos limites da cena; e sobreposições do VTT deixam de importar, porque o componente mostra a **última** legenda cujo intervalo contém o quadro — nunca duas.
+
+### Uma locução única para o filme inteiro
+
+O modelo normal é um áudio por cena. Quando a locução chega como arquivo único, `narration.trimBefore`/`trimAfter` dão a cada cena a sua fatia. Fatias contíguas reproduzem a locução inteira **uma vez só**, sem repetição e sem silêncio no corte — e `resolveTimeline` usa o tamanho da fatia como `narrationSeconds`, para o ducking abrir a janela certa em vez de uma janela do tamanho do arquivo.
+
 ### Movimento de câmera e transições moram no motor
 
 `camera` é um campo de **qualquer** camada, não um componente. Um lugar só dá zoom, travelling e reenquadramento à biblioteca inteira, 2D e 3D:

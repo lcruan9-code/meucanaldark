@@ -42,7 +42,26 @@ function sceneSeconds(
     ? narrationDurations[scene.narration.src]
     : undefined;
 
-  const narrationSeconds = typeof measured === "number" ? measured : null;
+  /**
+   * Quando a cena toca uma FATIA de uma locucao compartilhada, o que vale e
+   * o tamanho da fatia, nao o do arquivo. Sem isto, cinco cenas apontando
+   * para o mesmo `voice.mp3` de 37 s herdariam 37 s cada uma — e o ducking,
+   * que usa este numero para saber onde ha fala, abriria uma janela de 37 s
+   * a partir de cada cena.
+   */
+  const slice =
+    scene.narration &&
+    typeof scene.narration.trimBefore === "number" &&
+    typeof scene.narration.trimAfter === "number"
+      ? scene.narration.trimAfter - scene.narration.trimBefore
+      : null;
+
+  const narrationSeconds =
+    slice !== null && slice > 0
+      ? slice
+      : typeof measured === "number"
+        ? measured
+        : null;
 
   if (typeof scene.duration === "number") {
     return { seconds: scene.duration, narrationSeconds };

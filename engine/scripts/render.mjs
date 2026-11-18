@@ -208,6 +208,17 @@ async function main() {
       codec: "h264",
       crf: 18,
       imageFormat: "jpeg",
+      /**
+       * Pede 4:2:0 planar, e e o que sai. O que NAO sai e a marcacao de
+       * faixa: com quadros JPEG o ffmpeg rotula `yuvj420p` (faixa cheia) em
+       * vez de `yuv420p` (faixa de TV), e a conferencia tecnica avisa.
+       *
+       * O formato em si esta certo; muda o rotulo de faixa, e alguns players
+       * antigos leem os niveis deslocados por causa dele. A saida conhecida
+       * e trocar `imageFormat` para "png", ao custo de render mais lento —
+       * nao medido ainda, entao fica como aviso, nao como troca silenciosa.
+       */
+      pixelFormat: "yuv420p",
       jpegQuality: 90,
       outputLocation: finalOut,
       concurrency,
@@ -272,6 +283,7 @@ async function main() {
         codec: "h264",
         crf: 18,
         imageFormat: "jpeg",
+        pixelFormat: "yuv420p",
         jpegQuality: 90,
         outputLocation: file,
         concurrency,

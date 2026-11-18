@@ -29,6 +29,7 @@ import type {
 } from "../contract";
 import { getEntry } from "../library/registry";
 import { EASE, progressOf } from "../library/shared/motion";
+import { SceneCaptions } from "./Captions";
 
 const dbToGain = (db: number): number => 10 ** (db / 20);
 
@@ -243,6 +244,23 @@ function SceneView({ scene }: { scene: ResolvedScene }) {
         <Audio
           src={staticFile(scene.narration.src)}
           volume={dbToGain(scene.narration.gainDb)}
+          // Fatia de uma locucao compartilhada. Fatias contiguas entre cenas
+          // vizinhas reproduzem o arquivo inteiro uma unica vez, sem
+          // repeticao e sem silencio no corte.
+          {...(scene.narration.trimBefore !== undefined
+            ? { trimBefore: Math.round(scene.narration.trimBefore * fps) }
+            : {})}
+          {...(scene.narration.trimAfter !== undefined
+            ? { trimAfter: Math.round(scene.narration.trimAfter * fps) }
+            : {})}
+        />
+      )}
+
+      {scene.captions && (
+        <SceneCaptions
+          cues={scene.cues}
+          fallbackText={scene.narration?.text ?? ""}
+          sceneSeconds={scene.durationInFrames / fps}
         />
       )}
 
