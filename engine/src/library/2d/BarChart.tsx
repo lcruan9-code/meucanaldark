@@ -87,9 +87,29 @@ export function BarChart({
 
   const ceiling = max ?? Math.max(...bars.map((b) => b.value)) * 1.08;
   const anyHighlight = bars.some((b) => b.highlight);
+
+  /**
+   * Precisao minima para que nenhum valor diferente de zero seja escrito
+   * como "0".
+   *
+   * Defeito real pego na conferencia da demo: com `decimals: 0`, as barras
+   * de 0,3 e 0,15 Wh apareciam as duas como "0 Wh" — o grafico desenhava o
+   * dado certo e escrevia o numero errado, em silencio.
+   */
+  const smallest = Math.min(
+    ...bars.map((bar) => Math.abs(bar.value)).filter((value) => value > 0),
+  );
+  const safeDecimals = Number.isFinite(smallest)
+    ? smallest < 0.1
+      ? Math.max(decimals, 2)
+      : smallest < 1
+        ? Math.max(decimals, 1)
+        : decimals
+    : decimals;
+
   const format = new Intl.NumberFormat(locale, {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
+    minimumFractionDigits: safeDecimals,
+    maximumFractionDigits: safeDecimals,
   });
 
   const isHorizontal = orientation === "horizontal";

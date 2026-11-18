@@ -14,6 +14,8 @@ import type { NarrationDurations } from "./engine/timeline";
 
 import hiddenCables from "../projects/hidden-cables/project.json";
 import hiddenCablesDurations from "../projects/hidden-cables/durations.json";
+import demoDatacenter from "../projects/demo-datacenter/project.json";
+import demoDatacenterDurations from "../projects/demo-datacenter/durations.json";
 
 export type ProjectEntry = {
   raw: unknown;
@@ -22,4 +24,8 @@ export type ProjectEntry = {
 
 export const PROJECTS: readonly ProjectEntry[] = [
   { raw: hiddenCables, durations: hiddenCablesDurations as NarrationDurations },
+  {
+    raw: demoDatacenter,
+    durations: demoDatacenterDurations as NarrationDurations,
+  },
 ];

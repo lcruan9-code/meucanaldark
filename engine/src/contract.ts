@@ -177,4 +177,12 @@ export type ResolvedTimeline = {
   scenes: ResolvedScene[];
   totalFrames: number;
   totalSeconds: number;
+  /**
+   * Alguma cena usa WebGL. Decide a flag `--gl` e o modo de render.
+   *
+   * Calculado a partir do REGISTRO, no Root — antes era uma busca pela
+   * string "cable-3d" dentro do JSON, que passou a mentir no instante em que
+   * entrou a segunda cena 3D.
+   */
+  usesWebgl?: boolean;
 };

@@ -170,7 +170,10 @@ async function main() {
     );
   }
 
-  const usesWebgl = JSON.stringify(timeline).includes('"cable-3d"');
+  // Vem do registro, calculado no Root. Antes era uma busca pela string
+  // "cable-3d" no JSON, que passou a mentir assim que entrou a segunda cena
+  // 3D — e escolher o modo errado custa estabilidade num render longo.
+  const usesWebgl = timeline.usesWebgl === true;
   const mode = args.mode ?? (usesWebgl ? "scenes" : "single");
   const gl = args.gl ?? "angle";
   const concurrency =

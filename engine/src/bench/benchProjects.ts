@@ -394,10 +394,64 @@ const benchShowcase = {
   ],
 };
 
+/** Bancada da cena 3D de data center: mede o custo dos quatro enquadramentos. */
+const benchDc = {
+  ...BASE,
+  id: "bench-dc",
+  title: "Bancada Data Center 3D",
+  scenes: [
+    {
+      id: "dc-wide",
+      duration: 5,
+      layers: [
+        {
+          component: "data-center-3d",
+          track: "background" as const,
+          props: { shot: "wide", move: "dolly", moveAmount: 4 },
+        },
+      ],
+    },
+    {
+      id: "dc-aisle",
+      duration: 5,
+      layers: [
+        {
+          component: "data-center-3d",
+          track: "background" as const,
+          props: { shot: "aisle", move: "dolly", moveAmount: 7 },
+        },
+      ],
+    },
+    {
+      id: "dc-rack",
+      duration: 5,
+      layers: [
+        {
+          component: "data-center-3d",
+          track: "background" as const,
+          props: { shot: "rack", move: "push", moveAmount: 1.2 },
+        },
+      ],
+    },
+    {
+      id: "dc-macro",
+      duration: 5,
+      layers: [
+        {
+          component: "data-center-3d",
+          track: "background" as const,
+          props: { shot: "macro", move: "drift", moveAmount: 0.6, pulseCount: 4 },
+        },
+      ],
+    },
+  ],
+};
+
 export const BENCH_PROJECTS: readonly ProjectEntry[] = [
   { raw: bench2d, durations: {} },
   { raw: benchLean, durations: {} },
   { raw: bench3d, durations: {} },
   { raw: benchMixed, durations: {} },
   { raw: benchShowcase, durations: {} },
+  { raw: benchDc, durations: {} },
 ];

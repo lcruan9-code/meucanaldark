@@ -2,9 +2,13 @@
  * Abertura cinematografica: titulo que assenta palavra a palavra, regua que
  * se desenha, subtitulo que sobe.
  *
- * O ritmo e o que importa. Palavras entram escalonadas (stagger) com spring
- * amortecido, nunca todas juntas: entrada simultanea e a assinatura visual
- * de template barato.
+ * V2, pelo diagnostico da direcao de arte: o titulo deixou de morar no meio
+ * do quadro. Cartela centralizada vertical e horizontalmente le como slide
+ * de apresentacao; ancorada embaixo, com a regua sangrando para fora pela
+ * esquerda, le como filme. Por isso `position` existe e o padrao e `bottom`.
+ *
+ * O ritmo continua sendo o que importa: palavras entram escalonadas, nunca
+ * todas juntas. Entrada simultanea e a assinatura visual de template barato.
  */
 
 import {
@@ -16,34 +20,65 @@ import {
 } from "remotion";
 import { z } from "zod";
 
+import { COLOR, FONT, SAFE, TYPE, tracking } from "../shared/tokens";
+
 export const titleCardSchema = z.object({
   title: z.string().min(1),
   subtitle: z.string().default(""),
   /** Linha fina acima do titulo: capitulo, data, lugar. */
   eyebrow: z.string().default(""),
   align: z.enum(["left", "center"]).default("left"),
-  ink: z.string().default("#f2f5f8"),
-  muted: z.string().default("#8b97a8"),
-  accent: z.string().default("#39d0d8"),
-  fontFamily: z.string().default("Inter, system-ui, sans-serif"),
-  titleSize: z.number().positive().default(96),
+  /** Onde a cartela ancora. `bottom` e o padrao por desenho, nao por acaso. */
+  position: z.enum(["top", "middle", "bottom"]).default("bottom"),
+  ink: z.string().default(COLOR.ink),
+  muted: z.string().default(COLOR.muted),
+  accent: z.string().default(COLOR.accent),
+  fontFamily: z.string().default(FONT.display),
+  titleSize: z.number().positive().default(TYPE.title),
   /** Atraso entre palavras, em quadros. */
   stagger: z.number().min(0).default(3),
+  /**
+   * A regua sangra para fora do quadro pela esquerda.
+   *
+   * A direcao de arte pede que ao menos um elemento por plano saia do
+   * quadro: e o que separa composicao de diagrama centralizado.
+   */
+  bleedRule: z.boolean().default(true),
+  maxWidth: z.number().positive().default(1240),
+  /**
+   * Escurecimento sob o texto, para legibilidade sobre imagem movimentada.
+   *
+   * Nasceu de um defeito real: o titulo da demo sobre o corredor de data
+   * center ficou ilegivel, e o subtitulo sumiu nos racks iluminados. A
+   * legibilidade pertence ao componente que precisa dela, nao ao roteiro.
+   * 0 desliga, para quando o fundo ja e escuro.
+   */
+  scrim: z.number().min(0).max(1).default(0.72),
 });
 
 export type TitleCardProps = z.infer<typeof titleCardSchema>;
+
+const JUSTIFY = {
+  top: "flex-start",
+  middle: "center",
+  bottom: "flex-end",
+} as const;
 
 export function TitleCard({
   title,
   subtitle,
   eyebrow,
   align,
+  position,
   ink,
   muted,
   accent,
   fontFamily,
   titleSize,
   stagger,
+  bleedRule,
+  maxWidth,
+  scrim,
 }: TitleCardProps) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -55,7 +90,7 @@ export function TitleCard({
     frame: frame - (lastWordStart + 6),
     fps,
     config: { damping: 200, mass: 0.6 },
-    durationInFrames: 24,
+    durationInFrames: 28,
   });
 
   const subtitleIn = spring({
@@ -66,21 +101,44 @@ export function TitleCard({
 
   const eyebrowIn = spring({ frame, fps, config: { damping: 200 } });
 
+  // Com a regua sangrando, ela comeca fora do quadro e entra: o bloco de
+  // texto mantem a margem, so o traco atravessa.
+  const ruleWidth = interpolate(rule, [0, 1], [0, bleedRule ? SAFE.x + 260 : 220]);
+
+  // Direcao do escurecimento segue a ancoragem: o texto embaixo pede um
+  // degrade que sobe do rodape; em cima, o contrario.
+  const scrimDirection =
+    position === "top" ? "180deg" : position === "bottom" ? "0deg" : "0deg";
+
   return (
     <AbsoluteFill
       style={{
-        justifyContent: "center",
+        justifyContent: JUSTIFY[position],
         alignItems: align === "center" ? "center" : "flex-start",
-        padding: "0 148px",
+        padding:
+          position === "bottom"
+            ? `0 ${SAFE.x}px ${SAFE.y + 48}px`
+            : position === "top"
+              ? `${SAFE.y + 48}px ${SAFE.x}px 0`
+              : `0 ${SAFE.x}px`,
         fontFamily,
         textAlign: align,
       }}
     >
+      {scrim > 0 && (
+        <AbsoluteFill
+          style={{
+            background: `linear-gradient(${scrimDirection}, rgba(3,6,11,${scrim}) 0%, rgba(3,6,11,${scrim * 0.82}) 28%, transparent 68%)`,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
       {eyebrow !== "" && (
         <div
           style={{
             color: accent,
-            fontSize: 22,
+            fontSize: TYPE.caption,
             letterSpacing: 6,
             textTransform: "uppercase",
             fontWeight: 600,
@@ -97,8 +155,9 @@ export function TitleCard({
         style={{
           display: "flex",
           flexWrap: "wrap",
-          gap: `0 ${titleSize * 0.26}px`,
+          gap: `${titleSize * 0.1}px ${titleSize * 0.26}px`,
           justifyContent: align === "center" ? "center" : "flex-start",
+          maxWidth,
         }}
       >
         {words.map((word, index) => {
@@ -114,13 +173,15 @@ export function TitleCard({
                 color: ink,
                 fontSize: titleSize,
                 fontWeight: 800,
-                lineHeight: 1.06,
-                letterSpacing: -1.5,
+                lineHeight: 1.04,
+                letterSpacing: tracking(titleSize),
                 opacity: enter,
                 transform: `translateY(${interpolate(enter, [0, 1], [38, 0])}px)`,
-                // blur na entrada: o olho le como foco assentando, nao como
-                // elemento aparecendo. Custa pouco e muda muito.
-                filter: `blur(${interpolate(enter, [0, 1], [10, 0])}px)`,
+                // Desfoque na entrada: o olho le como foco assentando, nao
+                // como elemento aparecendo. Custa rasterizacao, entao some
+                // assim que a palavra chega.
+                filter: enter < 0.96 ? `blur(${interpolate(enter, [0, 1], [10, 0])}px)` : undefined,
+                willChange: "transform, opacity",
               }}
             >
               {word}
@@ -132,10 +193,11 @@ export function TitleCard({
       <div
         style={{
           height: 3,
-          width: interpolate(rule, [0, 1], [0, 220]),
+          width: ruleWidth,
           backgroundColor: accent,
           marginTop: 30,
-          borderRadius: 2,
+          marginLeft: bleedRule ? -SAFE.x : 0,
+          borderRadius: bleedRule ? "0 2px 2px 0" : 2,
         }}
       />
 
@@ -143,11 +205,11 @@ export function TitleCard({
         <div
           style={{
             color: muted,
-            fontSize: 28,
+            fontSize: TYPE.subheading,
             fontWeight: 400,
-            marginTop: 26,
-            maxWidth: 980,
-            lineHeight: 1.45,
+            marginTop: 24,
+            maxWidth: 900,
+            lineHeight: 1.4,
             opacity: subtitleIn,
             transform: `translateY(${interpolate(subtitleIn, [0, 1], [18, 0])}px)`,
           }}

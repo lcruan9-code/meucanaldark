@@ -15,6 +15,8 @@ import { Composition } from "remotion";
 import { Documentary } from "./engine/Documentary";
 import { resolveTimeline } from "./engine/timeline";
 import { zProject } from "./contract";
+import { expandSequences } from "./sequences";
+import { needsWebgl } from "./library/registry";
 import { PROJECTS } from "./projects";
 import { BENCH_PROJECTS } from "./bench/benchProjects";
 
@@ -24,8 +26,18 @@ export function RemotionRoot() {
   return (
     <>
       {all.map(({ raw, durations }) => {
-        const project = zProject.parse(raw);
-        const timeline = resolveTimeline(project, durations);
+        // Sequencias expandem ANTES do zod: dai em diante o motor so ve
+        // cenas comuns, e o contrato nao precisou mudar.
+        const project = zProject.parse(expandSequences(raw));
+        const resolved = resolveTimeline(project, durations);
+        const timeline = {
+          ...resolved,
+          usesWebgl: needsWebgl(
+            resolved.scenes.flatMap((scene) =>
+              scene.layers.map((item) => item.component),
+            ),
+          ),
+        };
 
         return (
           <Composition

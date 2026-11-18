@@ -30,6 +30,7 @@ import { TechPanel, techPanelSchema } from "./2d/TechPanel";
 import { TitleCard, titleCardSchema } from "./2d/TitleCard";
 import { WorldMap, worldMapSchema } from "./2d/WorldMap";
 import { CableScene3D, cableScene3DSchema } from "./3d/CableScene3D";
+import { DataCenter3D, dataCenter3DSchema } from "./3d/DataCenter3D";
 
 /** Familia serve a navegacao e ao Estudio; nao muda comportamento. */
 export type LibraryFamily =
@@ -180,6 +181,15 @@ export const LIBRARY: Readonly<Record<string, LibraryEntry>> = {
     webgl: true,
     costlyFilter: false,
     description: "Cabo submarino em 3D com camera viajando ao longo dele.",
+  },
+  "data-center-3d": {
+    component: DataCenter3D as ComponentType<never>,
+    schema: dataCenter3DSchema,
+    family: "cena-3d",
+    webgl: true,
+    costlyFilter: false,
+    description:
+      "Corredor de data center com IBL, nevoa e LEDs; quatro enquadramentos.",
   },
 };
 

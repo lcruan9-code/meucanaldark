@@ -41,6 +41,11 @@ export const statBlockSchema = z.object({
   source: z.string().default(""),
   layout: z.enum(["row", "stack"]).default("row"),
   align: z.enum(["left", "center"]).default("left"),
+  /**
+   * Ancoragem vertical. O diagnostico da direcao de arte apontou que tudo
+   * vivia na faixa do meio, deixando zonas mortas em cima e embaixo.
+   */
+  position: z.enum(["top", "middle", "bottom"]).default("middle"),
   ink: z.string().default(COLOR.ink),
   muted: z.string().default(COLOR.muted),
   accent: z.string().default(COLOR.accent),
@@ -61,6 +66,7 @@ export function StatBlock({
   source,
   layout,
   align,
+  position,
   ink,
   muted,
   accent,
@@ -82,9 +88,14 @@ export function StatBlock({
   return (
     <AbsoluteFill
       style={{
-        justifyContent: "center",
+        justifyContent:
+          position === "top"
+            ? "flex-start"
+            : position === "bottom"
+              ? "flex-end"
+              : "center",
         alignItems: align === "center" ? "center" : "flex-start",
-        padding: `${SAFE.y}px ${SAFE.x}px`,
+        padding: `${SAFE.y + 32}px ${SAFE.x}px`,
         fontFamily,
         opacity: alive,
       }}

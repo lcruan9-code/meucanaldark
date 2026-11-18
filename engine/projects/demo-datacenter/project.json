@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "id": "demo-datacenter",
+  "title": "The Machine That Answers You",
+  "language": "en",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "theme": {
+    "palette": {
+      "bg": "#070d16",
+      "ink": "#f2f5f8",
+      "muted": "#8b97a8",
+      "accent": "#39d0d8",
+      "accentWarm": "#f5a524",
+      "grid": "#12202e"
+    },
+    "grain": 0.07,
+    "vignette": 0.45
+  },
+  "chapters": [
+    { "id": "ch1", "title": "The request" },
+    { "id": "ch2", "title": "The machine" },
+    { "id": "ch3", "title": "The cost" }
+  ],
+  "scenes": [
+    {
+      "sequence": "establishing-shot",
+      "id": "open",
+      "params": {
+        "visual": "data-center-3d",
+        "wideProps": { "shot": "wide", "seed": 3, "pulse": true },
+        "closeProps": { "shot": "aisle", "seed": 3, "pulse": true },
+        "eyebrow": "Infrastructure",
+        "title": "The Machine That Answers You",
+        "subtitle": "Every question you ask has a physical address.",
+        "wideSeconds": 4,
+        "closeSeconds": 6.5,
+        "note": "Abre no corredor. O lugar antes do nome."
+      }
+    },
+    {
+      "sequence": "system-visualization",
+      "id": "path",
+      "params": {
+        "title": "What happens when you press enter",
+        "layout": "flow",
+        "nodes": [
+          { "id": "you", "label": "Your device", "sub": "the question", "rank": 0 },
+          { "id": "edge", "label": "Edge network", "sub": "nearest city", "rank": 1 },
+          { "id": "lb", "label": "Scheduler", "sub": "finds free capacity", "rank": 2 },
+          { "id": "gpu", "label": "GPU cluster", "sub": "the answer is built", "rank": 3, "highlight": true },
+          { "id": "back", "label": "Back to you", "rank": 4 }
+        ],
+        "edges": [
+          { "from": "you", "to": "edge" },
+          { "from": "edge", "to": "lb" },
+          { "from": "lb", "to": "gpu" },
+          { "from": "gpu", "to": "back" }
+        ],
+        "captionKicker": "End to end",
+        "caption": "Under three hundred milliseconds.",
+        "buildSeconds": 7,
+        "runSeconds": 5,
+        "pulses": 3,
+        "note": "Primeiro a topologia, depois o trafego. Nunca os dois juntos."
+      }
+    },
+    {
+      "sequence": "technical-reveal",
+      "id": "rack",
+      "params": {
+        "visual": "data-center-3d",
+        "visualProps": { "shot": "rack", "seed": 11, "pulse": false },
+        "focusX": 0.42,
+        "focusY": 0.52,
+        "parts": [
+          { "x": 0.44, "y": 0.34, "label": "Eight accelerators", "sub": "one rack", "side": "right" },
+          { "x": 0.38, "y": 0.56, "label": "700 watts each", "sub": "at full load", "side": "left" },
+          { "x": 0.52, "y": 0.72, "label": "Liquid cooled", "sub": "air cannot keep up", "side": "right" }
+        ],
+        "approachSeconds": 3,
+        "revealSeconds": 9,
+        "note": "Aproxima de um rack e nomeia as partes, uma a uma."
+      }
+    },
+    {
+      "sequence": "data-storytelling",
+      "id": "cost",
+      "params": {
+        "eyebrow": "Per request",
+        "stat": { "value": 3.2, "suffix": " Wh", "decimals": 1, "label": "to answer one question" },
+        "source": "Illustrative figures — not for publication",
+        "chart": {
+          "kind": "bar",
+          "props": {
+            "title": "Watt-hours, for comparison",
+            "unit": " Wh",
+            "bars": [
+              { "label": "One AI answer", "value": 3.2, "highlight": true },
+              { "label": "A web search", "value": 0.3 },
+              { "label": "An LED bulb, 1 min", "value": 0.15 },
+              { "label": "Charging a phone", "value": 14 }
+            ]
+          }
+        },
+        "consequence": "A single answer costs about *ten times* a search.",
+        "statSeconds": 4,
+        "chartSeconds": 7,
+        "consequenceSeconds": 4.5,
+        "note": "Numero sozinho, depois a prova, depois o que significa."
+      }
+    },
+    {
+      "sequence": "consequence-impact",
+      "id": "close",
+      "params": {
+        "visual": "data-center-3d",
+        "visualProps": { "shot": "wide", "seed": 3, "pulse": true },
+        "kicker": "The invisible systems",
+        "text": "Every answer you receive was *built* — somewhere, by a machine that got warm.",
+        "coda": "The Invisible Systems",
+        "textSeconds": 6,
+        "codaSeconds": 4,
+        "note": "Volta ao corredor. Pouca coisa no quadro, e o escuro."
+      }
+    }
+  ]
+}

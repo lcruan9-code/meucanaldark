@@ -36,6 +36,33 @@ A separação exigida pelo projeto, e onde cada parte mora:
 
 O elo entre A e B é `src/library/registry.ts`: um nome de componente no JSON (`"world-map"`) vira um componente React. **É essa indireção que permite trocar ou melhorar um componente visual sem reescrever roteiro nenhum**, que é o requisito central da arquitetura.
 
+## Sequências documentais
+
+A camada acima dos componentes, e a correção estrutural da direção de arte V2. Uma sequência **não é um componente**: é uma função que recebe o conteúdo narrativo e emite **várias cenas já compostas** — enquadramento, movimento de câmera, ritmo e corte decididos.
+
+```
+roteiro.json → sequências → cenas → camadas → componentes
+               (direção)    (o contrato que já existia)
+```
+
+No JSON, uma sequência ocupa o lugar de uma cena:
+
+```json
+{ "sequence": "establishing-shot",
+  "id": "open",
+  "params": { "visual": "data-center-3d", "title": "..." } }
+```
+
+| Sequência | O que emite |
+|---|---|
+| `establishing-shot` | Plano geral sem texto · corte · enquadramento fechado com título entrando tarde |
+| `technical-reveal` | Chegada ao objeto · partes nomeadas uma a uma, com respiro no fim |
+| `system-visualization` | O sistema se monta · depois os pulsos o atravessam |
+| `data-storytelling` | Número sozinho · o gráfico que o sustenta · a consequência |
+| `consequence-impact` | Frase sustentada com pouca coisa no quadro · respiro · escuro |
+
+**O contrato não mudou.** O expansor roda antes da validação zod e devolve cenas comuns, então o registro, as trilhas, o cache e o render por cena continuam idênticos. Dá para misturar cena escrita à mão com sequência no mesmo roteiro, e a saída de uma sequência é sempre inspecionável como cena normal. Apagar `src/sequences/` não quebraria nada.
+
 ## A biblioteca visual
 
 Todo componente é função pura de `frame`, recebe cor e fonte por prop, e não conhece documentário nenhum. O roteiro refere-se a eles pelo nome registrado em `src/library/registry.ts`.
