@@ -19,6 +19,7 @@
     "vignette": 0.45
   },
   "audio": {
+    "music": "audio/ambient-tech.mp3",
     "musicGainDb": -22,
     "duckDb": -9,
     "masterGainDb": 0
@@ -26,58 +27,208 @@
   "chapters": [
     {
       "id": "ch1",
-      "title": "The Demand Surge"
+      "title": "The Monolith in the Wasteland"
     },
     {
       "id": "ch2",
-      "title": "The Hardware Race"
+      "title": "The Anatomy of an Inference"
     },
     {
       "id": "ch3",
-      "title": "Who Controls It All"
+      "title": "Inside the Silicon Forge"
     },
     {
       "id": "ch4",
-      "title": "The Energy Cost"
+      "title": "The Thermodynamic Wall"
+    },
+    {
+      "id": "ch5",
+      "title": "The Hyperscale Monopoly"
+    },
+    {
+      "id": "ch6",
+      "title": "The Physical Cost of Thought"
     }
   ],
   "scenes": [
     {
-      "sequence": "establishing-shot",
-      "id": "open",
-      "params": {
-        "visual": "data-center-3d",
-        "wideProps": {
-          "shot": "wide",
-          "seed": 7,
-          "pulse": true
+      "id": "sc01",
+      "chapterId": "ch1",
+      "note": "",
+      "layers": [
+        {
+          "component": "data-center-3d",
+          "track": "background",
+          "props": {
+            "shot": "wide",
+            "seed": 3,
+            "pulse": true
+          }
         },
-        "closeProps": {
-          "shot": "aisle",
-          "seed": 7,
-          "pulse": true
-        },
-        "title": "The AI Gold Rush",
-        "eyebrow": "Infrastructure",
-        "subtitle": "Who controls the world's computing power?",
-        "wideSeconds": 4,
-        "closeSeconds": 6,
-        "useBackdrop": false
+        {
+          "component": "title-card",
+          "track": "overlay",
+          "from": 2,
+          "fadeIn": 0.5,
+          "props": {
+            "eyebrow": "The Invisible Systems",
+            "title": "The AI Gold Rush",
+            "subtitle": "Who Controls the World's Computing Power?",
+            "titleSize": 88
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc01.mp3",
+        "text": "Deep inside an unmarked concrete facility in Northern Virginia, thirty thousand processors hum in unison. From the outside, the building resembles an anonymous logistics warehouse, surrounded by barbed wire, security checkpoints, and massive diesel backup generators.",
+        "gainDb": 0
       }
     },
     {
-      "sequence": "data-storytelling",
-      "id": "demand",
-      "params": {
-        "stat": {
-          "value": 100,
-          "suffix": "M",
-          "label": "users in 60 days"
-        },
-        "chart": {
-          "kind": "bar",
+      "id": "sc02",
+      "chapterId": "ch1",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
           "props": {
-            "title": "Days to 100M users",
+            "glow": "",
+            "gridSize": 96
+          }
+        },
+        {
+          "component": "world-map",
+          "track": "main",
+          "camera": {
+            "fromScale": 1,
+            "toScale": 1.25,
+            "originX": 0.32,
+            "originY": 0.38
+          },
+          "props": {
+            "showBorders": true,
+            "routes": [
+              {
+                "from": "new-york",
+                "to": "london",
+                "label": "Atlantic Core",
+                "startAt": 0.1,
+                "growth": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "component": "lower-third",
+          "track": "overlay",
+          "from": 3,
+          "duration": 9,
+          "props": {
+            "primary": "Loudoun County, Virginia",
+            "secondary": "Capital of Global Internet Infrastructure"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc02.mp3",
+        "text": "But inside, these halls pulse with the digital thoughts, generated synthetic media, and reasoning engines for hundreds of millions of people across the planet. This region, Loudoun County, is often called Data Center Alley.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc03",
+      "chapterId": "ch1",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "data-center-3d",
+          "track": "background",
+          "props": {
+            "shot": "aisle",
+            "seed": 7,
+            "pulse": true
+          }
+        },
+        {
+          "component": "callout",
+          "track": "overlay",
+          "from": 2.5,
+          "duration": 12,
+          "props": {
+            "kicker": "70% of Global Traffic",
+            "text": "Over 25 million square feet of hyperscale data centers operational in a single county.",
+            "position": "bottom-left"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc03.mp3",
+        "text": "More than seventy percent of the world's daily internet traffic flows through these windowless structures. In less than three decades, quiet farmland has been transformed into the densest concentration of computing power ever assembled in human history.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc04",
+      "chapterId": "ch1",
+      "transitionIn": {
+        "type": "cross-zoom",
+        "duration": 0.7
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "",
+            "gridSize": 0
+          }
+        },
+        {
+          "component": "kinetic-text",
+          "track": "main",
+          "props": {
+            "text": "Artificial intelligence did *not* descend from a cloud. It took root in concrete.",
+            "size": 60
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc04.mp3",
+        "text": "When modern artificial intelligence arrived, it did not descend from an ethereal cloud. It took root in these concrete foundations, demanding more electricity, more cold water, and more physical silicon than any previous technological revolution.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc05",
+      "chapterId": "ch1",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "bar-chart",
+          "track": "main",
+          "props": {
+            "title": "Days Required to Reach 100 Million Users",
             "bars": [
               {
                 "label": "ChatGPT",
@@ -85,221 +236,1110 @@
                 "highlight": true
               },
               {
+                "label": "TikTok",
+                "value": 270
+              },
+              {
                 "label": "Instagram",
-                "value": 1035
+                "value": 910
               },
               {
                 "label": "Spotify",
                 "value": 1278
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc05.mp3",
+        "text": "When ChatGPT launched in late 2022, it crossed one hundred million monthly active users in just sixty days. By comparison, it took Instagram two and a half years, and Spotify more than three years to reach that same threshold.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc06",
+      "chapterId": "ch1",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "stat-block",
+          "track": "main",
+          "props": {
+            "eyebrow": "Adoption Shockwave",
+            "locale": "en-US",
+            "stats": [
+              {
+                "value": 100,
+                "suffix": "M",
+                "label": "active users"
               },
               {
-                "label": "Airbnb",
-                "value": 1825
+                "value": 60,
+                "suffix": " days",
+                "label": "to global scale"
+              },
+              {
+                "value": 0,
+                "suffix": " warning",
+                "label": "for power grids"
+              }
+            ],
+            "source": "UBS Global Research / Company Filings"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc06.mp3",
+        "text": "The world had never adopted a consumer technology with such ferocious speed, catching global telecommunications and electric grid infrastructure entirely unprepared.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc07",
+      "chapterId": "ch2",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "",
+            "gridSize": 64
+          }
+        },
+        {
+          "component": "kinetic-text",
+          "track": "main",
+          "props": {
+            "text": "Your prompt does *not* stay on your phone. It moves across the earth.",
+            "size": 58
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc07.mp3",
+        "text": "To understand where this power comes from, follow the physical path of a single query. When you type a question into an artificial intelligence model, your prompt does not rest inside your phone or your browser.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc08",
+      "chapterId": "ch2",
+      "transitionIn": {
+        "type": "cross-zoom",
+        "duration": 0.7
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "world-map",
+          "track": "main",
+          "props": {
+            "showBorders": true,
+            "routes": [
+              {
+                "from": "new-york",
+                "to": "london",
+                "startAt": 0.05,
+                "growth": 0.35
+              },
+              {
+                "from": "fortaleza",
+                "to": "lisbon",
+                "startAt": 0.2,
+                "growth": 0.3
+              },
+              {
+                "from": "singapore",
+                "to": "mumbai",
+                "startAt": 0.4,
+                "growth": 0.35
               }
             ]
           }
         },
-        "consequence": "A *hundred million* people found the machine before the machine found a home.",
-        "statSeconds": 3.5,
-        "chartSeconds": 5.5,
-        "consequenceSeconds": 4.5
-      }
-    },
-    {
-      "sequence": "system-visualization",
-      "id": "hardware",
-      "params": {
-        "title": "How a prompt moves",
-        "nodes": [
-          {
-            "id": "device",
-            "label": "User Prompt",
-            "rank": 0,
-            "at": 0
-          },
-          {
-            "id": "edge",
-            "label": "Edge Network",
-            "rank": 1,
-            "at": 0.1
-          },
-          {
-            "id": "training",
-            "label": "Training Cluster",
-            "rank": 2,
-            "highlight": true,
-            "at": 0.2
-          },
-          {
-            "id": "inference",
-            "label": "Inference Cluster",
-            "rank": 3,
-            "at": 0.25
-          },
-          {
-            "id": "response",
-            "label": "Model Output",
-            "rank": 4,
-            "at": 0.3
-          }
-        ],
-        "edges": [
-          {
-            "from": "device",
-            "to": "edge",
-            "at": 0.1
-          },
-          {
-            "from": "edge",
-            "to": "training",
-            "at": 0.15
-          },
-          {
-            "from": "training",
-            "to": "inference",
-            "at": 0.2
-          },
-          {
-            "from": "inference",
-            "to": "response",
-            "at": 0.25
-          }
-        ],
-        "layout": "flow",
-        "caption": "One question. Two clusters.",
-        "buildSeconds": 6,
-        "runSeconds": 5
-      }
-    },
-    {
-      "sequence": "technical-reveal",
-      "id": "rack-reveal",
-      "params": {
-        "visual": "data-center-3d",
-        "visualProps": {
-          "shot": "rack",
-          "seed": 11,
-          "pulse": false
-        },
-        "parts": [
-          {
-            "x": 0.44,
-            "y": 0.34,
-            "label": "Eight GPUs",
-            "sub": "one rack",
-            "side": "right"
-          },
-          {
-            "x": 0.38,
-            "y": 0.56,
-            "label": "700 W each",
-            "sub": "at full load",
-            "side": "left"
-          },
-          {
-            "x": 0.52,
-            "y": 0.72,
-            "label": "Liquid cooled",
-            "sub": "air cannot keep up",
-            "side": "right"
-          }
-        ],
-        "approachSeconds": 4,
-        "revealSeconds": 6
-      }
-    },
-    {
-      "sequence": "data-storytelling",
-      "id": "cloud",
-      "params": {
-        "stat": {
-          "value": 65,
-          "suffix": "%",
-          "label": "controlled by three companies"
-        },
-        "chart": {
-          "kind": "bar",
+        {
+          "component": "lower-third",
+          "track": "overlay",
+          "from": 2,
+          "duration": 12,
           "props": {
-            "title": "Cloud market share",
+            "primary": "Sub-50ms Transit",
+            "secondary": "Underground fiber optic conduits and IXP peering points"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc08.mp3",
+        "text": "It is converted into mathematical token vectors and launched across the global grid. In less than fifty milliseconds, your data travels through underground fiber optic conduits, passes through carrier-neutral internet exchanges, and arrives at the security perimeter of a hyperscale computing campus.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc09",
+      "chapterId": "ch2",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "node-graph",
+          "track": "main",
+          "props": {
+            "title": "Dual Computing Architecture",
+            "layout": "flow",
+            "nodes": [
+              {
+                "id": "prompt",
+                "label": "User Query",
+                "sub": "vector token",
+                "rank": 0
+              },
+              {
+                "id": "switch",
+                "label": "Network Fabric",
+                "sub": "800 Gbps switch",
+                "rank": 1
+              },
+              {
+                "id": "train",
+                "label": "Training Cluster",
+                "sub": "30k GPUs (months)",
+                "rank": 2,
+                "highlight": false
+              },
+              {
+                "id": "infer",
+                "label": "Inference Cluster",
+                "sub": "active response (ms)",
+                "rank": 2,
+                "highlight": true
+              },
+              {
+                "id": "out",
+                "label": "Stream Output",
+                "sub": "back to user",
+                "rank": 3
+              }
+            ],
+            "edges": [
+              {
+                "from": "prompt",
+                "to": "switch"
+              },
+              {
+                "from": "switch",
+                "to": "train"
+              },
+              {
+                "from": "switch",
+                "to": "infer"
+              },
+              {
+                "from": "infer",
+                "to": "out"
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc09.mp3",
+        "text": "Inside the facility, high-throughput network switches route the packet directly to a synchronized GPU cluster. Two entirely different computational worlds exist here: the training cluster, where colossal frontier models spend months learning from trillions of tokens, and the inference cluster, where billions of individual daily queries are answered in fractions of a second.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc10",
+      "chapterId": "ch2",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.5
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "stat-block",
+          "track": "main",
+          "props": {
+            "eyebrow": "Speed of Thought",
+            "locale": "en-US",
+            "stats": [
+              {
+                "value": 300,
+                "suffix": " ms",
+                "label": "round-trip latency"
+              },
+              {
+                "value": 3000,
+                "suffix": " km",
+                "label": "average physical path"
+              }
+            ],
+            "source": "Global Network Latency Telemetry"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc10.mp3",
+        "text": "This entire round trip—from your fingers, through thousands of miles of glass fiber, into the silicon die, and back to your screen—takes less than three hundred milliseconds.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc11",
+      "chapterId": "ch3",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "data-center-3d",
+          "track": "background",
+          "props": {
+            "shot": "rack",
+            "seed": 11,
+            "pulse": false
+          }
+        },
+        {
+          "component": "lower-third",
+          "track": "overlay",
+          "from": 2,
+          "duration": 10,
+          "props": {
+            "primary": "Hyperscale Compute Rack",
+            "secondary": "8x Accelerated Processing Units with NVLink Fabric"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc11.mp3",
+        "text": "The basic unit of modern artificial intelligence is no longer the server. It is the high-density computing rack. Inside each vertical chassis sits a cluster of eight specialized graphics processing units, interconnected by proprietary high-speed copper and optical links.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc12",
+      "chapterId": "ch3",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "stat-block",
+          "track": "main",
+          "props": {
+            "eyebrow": "Power Density Surge",
+            "locale": "en-US",
+            "stats": [
+              {
+                "value": 40,
+                "suffix": " kW",
+                "label": "per single rack"
+              },
+              {
+                "value": 32,
+                "label": "homes powered equivalent"
+              },
+              {
+                "value": 1.2,
+                "suffix": " m²",
+                "decimals": 1,
+                "label": "physical footprint"
+              }
+            ],
+            "source": "Uptime Institute Data Center Survey"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc12.mp3",
+        "text": "A single modern AI server rack draws over forty kilowatts of continuous electricity. That is enough electrical energy to power more than thirty average American homes simultaneously, concentrated entirely within a footprint smaller than a standard refrigerator.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc13",
+      "chapterId": "ch3",
+      "transitionIn": {
+        "type": "cross-zoom",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "bar-chart",
+          "track": "main",
+          "props": {
+            "title": "Interconnect Bandwidth (GB/s)",
             "bars": [
               {
-                "label": "AWS",
+                "label": "NVLink Switch Fabric",
+                "value": 900,
+                "highlight": true
+              },
+              {
+                "label": "PCIe Gen 5 x16",
+                "value": 128
+              },
+              {
+                "label": "InfiniBand Quantum",
+                "value": 50
+              },
+              {
+                "label": "10 Gigabit Ethernet",
+                "value": 1
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc13.mp3",
+        "text": "Within this tight vertical enclosure, processors exchange intermediate mathematical tensors at over nine hundred gigabytes per second. If the network experiences even microsecond-level latency or packet drops, thousands of interconnected chips stall, wasting thousands of dollars of compute time every minute.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc14",
+      "chapterId": "ch3",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.9
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "",
+            "gridSize": 0
+          }
+        },
+        {
+          "component": "kinetic-text",
+          "track": "main",
+          "props": {
+            "text": "The most *capital-intensive* machine in human civilization.",
+            "size": 62
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc14.mp3",
+        "text": "These machines represent the most complex and capital-intensive manufacturing achievement in human civilization. And they are completely dependent on an unbroken stream of physical resources.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc15",
+      "chapterId": "ch4",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "data-center-3d",
+          "track": "background",
+          "props": {
+            "shot": "macro",
+            "seed": 23,
+            "pulse": false
+          }
+        },
+        {
+          "component": "callout",
+          "track": "overlay",
+          "from": 2,
+          "duration": 12,
+          "props": {
+            "kicker": "The Thermal Limit",
+            "text": "1,000 watts dissipated in a piece of silicon the size of a postage stamp.",
+            "position": "bottom-right"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc15.mp3",
+        "text": "When electricity enters a semiconductor chip, almost all of it is converted directly into heat. As modern accelerators push past one thousand watts per processor die, the laws of thermodynamics impose an inescapable physical ceiling.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc16",
+      "chapterId": "ch4",
+      "transitionIn": {
+        "type": "cross-zoom",
+        "duration": 0.7
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "diagram",
+          "track": "main",
+          "props": {
+            "parts": [
+              {
+                "x": 0.5,
+                "y": 0.35,
+                "label": "Accelerator Die",
+                "sub": "1,000 W thermal output",
+                "side": "right"
+              },
+              {
+                "x": 0.38,
+                "y": 0.55,
+                "label": "Air Cooling Limit",
+                "sub": "Thermal boundary reached",
+                "side": "left"
+              },
+              {
+                "x": 0.62,
+                "y": 0.72,
+                "label": "Fan Power Spike",
+                "sub": "Consumes >30% server power",
+                "side": "right"
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc16.mp3",
+        "text": "Air cooling—the historical practice of blowing chilled air across aluminum heat sinks—has reached its theoretical limit. Air simply cannot absorb heat quickly enough from modern silicon dies without requiring fans that consume more power than the chips themselves.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc17",
+      "chapterId": "ch4",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "cable-3d",
+          "track": "background",
+          "props": {
+            "layers": 4,
+            "travelFrom": 0.1,
+            "travelTo": 0.7,
+            "cutawayAt": 0.4
+          }
+        },
+        {
+          "component": "tech-panel",
+          "track": "overlay",
+          "props": {
+            "title": "Coolant Distribution Telemetry",
+            "rows": [
+              {
+                "label": "Coolant Flow Rate",
+                "value": "1,450 L/min",
+                "state": "normal"
+              },
+              {
+                "label": "Fluid Supply Temp",
+                "value": "18.4 °C",
+                "state": "normal"
+              },
+              {
+                "label": "Fluid Return Temp",
+                "value": "39.2 °C",
+                "state": "warn"
+              },
+              {
+                "label": "Thermal Margin",
+                "value": "3.1 °C to throttle",
+                "state": "warn"
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc17.mp3",
+        "text": "To survive thermal collapse, data centers are re-engineering their entire internal plumbing. High-purity chilled liquid must be pumped directly across copper cold plates mounted to the silicon surface, carrying megawatts of heat away to massive external cooling towers.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc18",
+      "chapterId": "ch4",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "bar-chart",
+          "track": "main",
+          "props": {
+            "title": "Daily Water Evaporation per Campus (Million Gallons)",
+            "bars": [
+              {
+                "label": "Peak Summer AI Facility",
+                "value": 3.8,
+                "highlight": true
+              },
+              {
+                "label": "Average Hyperscale Campus",
+                "value": 1.9
+              },
+              {
+                "label": "City of 50,000 Residents",
+                "value": 5
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc18.mp3",
+        "text": "On peak summer afternoons, a single hyperscale campus can evaporate millions of gallons of water every day just to prevent its processors from melting. The ethereal mind of artificial intelligence is bound directly to the municipal water supply.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc19",
+      "chapterId": "ch4",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "",
+            "gridSize": 0
+          }
+        },
+        {
+          "component": "kinetic-text",
+          "track": "main",
+          "props": {
+            "text": "Every computing cluster is fundamentally a *thermal machine*.",
+            "size": 60
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc19.mp3",
+        "text": "Every computing cluster is fundamentally a thermal machine, constrained not by human ambition, but by how fast boiling heat can be rejected into the surrounding atmosphere.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc20",
+      "chapterId": "ch5",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "bar-chart",
+          "track": "main",
+          "props": {
+            "title": "Global Cloud Infrastructure Market Share (%)",
+            "bars": [
+              {
+                "label": "Amazon Web Services",
                 "value": 32,
                 "highlight": true
               },
               {
                 "label": "Microsoft Azure",
-                "value": 21
+                "value": 21,
+                "highlight": true
               },
               {
                 "label": "Google Cloud",
-                "value": 12
+                "value": 12,
+                "highlight": true
               },
               {
-                "label": "Others",
+                "label": "All Other Providers",
                 "value": 35
               }
             ]
           }
-        },
-        "consequence": "Three companies *decide* where the intelligence lives.",
-        "statSeconds": 3.5,
-        "chartSeconds": 5.5,
-        "consequenceSeconds": 4.5
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc20.mp3",
+        "text": "Building and operating this planetary physical footprint requires capital on a scale that only a handful of corporations on Earth can command. Today, three corporate giants—Amazon Web Services, Microsoft Azure, and Google Cloud—control roughly sixty-five percent of the worldwide cloud infrastructure market.",
+        "gainDb": 0
       }
     },
     {
-      "sequence": "data-storytelling",
-      "id": "energy",
-      "params": {
-        "stat": {
-          "value": 3.2,
-          "suffix": " Wh",
-          "decimals": 1,
-          "label": "to answer one question"
-        },
-        "chart": {
-          "kind": "bar",
+      "id": "sc21",
+      "chapterId": "ch5",
+      "transitionIn": {
+        "type": "cross-zoom",
+        "duration": 0.7
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
           "props": {
-            "title": "Watt-hours comparison",
-            "bars": [
+            "glow": ""
+          }
+        },
+        {
+          "component": "stat-block",
+          "track": "main",
+          "props": {
+            "eyebrow": "Vertical Integration",
+            "locale": "en-US",
+            "stats": [
               {
-                "label": "One AI answer",
-                "value": 3.2,
-                "highlight": true
+                "value": 65,
+                "suffix": "%",
+                "label": "global cloud control"
               },
               {
-                "label": "A web search",
-                "value": 0.3
+                "value": 120,
+                "suffix": "B",
+                "prefix": "$",
+                "label": "annual capital expenditure"
               },
               {
-                "label": "LED bulb, 1 min",
-                "value": 0.15
+                "value": 3,
+                "label": "deciding corporations"
+              }
+            ],
+            "source": "Synergy Research Group / Q3 2026"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc21.mp3",
+        "text": "These three hyperscalers do not merely rent server time to software companies. They dictate the supply chain. They design custom application-specific integrated circuits, construct private transatlantic submarine cables, and finance dedicated power substations.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc22",
+      "chapterId": "ch5",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "world-map",
+          "track": "main",
+          "props": {
+            "showBorders": true,
+            "routes": [
+              {
+                "from": "new-york",
+                "to": "london",
+                "label": "Dedicated Energy PPA",
+                "growth": 0.4
+              },
+              {
+                "from": "fortaleza",
+                "to": "lisbon",
+                "label": "Transatlantic Subsea Cable",
+                "growth": 0.3
               }
             ]
           }
         },
-        "consequence": "A single answer costs *ten times* a search.",
-        "statSeconds": 3.5,
-        "chartSeconds": 5.5,
-        "consequenceSeconds": 4.5
+        {
+          "component": "callout",
+          "track": "overlay",
+          "from": 2,
+          "duration": 12,
+          "props": {
+            "kicker": "Nuclear Power Restart",
+            "text": "835 MW contracted directly from Three Mile Island Unit 1 for 20 continuous years.",
+            "position": "bottom-left"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc22.mp3",
+        "text": "To secure future capacity, these tech conglomerates are now contracting entire output streams from nuclear power stations and geothermal reservoirs. If computing power is the oil of the twenty-first century, these three corporations own the wells, the pipelines, the refineries, and the distribution grid.",
+        "gainDb": 0
       }
     },
     {
-      "sequence": "consequence-impact",
-      "id": "close",
-      "params": {
-        "visual": "data-center-3d",
-        "visualProps": {
-          "shot": "wide",
-          "seed": 7,
-          "pulse": true
+      "id": "sc23",
+      "chapterId": "ch5",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
         },
-        "text": "Every answer has a cost. Every model has a home. *Neither is neutral*.",
-        "coda": "The Invisible Systems",
-        "textSeconds": 6,
-        "codaSeconds": 4,
-        "toBlack": true
+        {
+          "component": "node-graph",
+          "track": "main",
+          "props": {
+            "title": "The Gatekeeper Chokepoint",
+            "layout": "radial",
+            "nodes": [
+              {
+                "id": "big3",
+                "label": "Hyperscale Cloud",
+                "sub": "AWS / Azure / GCP",
+                "highlight": true
+              },
+              {
+                "id": "model",
+                "label": "Frontier Model Labs"
+              },
+              {
+                "id": "research",
+                "label": "Academic Researchers"
+              },
+              {
+                "id": "startups",
+                "label": "AI Startups"
+              },
+              {
+                "id": "users",
+                "label": "Enterprise Users"
+              }
+            ],
+            "edges": [
+              {
+                "from": "big3",
+                "to": "model"
+              },
+              {
+                "from": "big3",
+                "to": "research"
+              },
+              {
+                "from": "big3",
+                "to": "startups"
+              },
+              {
+                "from": "big3",
+                "to": "users"
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc23.mp3",
+        "text": "Startups and independent researchers may develop novel model architectures, but every frontier system must ultimately be trained and hosted on infrastructure owned by these corporate gatekeepers.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc24",
+      "chapterId": "ch5",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.8
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "",
+            "gridSize": 0
+          }
+        },
+        {
+          "component": "kinetic-text",
+          "track": "main",
+          "props": {
+            "text": "Decentralized intelligence meets *centralized physical power*.",
+            "size": 60
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc24.mp3",
+        "text": "The promise of decentralized digital intelligence has run directly into the physical reality of centralized corporate power.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc25",
+      "chapterId": "ch6",
+      "transitionIn": {
+        "type": "fade",
+        "duration": 0.6
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "bar-chart",
+          "track": "main",
+          "props": {
+            "title": "Watt-Hours Consumed per Single Interaction",
+            "bars": [
+              {
+                "label": "Frontier AI Query",
+                "value": 3.2,
+                "highlight": true
+              },
+              {
+                "label": "Traditional Web Search",
+                "value": 0.3
+              },
+              {
+                "label": "LED Bulb (1 minute)",
+                "value": 0.15
+              },
+              {
+                "label": "Smartphone Full Charge",
+                "value": 14
+              }
+            ]
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc25.mp3",
+        "text": "Every query generated has an unavoidable physical weight. A single complex reasoning interaction with a frontier large language model consumes approximately 3.2 watt-hours of electrical energy—more than ten times the power required for an ordinary web search.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc26",
+      "chapterId": "ch6",
+      "transitionIn": {
+        "type": "cross-zoom",
+        "duration": 0.7
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": ""
+          }
+        },
+        {
+          "component": "stat-block",
+          "track": "main",
+          "props": {
+            "eyebrow": "Cumulative Demand",
+            "locale": "en-US",
+            "stats": [
+              {
+                "value": 3.2,
+                "suffix": " Wh",
+                "decimals": 1,
+                "label": "per query"
+              },
+              {
+                "value": 10,
+                "suffix": "x",
+                "label": "more than search"
+              },
+              {
+                "value": 4.5,
+                "suffix": " TWh",
+                "decimals": 1,
+                "label": "annualized increment"
+              }
+            ],
+            "source": "International Energy Agency / Electricity 2026"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc26.mp3",
+        "text": "When multiplied across billions of daily interactions, artificial intelligence ceases to be purely ethereal software. It becomes a relentless mechanical engine whose gears consume national power grids, river basins, and scarce mineral deposits.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc27",
+      "chapterId": "ch6",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.9
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "data-center-3d",
+          "track": "background",
+          "props": {
+            "shot": "wide",
+            "seed": 3,
+            "pulse": true
+          }
+        },
+        {
+          "component": "kinetic-text",
+          "track": "overlay",
+          "from": 1.5,
+          "props": {
+            "text": "Every answer has a cost. Every model has a physical address. *Neither is neutral*.",
+            "size": 56
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc27.mp3",
+        "text": "Every answer has a cost. Every model has a physical address. Neither is neutral.",
+        "gainDb": 0
+      }
+    },
+    {
+      "id": "sc28",
+      "chapterId": "ch6",
+      "transitionIn": {
+        "type": "dip-to-black",
+        "duration": 0.9
+      },
+      "note": "",
+      "layers": [
+        {
+          "component": "backdrop",
+          "track": "background",
+          "props": {
+            "glow": "",
+            "gridSize": 0
+          }
+        },
+        {
+          "component": "end-card",
+          "track": "main",
+          "props": {
+            "title": "The AI Gold Rush",
+            "sources": [
+              "International Energy Agency, Electricity 2026 Report",
+              "Synergy Research Group, Cloud Market Share Q3 2026",
+              "Uptime Institute, Global Data Center Survey",
+              "TeleGeography, Submarine Cable Map"
+            ],
+            "cta": "The Invisible Systems"
+          }
+        }
+      ],
+      "narration": {
+        "src": "narration/ai-gold-rush/sc28.mp3",
+        "text": "The Invisible Systems. Documenting the hidden physical infrastructure that governs our digital world.",
+        "gainDb": 0
       }
     }
   ]

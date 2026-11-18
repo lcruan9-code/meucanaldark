@@ -305,7 +305,44 @@ export function Documentary({ timeline }: DocumentaryProps) {
       {project.audio.music && (
         <Audio
           src={staticFile(project.audio.music)}
-          volume={dbToGain(project.audio.musicGainDb)}
+          volume={(frame) => {
+            const baseGain = dbToGain(project.audio.musicGainDb);
+            const duckGain = dbToGain(
+              project.audio.musicGainDb + (project.audio.duckDb ?? -10),
+            );
+
+            // Suavizacao com rampa de 15 quadros (0.5s a 30fps)
+            const RAMP = 15;
+            let minDistanceToSpeech = Infinity;
+            let isInsideSpeech = false;
+
+            for (const scene of scenes) {
+              if (!scene.narration || !scene.narrationSeconds) continue;
+              const nFrames = Math.round(scene.narrationSeconds * project.fps);
+              const start = scene.startFrame;
+              const end = scene.startFrame + nFrames;
+
+              if (frame >= start && frame <= end) {
+                isInsideSpeech = true;
+                break;
+              }
+
+              if (frame < start) {
+                minDistanceToSpeech = Math.min(minDistanceToSpeech, start - frame);
+              } else if (frame > end) {
+                minDistanceToSpeech = Math.min(minDistanceToSpeech, frame - end);
+              }
+            }
+
+            if (isInsideSpeech) return duckGain;
+
+            if (minDistanceToSpeech < RAMP) {
+              const t = minDistanceToSpeech / RAMP;
+              return duckGain + (baseGain - duckGain) * t;
+            }
+
+            return baseGain;
+          }}
           loop
         />
       )}

@@ -1,0 +1,8 @@
+1
+00:00:00,100 --> 00:00:08,087
+Within this tight vertical enclosure, processors exchange intermediate mathematical tensors at over nine hundred gigabytes per second.
+
+2
+00:00:08,037 --> 00:00:17,987
+If the network experiences even microsecond-level latency or packet drops, thousands of interconnected chips stall, wasting thousands of dollars of compute time every minute.
+

@@ -109,15 +109,21 @@ export async function runCompose({ projectId }) {
     narrative = JSON.parse(fs.readFileSync(narrativeFile, "utf-8"));
   }
 
+  // Load durations if already measured
+  const durJson = path.resolve(projectDir, "durations.json");
+  let durations = {};
+  if (fs.existsSync(durJson)) {
+    try {
+      durations = JSON.parse(fs.readFileSync(durJson, "utf-8"));
+    } catch {}
+  }
+
   // Build scenes list
   const scenes = [];
   const chapterFirstScene = new Map();
 
   for (const s of storyboard.plannedScenes) {
     if (s.chapterId && !chapterFirstScene.has(s.chapterId)) {
-      // In sequences, establishingShot emits "${id}-wide", technicalReveal emits "${id}-approach", etc.
-      // But expandSequences resolves chapter scene IDs.
-      // If sequenceType is present: the scene ID for chapter marker is usually s.sceneId or s.sceneId + "-wide"
       chapterFirstScene.set(s.chapterId, s.sceneId);
     }
 
@@ -128,12 +134,25 @@ export async function runCompose({ projectId }) {
         params: s.sequenceParams || {},
       });
     } else if (s.layers) {
+      const relSrc = `narration/${projectId}/${s.sceneId}.mp3`;
       const sceneObj = {
         id: s.sceneId,
+        ...(s.chapterId ? { chapterId: s.chapterId } : {}),
+        ...(s.transitionIn ? { transitionIn: s.transitionIn } : {}),
+        note: s.note || "",
         layers: s.layers,
-        duration: s.estimatedDurationSeconds || 5,
       };
-      if (s.note) sceneObj.note = s.note;
+
+      if (durations[relSrc]) {
+        sceneObj.narration = {
+          src: relSrc,
+          text: s.narrationText || "",
+          gainDb: 0,
+        };
+      } else {
+        sceneObj.duration = s.estimatedDurationSeconds || 5;
+      }
+
       scenes.push(sceneObj);
     }
   }
@@ -179,7 +198,6 @@ export async function runCompose({ projectId }) {
   };
 
   // Ensure durations.json exists
-  const durJson = path.resolve(projectDir, "durations.json");
   if (!fs.existsSync(durJson)) {
     fs.writeFileSync(durJson, "{}\n", "utf-8");
   }

@@ -19,6 +19,7 @@
     "vignette": 0.45
   },
   "audio": {
+    "music": "audio/ambient-tech.mp3",
     "musicGainDb": -22,
     "duckDb": -9,
     "masterGainDb": 0

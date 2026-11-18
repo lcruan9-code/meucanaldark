@@ -1,0 +1,8 @@
+1
+00:00:00,100 --> 00:00:06,837
+Inside the facility, high-throughput network switches route the packet directly to a synchronized GPU cluster.
+
+2
+00:00:06,787 --> 00:00:20,787
+Two entirely different computational worlds exist here: the training cluster, where colossal frontier models spend months learning from trillions of tokens, and the inference cluster, where billions of individual daily queries are answered in fractions of a second.
+
