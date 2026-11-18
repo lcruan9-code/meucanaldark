@@ -50,19 +50,27 @@ for (const shot of SHOTS) {
 
 if (!onlyStills) {
   const FRAMES = 150;
-  const started = Date.now();
-  await renderMedia({
-    composition,
-    serveUrl,
-    codec: "h264",
-    outputLocation: path.join(OUT, "dc-run.mp4"),
-    frameRange: [150, 150 + FRAMES - 1],
-    concurrency: 10,
-    chromiumOptions: { gl: "angle" },
-    overwrite: true,
-  });
-  const seconds = (Date.now() - started) / 1000;
+  const results = [];
+  for (let run = 0; run < 3; run += 1) {
+    const started = Date.now();
+    await renderMedia({
+      composition,
+      serveUrl,
+      codec: "h264",
+      outputLocation: path.join(OUT, "dc-run.mp4"),
+      frameRange: [150, 150 + FRAMES - 1],
+      concurrency: 10,
+      chromiumOptions: { gl: "angle" },
+      overwrite: true,
+    });
+    const seconds = (Date.now() - started) / 1000;
+    const fps = FRAMES / seconds;
+    results.push(fps);
+    console.log(`  passada ${run + 1}: ${fps.toFixed(2)} fps (${seconds.toFixed(1)} s)`);
+  }
+  const best = Math.max(...results);
+  const median = [...results].sort((a, b) => a - b)[1];
   console.log(
-    `FPS: ${(FRAMES / seconds).toFixed(2)} (${FRAMES} quadros em ${seconds.toFixed(1)} s, concorrencia 10, angle)`,
+    `FPS mediana ${median.toFixed(2)} / melhor ${best.toFixed(2)} (${FRAMES} quadros, concorrencia 10, angle)`,
   );
 }

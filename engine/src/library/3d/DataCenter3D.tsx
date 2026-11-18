@@ -562,7 +562,7 @@ function planRacks(geo: Geometry, seed: number): RackPlan[] {
     for (let i = 0; i < geo.racksPerSide; i += 1) {
       plans.push({
         variant: Math.floor(rnd() * FACE_VARIANTS) % FACE_VARIANTS,
-        glass: rnd() < 0.38,
+        glass: rnd() < 0.24,
         x: side * geo.centerX,
         z: rackZ(i),
         facing: side === -1 ? -1 : 1,
@@ -740,6 +740,7 @@ function LedField({
       for (let u = 0; u < unitsPerRack; u += 1) {
         const y = bottom + (u + 0.5) * unitH;
         for (let slot = 0; slot < 2; slot += 1) {
+          if (slot === 1 && rnd() > 0.62) continue;
           placements.push({
             position: [
               plan.facing * (geo.faceX - 0.045),
@@ -1216,7 +1217,7 @@ export function DataCenter3D(props: DataCenter3DProps) {
       width={width}
       height={height}
       style={{ backgroundColor: props.room }}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
+      gl={{ antialias: false, powerPreference: "high-performance" }}
       shadows={props.shadows}
       camera={{ fov: props.fov ?? 45, near: 0.05, far: 140 }}
     >

@@ -155,9 +155,9 @@ Corredor de data center com iluminação baseada em imagem, névoa, racks instan
 
 **The Machine That Answers You** — 58,3 s, 11 cenas, 1.749 quadros, 1080p30. Render por cena (escolhido automaticamente, porque quatro planos usam WebGL):
 
-**3m26s · 8,48 fps · 3,54× tempo real · pico 1314 MB**
+**3m17s · 8,87 fps · 3,38× tempo real · pico 1313 MB**
 
-Projetando para 10 minutos de documentário com esta mistura de 2D e 3D: **~35 minutos**, dentro da janela de duas horas.
+Projetando para 10 minutos de documentário com esta mistura de 2D e 3D: **~34 minutos**, dentro da janela de duas horas.
 
 Por cena, as pontas:
 
