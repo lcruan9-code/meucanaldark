@@ -10,6 +10,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
 import { loadChannel } from "./lib/channel.mjs";
+import { VOICE_ENGINES, synthesizeScene } from "./lib/voice.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,23 +20,41 @@ function parseArgs() {
   const args = process.argv.slice(2);
   let projectId = null;
   let channelId = "invisible-systems";
+  let engine = null;
+  let voice = null;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--channel" && args[i + 1]) {
       channelId = args[++i];
     } else if (args[i] === "--project" && args[i + 1]) {
       projectId = args[++i];
+    } else if (args[i] === "--engine" && args[i + 1]) {
+      engine = args[++i];
+    } else if (args[i] === "--voice" && args[i + 1]) {
+      voice = args[++i];
     } else if (!args[i].startsWith("--") && !projectId) {
       projectId = args[i];
     }
   }
 
   if (!projectId) {
-    console.error("Usage: node scripts/synthesize.mjs <project-id> [--channel <id>]");
+    console.error(
+      "Usage: node scripts/synthesize.mjs <project-id> [--channel <id>] " +
+        `[--engine ${VOICE_ENGINES.join("|")}] [--voice <nome>]`,
+    );
     process.exit(1);
   }
 
-  return { projectId, channelId };
+  return { projectId, channelId, engine, voice };
+}
+
+/** `edge-tts` (como esta no channel.json) e `edge` sao o mesmo motor. */
+function normalizeEngine(name) {
+  if (!name) return null;
+  const lower = String(name).toLowerCase();
+  if (lower === "edge-tts" || lower === "edge") return "edge";
+  if (lower === "azure" || lower === "azure-speech") return "azure";
+  return lower;
 }
 
 /**
@@ -107,13 +126,47 @@ function formatVttTime(totalSec) {
   return formatSrtTime(totalSec).replace(",", ".");
 }
 
-export async function runSynthesize({ projectId, channelId = "invisible-systems" }) {
+export async function runSynthesize({
+  projectId,
+  channelId = "invisible-systems",
+  engine: engineOverride = null,
+  voice: voiceOverride = null,
+}) {
   const start = Date.now();
   console.log(`[synthesize] Synthesizing TTS narration for project: ${projectId}`);
 
   const channel = loadChannel(channelId);
-  const voice = channel.tts?.voice || "en-US-GuyNeural";
-  console.log(`[synthesize] Channel: ${channelId} | TTS Voice: ${voice}`);
+  const tts = channel.tts ?? {};
+
+  // Precedencia: linha de comando > channel.json > padrao.
+  const engine =
+    normalizeEngine(engineOverride) ??
+    normalizeEngine(tts.engine) ??
+    normalizeEngine(tts.backend) ??
+    "edge";
+
+  const voice =
+    voiceOverride ||
+    tts.voice ||
+    (engine === "azure" ? "en-US-AndrewMultilingualNeural" : "en-US-GuyNeural");
+
+  // So o motor azure aceita estes; o edge ignora por nao ter SSML.
+  const prosody = {
+    locale: tts.locale ?? channel.language ?? "en-US",
+    rate: tts.rate ?? "-4%",
+    pitch: tts.pitch ?? "0%",
+    style: tts.style ?? "",
+    styleDegree: tts.styleDegree ?? 1,
+    basePauseMs: tts.basePauseMs ?? 360,
+  };
+
+  console.log(
+    `[synthesize] Channel: ${channelId} | Engine: ${engine} | Voice: ${voice}` +
+      (engine === "azure"
+        ? ` | rate ${prosody.rate}, pausa base ${prosody.basePauseMs}ms` +
+          (prosody.style ? `, estilo ${prosody.style}` : "")
+        : " | sem controle de prosodia"),
+  );
 
   const projectDir = path.resolve(ROOT, "projects", projectId);
   const storyboardFile = path.resolve(projectDir, "storyboard.json");
@@ -145,27 +198,21 @@ export async function runSynthesize({ projectId, channelId = "invisible-systems"
     if (!fs.existsSync(mp3File) || fs.statSync(mp3File).size === 0) {
       console.log(`  [tts ${i + 1}/${storyboard.plannedScenes.length}] Synthesizing "${scene.sceneId}" (${text.slice(0, 40)}...)`);
 
-      const ttsArgs = [
-        "-m",
-        "edge_tts",
-        "--voice",
-        voice,
-        "--text",
-        text,
-        "--write-media",
-        mp3File,
-        "--write-subtitles",
-        vttFile,
-      ];
-
-      const res = spawnSync("python", ttsArgs, {
-        cwd: ROOT,
-        stdio: "pipe",
-        encoding: "utf-8",
-      });
-
-      if (res.status !== 0) {
-        throw new Error(`[synthesize] edge-tts failed for scene ${scene.sceneId}: ${res.stderr || res.stdout}`);
+      try {
+        await synthesizeScene({
+          engine,
+          text,
+          voice,
+          mp3File,
+          vttFile,
+          cwd: ROOT,
+          ...prosody,
+        });
+      } catch (error) {
+        throw new Error(
+          `[synthesize] motor "${engine}" falhou na cena ${scene.sceneId}: ` +
+            `${error instanceof Error ? error.message : String(error)}`,
+        );
       }
     } else {
       console.log(`  [tts ${i + 1}/${storyboard.plannedScenes.length}] Using cached audio: ${scene.sceneId}.mp3`);
@@ -282,8 +329,8 @@ export async function runSynthesize({ projectId, channelId = "invisible-systems"
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const { projectId, channelId } = parseArgs();
-  runSynthesize({ projectId, channelId }).catch((err) => {
+  const { projectId, channelId, engine, voice } = parseArgs();
+  runSynthesize({ projectId, channelId, engine, voice }).catch((err) => {
     console.error(`[synthesize] ✗ Error:`, err);
     process.exit(1);
   });
