@@ -99,7 +99,31 @@ Resultado medido em pt-BR, três frases:
 | `edge` (pt-BR-AntonioNeural) | 14,88 s | 3,8 s para gerar |
 | `chatterbox` (`pt`) | 15,07 s | ritmo 1,3% diferente do edge |
 
-**Ressalva que importa:** o modelo expõe `pt` genérico, não `pt-BR`. Sem um clipe de referência brasileiro, o sotaque é o que o modelo decidir — pode puxar para o europeu. Quem define o sotaque é o `audioPrompt`, e aí vale o aviso de consentimento abaixo.
+#### Veredito do teste de escuta: Chatterbox está FORA para pt-BR
+
+A amostra foi ouvida e reprovou, por um motivo que não se conserta com ajuste:
+
+> "condições" saiu **"condisames"**. "medição" saiu **"mediaosão"**. Mais R puxado demais e timbre ainda robotizado.
+
+**Isso não é sotaque — é o modelo não sabendo pronunciar o `ção` nasal.** E a distinção importa para a decisão: um clipe de referência (`audioPrompt`) corrige timbre e sotaque, mas **não corrige pronúncia**. A palavra errada nasce na conversão de texto em fonemas, antes de a voz entrar.
+
+Palavra comum pronunciada errada é defeito que vai ao ar em todo episódio. Não há tuning que resolva.
+
+**A lição generaliza:** um modelo que divide capacidade entre 23 idiomas perde para vozes treinadas só em português brasileiro. Para pt-BR, voz nativa ganha de modelo multilíngue — mesmo que o multilíngue seja mais moderno.
+
+O Chatterbox segue válido **para inglês**, que é o idioma do canal e onde ele foi testado primeiro.
+
+#### Vozes nativas pt-BR
+
+O `edge-tts` expõe só três:
+
+| Voz | Observação |
+|---|---|
+| `pt-BR-AntonioNeural` | masculina, geração antiga |
+| `pt-BR-FranciscaNeural` | feminina |
+| `pt-BR-ThalitaMultilingualNeural` | feminina, geração mais nova |
+
+**O Azure próprio expõe bem mais** (Macerio, Brenda, Donato, Elza, Fabio, Giovanna, Humberto, Julio, Leila, Leticia, Manuela, Nicolau, Valerio, Yara, entre outras) — o `edge-tts` enxerga só um subconjunto. Esse é mais um argumento para o Azure quando o assunto é pt-BR: mais escolha de timbre, além do SSML.
 
 #### Duas armadilhas pagas na integração
 
