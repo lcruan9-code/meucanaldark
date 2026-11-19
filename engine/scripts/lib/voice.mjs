@@ -467,7 +467,14 @@ export function chatterboxPython() {
   return "python";
 }
 
-function chatterboxSpeakAll({ audioPrompt, exaggeration, cfgWeight, seed, device }) {
+function chatterboxSpeakAll({
+  audioPrompt,
+  exaggeration,
+  cfgWeight,
+  seed,
+  device,
+  languageId,
+}) {
   return (sentences, workDir) =>
     new Promise((resolve, reject) => {
       const script = path.join(HERE, "chatterbox_speak.py");
@@ -535,6 +542,7 @@ function chatterboxSpeakAll({ audioPrompt, exaggeration, cfgWeight, seed, device
           cfgWeight,
           seed,
           device,
+          languageId,
         }),
       );
       child.stdin.end();
@@ -614,6 +622,9 @@ export async function synthesizeScene({
         cfgWeight,
         seed,
         device,
+        // "en" (ou vazio) usa o modelo ingles, menor. Outro idioma troca
+        // para a variante multilingue, que e outro modelo e outro download.
+        languageId: (locale || "en").split("-")[0].toLowerCase(),
       }),
     });
     return { engine, ...info };

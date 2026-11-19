@@ -71,9 +71,28 @@ def main() -> None:
         fail("job precisa de 'sentences' e 'outDir'.")
         return
 
+    # Vazio ou "en" usa o modelo ingles, que e menor e ja esta em cache.
+    # Qualquer outro idioma exige a variante multilingue, que e outro modelo.
+    language_id = (job.get("languageId") or "").strip().lower()
+    multilingual = bool(language_id) and language_id != "en"
+
     try:
         import torch
-        from chatterbox.tts import ChatterboxTTS
+
+        if multilingual:
+            from chatterbox.mtl_tts import (  # noqa: PLC0415
+                SUPPORTED_LANGUAGES,
+                ChatterboxMultilingualTTS as Model,
+            )
+
+            if language_id not in SUPPORTED_LANGUAGES:
+                fail(
+                    f"idioma '{language_id}' nao suportado. "
+                    f"Disponiveis: {', '.join(sorted(SUPPORTED_LANGUAGES))}"
+                )
+                return
+        else:
+            from chatterbox.tts import ChatterboxTTS as Model  # noqa: PLC0415
     except Exception as exc:  # noqa: BLE001
         fail(
             "dependencias do Chatterbox ausentes no interpretador "
@@ -90,7 +109,7 @@ def main() -> None:
     os.makedirs(out_dir, exist_ok=True)
 
     try:
-        model = ChatterboxTTS.from_pretrained(device=requested)
+        model = Model.from_pretrained(device=requested)
     except Exception as exc:  # noqa: BLE001
         fail(f"falha ao carregar o modelo: {exc}")
         return
@@ -113,6 +132,8 @@ def main() -> None:
             torch.cuda.manual_seed_all(base_seed + index)
 
         kwargs = {"exaggeration": exaggeration, "cfg_weight": cfg_weight}
+        if multilingual:
+            kwargs["language_id"] = language_id
         if audio_prompt:
             kwargs["audio_prompt_path"] = audio_prompt
 
@@ -120,10 +141,10 @@ def main() -> None:
             wav = model.generate(sentence, **kwargs)
         except TypeError:
             # Versoes mais antigas nao aceitam todos os parametros.
-            wav = model.generate(
-                sentence,
-                **({"audio_prompt_path": audio_prompt} if audio_prompt else {}),
-            )
+            minimal = {"language_id": language_id} if multilingual else {}
+            if audio_prompt:
+                minimal["audio_prompt_path"] = audio_prompt
+            wav = model.generate(sentence, **minimal)
         except Exception as exc:  # noqa: BLE001
             fail(f"falha ao sintetizar a frase {index}: {exc}")
             return
@@ -134,7 +155,15 @@ def main() -> None:
         print(f"[chatterbox] {index + 1}/{len(sentences)}", file=sys.stderr)
 
     print(
-        json.dumps({"files": files, "sampleRate": int(model.sr), "device": requested}),
+        json.dumps(
+            {
+                "files": files,
+                "sampleRate": int(model.sr),
+                "device": requested,
+                "language": language_id or "en",
+                "multilingual": multilingual,
+            }
+        ),
         file=sys.stdout,
         flush=True,
     )

@@ -86,6 +86,21 @@ As pausas calculadas aparecem no VTT gerado, como esperado:
 | frase longa (129 caracteres) | 480 ms |
 | "Every measurement matters." (26) | 300 ms |
 
+#### Português: outro modelo, outro download
+
+O Chatterbox padrão é **só inglês**. Para qualquer outro idioma existe a variante `ChatterboxMultilingualTTS`, com 23 idiomas, `pt` entre eles.
+
+O motor troca de modelo sozinho pelo `locale`: `en-*` usa o modelo inglês (menor, já em cache); qualquer outro usa o multilíngue. **São modelos diferentes** — a primeira síntese em português levou **20,5 minutos**, quase tudo download. Depois disso fica em cache.
+
+Resultado medido em pt-BR, três frases:
+
+| | Total | Observação |
+|---|---|---|
+| `edge` (pt-BR-AntonioNeural) | 14,88 s | 3,8 s para gerar |
+| `chatterbox` (`pt`) | 15,07 s | ritmo 1,3% diferente do edge |
+
+**Ressalva que importa:** o modelo expõe `pt` genérico, não `pt-BR`. Sem um clipe de referência brasileiro, o sotaque é o que o modelo decidir — pode puxar para o europeu. Quem define o sotaque é o `audioPrompt`, e aí vale o aviso de consentimento abaixo.
+
 #### Duas armadilhas pagas na integração
 
 **`torchaudio.save` não serve mais.** A versão 2.14 passou a exigir o TorchCodec — centenas de MB para uma tarefa de dez linhas. O WAV é gravado com o módulo `wave` da biblioteca padrão.
