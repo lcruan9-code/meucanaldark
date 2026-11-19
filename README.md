@@ -22,6 +22,7 @@ Este repositório existe hoje para guardar a decisão: *vale usar o [Projeto Can
 | [09 — Biblioteca 2D](docs/09-biblioteca-2d.md) | Etapa 2: 15 componentes, mapa Natural Earth e o custo dos filtros |
 | [10 — Direção de arte V2](docs/10-direcao-de-arte.md) | Por que parecia slide, e as sequências documentais que corrigem |
 | [11 — Voz](docs/11-voz.md) | Por que a locução soa de máquina; Azure com SSML, e o que foi descartado |
+| [12 — Motor de roteiro](docs/12-motor-de-roteiro.md) | O que já existe, o que nunca rodou, e a ordem do que falta |
 
 ## A recomendação, em três linhas
 
