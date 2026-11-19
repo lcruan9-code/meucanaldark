@@ -113,15 +113,29 @@ Palavra comum pronunciada errada é defeito que vai ao ar em todo episódio. Nã
 
 O Chatterbox segue válido **para inglês**, que é o idioma do canal e onde ele foi testado primeiro.
 
+#### A regra, confirmada três vezes
+
+Três testes de escuta, o mesmo padrão:
+
+| Voz | Tipo | Resultado |
+|---|---|---|
+| Chatterbox `pt` | multilíngue, 23 idiomas | errou o `ção` nasal |
+| `pt-BR-Thalita**Multilingual**Neural` | multilíngue | **derivou para fonética espanhola na metade** |
+| `pt-BR-FranciscaNeural` | **nativa pt-BR** | **aprovada** |
+
+**Modelo multilíngue perde a âncora do idioma; voz nativa não.** E a deriva da Thalita aconteceu *no meio* da locução, o que sugere que ela piora com o comprimento — justamente o pior caso para documentário de dez minutos.
+
+Regra para o projeto: **em pt-BR, nunca usar voz com "Multilingual" no nome.** Geração mais nova não compensa perder o idioma.
+
 #### Vozes nativas pt-BR
 
 O `edge-tts` expõe só três:
 
 | Voz | Observação |
 |---|---|
-| `pt-BR-AntonioNeural` | masculina, geração antiga |
-| `pt-BR-FranciscaNeural` | feminina |
-| `pt-BR-ThalitaMultilingualNeural` | feminina, geração mais nova |
+| `pt-BR-AntonioNeural` | masculina, geração antiga — timbre reprovado na escuta |
+| `pt-BR-FranciscaNeural` | feminina, nativa — **a escolha para pt-BR** |
+| `pt-BR-ThalitaMultilingualNeural` | multilíngue — **descartada por deriva** |
 
 **O Azure próprio expõe bem mais** (Macerio, Brenda, Donato, Elza, Fabio, Giovanna, Humberto, Julio, Leila, Leticia, Manuela, Nicolau, Valerio, Yara, entre outras) — o `edge-tts` enxerga só um subconjunto. Esse é mais um argumento para o Azure quando o assunto é pt-BR: mais escolha de timbre, além do SSML.
 
