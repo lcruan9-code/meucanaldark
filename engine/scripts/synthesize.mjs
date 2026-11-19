@@ -10,7 +10,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
 import { loadChannel } from "./lib/channel.mjs";
-import { VOICE_ENGINES, synthesizeScene } from "./lib/voice.mjs";
+import {
+  VOICE_ENGINES,
+  defaultVoiceFor,
+  riskyVoiceWarning,
+  synthesizeScene,
+} from "./lib/voice.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -145,15 +150,18 @@ export async function runSynthesize({
     normalizeEngine(tts.backend) ??
     "edge";
 
-  const voice =
-    voiceOverride ||
-    tts.voice ||
-    (engine === "azure" ? "en-US-AndrewMultilingualNeural" : "en-US-GuyNeural");
+  const locale = tts.locale ?? channel.language ?? "en-US";
+
+  // Sem voz declarada, a do idioma — escolhida por teste de escuta.
+  const voice = voiceOverride || tts.voice || defaultVoiceFor(locale);
+
+  const risky = riskyVoiceWarning(locale, voice);
+  if (risky) console.warn(`[synthesize] AVISO: ${risky}`);
 
   // Cada motor usa o que entende e ignora o resto: o edge nao tem prosodia,
   // o chatterbox nao tem SSML, o azure nao clona voz.
   const prosody = {
-    locale: tts.locale ?? channel.language ?? "en-US",
+    locale,
     rate: tts.rate ?? "-4%",
     pitch: tts.pitch ?? "0%",
     style: tts.style ?? "",

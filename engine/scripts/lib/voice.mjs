@@ -41,6 +41,54 @@ const AZURE_FORMAT = "audio-24khz-48kbitrate-mono-mp3";
 
 export const VOICE_ENGINES = ["edge", "azure", "chatterbox"];
 
+/**
+ * Voz padrao por idioma. Decidida por teste de escuta, nao por suposicao.
+ *
+ * `pt-BR` e a Francisca por um motivo concreto: a Thalita, que e mais
+ * moderna, derivou para fonetica espanhola no meio de uma locucao de 15
+ * segundos. A Francisca sustentou 36 segundos sem escorregar.
+ */
+export const DEFAULT_VOICE = {
+  "en-US": "en-US-AndrewMultilingualNeural",
+  "en-GB": "en-GB-RyanNeural",
+  "pt-BR": "pt-BR-FranciscaNeural",
+  pt: "pt-BR-FranciscaNeural",
+  es: "es-ES-AlvaroNeural",
+};
+
+/** Voz para o idioma, com reserva por prefixo (`pt-PT` cai em `pt`). */
+export function defaultVoiceFor(locale) {
+  const tag = String(locale || "en-US");
+  return (
+    DEFAULT_VOICE[tag] ??
+    DEFAULT_VOICE[tag.split("-")[0].toLowerCase()] ??
+    DEFAULT_VOICE["en-US"]
+  );
+}
+
+/**
+ * Avisa quando a voz escolhida tem historico de deriva naquele idioma.
+ *
+ * Voz "Multilingual" fora do ingles perde a ancora do idioma: foi o que
+ * aconteceu com a Thalita em pt-BR, que virou espanhol na metade. Em ingles
+ * elas vao bem, porque e a lingua dominante do treino — por isso o aviso e
+ * so fora do ingles.
+ *
+ * Avisa, nao impede: pode haver caso em que a troca seja deliberada.
+ */
+export function riskyVoiceWarning(locale, voice) {
+  const isEnglish = /^en(-|$)/i.test(String(locale || ""));
+  if (isEnglish) return null;
+  if (!/multilingual/i.test(String(voice || ""))) return null;
+
+  return (
+    `voz "${voice}" e multilingue e o idioma e "${locale}". ` +
+    "Vozes multilingues perdem a ancora do idioma fora do ingles — a " +
+    "pt-BR-ThalitaMultilingualNeural derivou para espanhol no meio de uma " +
+    "locucao de 15 s. Prefira uma voz nativa do idioma."
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* ffmpeg / ffprobe pelo binario que o Remotion ja traz                 */
 /* ------------------------------------------------------------------ */

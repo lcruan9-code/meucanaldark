@@ -127,6 +127,14 @@ Três testes de escuta, o mesmo padrão:
 
 Regra para o projeto: **em pt-BR, nunca usar voz com "Multilingual" no nome.** Geração mais nova não compensa perder o idioma.
 
+A Francisca foi então testada em **36 segundos** — o dobro do trecho que derrubou a Thalita — e sustentou. Virou a voz pt-BR do projeto.
+
+**A regra está no código, não só aqui.** `DEFAULT_VOICE` dá a voz do idioma quando o roteiro não declara uma, e `riskyVoiceWarning()` avisa quando alguém escolhe voz multilíngue fora do inglês. Avisa, não impede: pode haver caso em que a troca seja deliberada.
+
+O aviso é só fora do inglês de propósito — em inglês as vozes multilíngues vão bem, por ser a língua dominante do treino. A `en-US-AndrewMultilingualNeural` passa sem reclamação.
+
+*Pendência pequena:* `pt-PT` cai na Francisca por reserva de prefixo, o que dá voz brasileira a português europeu. Não incomoda enquanto o projeto for pt-BR; se um dia houver canal em Portugal, precisa de entrada própria.
+
 #### Vozes nativas pt-BR
 
 O `edge-tts` expõe só três:
