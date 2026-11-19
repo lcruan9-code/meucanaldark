@@ -31,3 +31,11 @@ venv/
 
 # Node
 node_modules/
+
+# Saida de render do Blender: quadros intermediarios, regeneraveis pelo
+# script em engine/blender/scripts/. Mesma classe do out/.
+engine/blender/renders/
+engine/optix-test.png
+
+# Clone acidental do proprio repositorio dentro dele mesmo.
+/meucanaldark/
